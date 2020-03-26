@@ -49,26 +49,19 @@ public class ClientProcessor implements Runnable{
                 //On traite la demande du client en fonction de la commande envoyée
                 String toSend = "";
 
-                switch(response.toUpperCase()){
-                    case "FULL":
-                        toSend = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.MEDIUM).format(new Date());
-                        break;
-                    case "DATE":
-                        toSend = DateFormat.getDateInstance(DateFormat.FULL).format(new Date());
-                        break;
-                    case "HOUR":
-                        toSend = DateFormat.getTimeInstance(DateFormat.MEDIUM).format(new Date());
-                        break;
-                    case "PROJET":
-                        toSend = "C'EST QUI QUI VA RÉUSSIR LE PROJET ?? C'EST NOUUUUUUUUUUS";
-                        break;
-                    case "CLOSE":
-                        toSend = "Communication terminée";
-                        closeConnexion = true;
-                        break;
-                    default :
-                        toSend = "Commande inconnu !";
-                        break;
+                if ("FULL".equals(response.toUpperCase())) {
+                    toSend = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.MEDIUM).format(new Date());
+                } else if ("DATE".equals(response.toUpperCase())) {
+                    toSend = DateFormat.getDateInstance(DateFormat.FULL).format(new Date());
+                } else if ("HOUR".equals(response.toUpperCase())) {
+                    toSend = DateFormat.getTimeInstance(DateFormat.MEDIUM).format(new Date());
+                } else if ("PROJET".equals(response.toUpperCase())) {
+                    toSend = "C'EST QUI QUI VA RÉUSSIR LE PROJET ?? C'EST NOUUUUUUUUUUS";
+                } else if ("CLOSE".equals(response.toUpperCase())) {
+                    toSend = "Communication terminée";
+                    closeConnexion = true;
+                } else {
+                    toSend = "Commande inconnu !";
                 }
 
                 //On envoie la réponse au client
