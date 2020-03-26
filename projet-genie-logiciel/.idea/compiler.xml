@@ -7,10 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Maven" />
+        <module name="Genie-Logiciel" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Maven" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
 </project>

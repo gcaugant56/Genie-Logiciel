@@ -1,48 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="57166a9a-f305-421c-abf6-a6b2d43b1c40" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Maven/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/projet-genie-logiciel/META-INF/projet-genie-logiciel.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/projet-genie-logiciel/Timer/ClientConnexion.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/projet-genie-logiciel/Timer/ClientConnexion.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/projet-genie-logiciel/Timer/Main.class" beforeDir="false" />
-    </list>
+    <list default="true" id="eb046891-034d-4950-a6d3-04ffc725f631" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
     </option>
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="ProjectId" id="1ZXhGjfZGr6RMEwL9F0lSVdfJuK" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
+  <component name="ProjectId" id="1Zfy28HZXgGNeE3TBrEX7MyZZRu" />
   <component name="PropertiesComponent">
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="jdk.selected.JAVA_MODULE" value="11" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.ignored.files" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/java/Timer" />
+      <recent name="$PROJECT_DIR$/src/main/java/Timer" />
+      <recent name="$PROJECT_DIR$/src/test/java" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -56,46 +51,10 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.MainClient">
-    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.company.Main" />
-      <module name="projet-genie-logiciel" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.company.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Main (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Timer.Main" />
-      <module name="projet-genie-logiciel" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Timer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="projet-genie-logiciel" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager">
     <configuration name="MainClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Timer.MainClient" />
-      <module name="projet-genie-logiciel" />
+      <module name="Maven" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="Timer.*" />
@@ -106,18 +65,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Application.Main" />
-      <item itemvalue="Application.Main (1)" />
-      <item itemvalue="Application.Main (2)" />
-      <item itemvalue="Application.MainClient" />
-    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.MainClient" />
-        <item itemvalue="Application.Main (2)" />
-        <item itemvalue="Application.Main (1)" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -126,74 +76,17 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="57166a9a-f305-421c-abf6-a6b2d43b1c40" name="Default Changelist" comment="" />
-      <created>1584991252639</created>
+      <changelist id="eb046891-034d-4950-a6d3-04ffc725f631" name="Default Changelist" comment="" />
+      <created>1585244233224</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1584991252639</updated>
-      <workItem from="1584991254526" duration="11098000" />
-      <workItem from="1585074156591" duration="241000" />
-      <workItem from="1585239019937" duration="185000" />
-      <workItem from="1585239215938" duration="260000" />
+      <updated>1585244233224</updated>
+      <workItem from="1585244236763" duration="2188000" />
+      <workItem from="1585255579037" duration="3514000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="662" y="148" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585045951808">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state x="662" y="148" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1792.144.1792.1097/1920.-364.1080.1897/0.23.1920.1057@0.23.1920.1057" timestamp="1585045951808" />
-    <state x="698" y="305" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1585052095092">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state x="698" y="305" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/-1792.144.1792.1097/1920.-364.1080.1897/0.23.1920.1057@0.23.1920.1057" timestamp="1585052095092" />
-    <state width="1878" height="368" key="GridCell.Tab.0.bottom" timestamp="1585052143223">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1878" height="368" key="GridCell.Tab.0.bottom/-1792.144.1792.1097/1920.-364.1080.1897/0.23.1920.1057@0.23.1920.1057" timestamp="1585052143223" />
-    <state width="1878" height="368" key="GridCell.Tab.0.center" timestamp="1585052143222">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1878" height="368" key="GridCell.Tab.0.center/-1792.144.1792.1097/1920.-364.1080.1897/0.23.1920.1057@0.23.1920.1057" timestamp="1585052143222" />
-    <state width="1878" height="368" key="GridCell.Tab.0.left" timestamp="1585052143222">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1878" height="368" key="GridCell.Tab.0.left/-1792.144.1792.1097/1920.-364.1080.1897/0.23.1920.1057@0.23.1920.1057" timestamp="1585052143222" />
-    <state width="1878" height="368" key="GridCell.Tab.0.right" timestamp="1585052143223">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1878" height="368" key="GridCell.Tab.0.right/-1792.144.1792.1097/1920.-364.1080.1897/0.23.1920.1057@0.23.1920.1057" timestamp="1585052143223" />
-    <state width="1878" height="357" key="GridCell.Tab.1.bottom" timestamp="1585046817065">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1878" height="357" key="GridCell.Tab.1.bottom/-1792.144.1792.1097/1920.-364.1080.1897/0.23.1920.1057@0.23.1920.1057" timestamp="1585046817065" />
-    <state width="1878" height="357" key="GridCell.Tab.1.center" timestamp="1585046817064">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1878" height="357" key="GridCell.Tab.1.center/-1792.144.1792.1097/1920.-364.1080.1897/0.23.1920.1057@0.23.1920.1057" timestamp="1585046817064" />
-    <state width="1878" height="357" key="GridCell.Tab.1.left" timestamp="1585046817064">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1878" height="357" key="GridCell.Tab.1.left/-1792.144.1792.1097/1920.-364.1080.1897/0.23.1920.1057@0.23.1920.1057" timestamp="1585046817064" />
-    <state width="1878" height="357" key="GridCell.Tab.1.right" timestamp="1585046817064">
-      <screen x="0" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1878" height="357" key="GridCell.Tab.1.right/-1792.144.1792.1097/1920.-364.1080.1897/0.23.1920.1057@0.23.1920.1057" timestamp="1585046817064" />
   </component>
 </project>
