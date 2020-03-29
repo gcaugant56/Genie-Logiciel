@@ -78,6 +78,13 @@ public class InterfacePrincipale {
                 new InterfaceAccount();
             }
         });
+
+        newConv.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                new InterfaceNewConv();
+            }
+        });
     }
 
 
