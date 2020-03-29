@@ -2,13 +2,16 @@ package Timer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class InterfacePrincipale {
 
     private JComboBox listeConv;
     private JTextArea convText = new JTextArea();
     private JLabel msg = new JLabel("Message : ");
-    private JLabel userOnLine = new JLabel("Nombre d'utilisateur en ligne : ");
+    private int numberUser;
+    private JLabel userOnLine = new JLabel("Nombre d'utilisateur en ligne : " + numberUser);
     private JTextField msgText = new JTextField();
     private JButton myAccount = new JButton("Mon Compte");
     private JButton newConv = new JButton("Nouvelle Conversation");
@@ -68,6 +71,13 @@ public class InterfacePrincipale {
         mainWindows.setVisible(true);
         mainWindows.revalidate();
         mainWindows.repaint();
+
+        myAccount.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                new InterfaceAccount();
+            }
+        });
     }
 
 
