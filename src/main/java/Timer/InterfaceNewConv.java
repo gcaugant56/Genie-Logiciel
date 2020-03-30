@@ -6,7 +6,7 @@ import java.awt.*;
 public class InterfaceNewConv {
 
     private JLabel label1 = new JLabel("Destinataire : ");
-    private JTextField textField1 = new JTextField();
+    private JTextField textField1 = new JTextField("",10);
     private JButton startButton = new JButton(" Demarrer");
 
     public InterfaceNewConv() {
@@ -19,11 +19,11 @@ public class InterfaceNewConv {
         JPanel topPanel = new JPanel();
         JPanel bottomPanel = new JPanel();
 
-        newConvWindows.add(topPanel, new GridLayout(1,1));
+        newConvWindows.add(topPanel, new FlowLayout());
         newConvWindows.add(bottomPanel);
 
-        //topPanel.add(label1);
-        //topPanel.add(textField1);
+        topPanel.add(label1);
+        topPanel.add(textField1);
 
         bottomPanel.add(startButton);
 
