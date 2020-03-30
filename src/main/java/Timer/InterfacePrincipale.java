@@ -85,6 +85,13 @@ public class InterfacePrincipale {
                 new InterfaceNewConv();
             }
         });
+
+        newGroup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                new InterfaceNewGroup();
+            }
+        });
     }
 
 

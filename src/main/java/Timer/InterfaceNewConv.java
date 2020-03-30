@@ -6,13 +6,12 @@ import java.awt.*;
 public class InterfaceNewConv {
 
     private JLabel label1 = new JLabel("Destinataire : ");
-    private JTextField textField1 = new JTextField("",10);
+    private JTextField textField1 = new JTextField(10);
     private JButton startButton = new JButton(" Demarrer");
 
     public InterfaceNewConv() {
         JFrame newConvWindows = new JFrame();
         newConvWindows.setMinimumSize(new Dimension(290, 120));
-        newConvWindows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         newConvWindows.setLayout(new GridLayout(2,1));
         newConvWindows.setLocationRelativeTo(null);
 

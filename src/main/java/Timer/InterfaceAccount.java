@@ -29,7 +29,6 @@ public class InterfaceAccount {
     public InterfaceAccount() {
         JFrame accountWindows = new JFrame();
         accountWindows.setMinimumSize(new Dimension(490, 320));
-        accountWindows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         accountWindows.setLayout(new GridLayout(2,1));
         accountWindows.setLocationRelativeTo(null);
 
