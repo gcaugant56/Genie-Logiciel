@@ -15,7 +15,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>Timer.MainClient</mainClass>
+                            <mainClass>Timer.InterfacePrincipale</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
