@@ -10,4 +10,16 @@ public class Utilisateur {
         this.prenom = prenom;
         this.num = num;
     }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public int getNum() {
+        return num;
+    }
 }
