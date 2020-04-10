@@ -1,10 +1,12 @@
-package Données:
+package Données;
 
 public class Message {
     private String Utilisateur;
-    private String message;
+    private String contenu;
     private String destinataire;
     private int numerod;
+    private String Objet;
+
 
     public Message(String utilisateur, String message, String destinataire, int numerod) {
         this.Utilisateur = utilisateur;
@@ -17,8 +19,8 @@ public class Message {
         return Utilisateur;
     }
 
-    public String getMessage() {
-        return message;
+    public String getContenu() {
+        return contenu;
     }
 
     public String getDestinataire() {

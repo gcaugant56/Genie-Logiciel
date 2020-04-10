@@ -1,5 +1,29 @@
 {
-  "nom" : ;
-  "prenom" : ;
-  "num" : ;
+  "Racine" : {
+          "Utilisateur": [
+            {
+              "nom": "",
+              "prenom": "",
+              "numero": 0000000000,
+              "contacts": [
+                {
+                  "nom": "",
+                  "prenom": "",
+                  "numero": 0000000000 ,
+                }
+              ],
+            }
+          ],
+          "Message": [
+            {
+              "Utilisateur": ,
+              "destinataire": "",
+              "numerod": 0000000000,
+              "Objet": "",
+              "Contenu": "",
+              "Date": {},
+            },
+          ]
+  }
+
 }

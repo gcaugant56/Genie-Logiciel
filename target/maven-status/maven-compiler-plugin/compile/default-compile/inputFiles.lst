@@ -1,6 +1,11 @@
-/Users/caugant/projet-genie-logiciel/src/main/java/Timer/InterfacePrincipale.java
-/Users/caugant/projet-genie-logiciel/src/main/java/Timer/ClientConnexion.java
-/Users/caugant/projet-genie-logiciel/src/main/java/Timer/MainClient.java
-/Users/caugant/projet-genie-logiciel/src/main/java/Timer/TimeServer.java
-/Users/caugant/projet-genie-logiciel/src/main/java/Timer/MainServer.java
-/Users/caugant/projet-genie-logiciel/src/main/java/Timer/ClientProcessor.java
+/Users/MatteoQ/projet-genie-logiciel/src/main/java/Timer/InterfaceNewConv.java
+/Users/MatteoQ/projet-genie-logiciel/src/main/java/Timer/ClientConnexion.java
+/Users/MatteoQ/projet-genie-logiciel/src/main/java/Timer/InterfaceAccount.java
+/Users/MatteoQ/projet-genie-logiciel/src/main/java/Données/Utilisateur.java
+/Users/MatteoQ/projet-genie-logiciel/src/main/java/Timer/MainServer.java
+/Users/MatteoQ/projet-genie-logiciel/src/main/java/Timer/InterfaceNewGroup.java
+/Users/MatteoQ/projet-genie-logiciel/src/main/java/Données/Message.java
+/Users/MatteoQ/projet-genie-logiciel/src/main/java/Timer/MainClient.java
+/Users/MatteoQ/projet-genie-logiciel/src/main/java/Timer/TimeServer.java
+/Users/MatteoQ/projet-genie-logiciel/src/main/java/Timer/InterfacePrincipale.java
+/Users/MatteoQ/projet-genie-logiciel/src/main/java/Timer/ClientProcessor.java
