@@ -4,7 +4,7 @@ public class Utilisateur {
     private String nom;
     private String prenom;
     private int num;
-    private String contacts;
+    private Contacts contacts;
 
     public Utilisateur (String nom, String prenom, String message){
         this.nom = nom;
