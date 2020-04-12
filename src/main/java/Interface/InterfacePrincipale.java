@@ -1,23 +1,38 @@
-package Timer;
+package Interface;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class InterfacePrincipale {
 
-    private JComboBox listeConv;
-    private JTextArea convText = new JTextArea();
-    private JLabel msg = new JLabel("Message : ");
     private int numberUser;
+    private JComboBox listeConv;
+    private JLabel msg = new JLabel("Message : ");
+    private JTextArea convText = new JTextArea(12,35);
+    private JScrollPane scrollPane;
     private JLabel userOnLine = new JLabel("Nombre d'utilisateur en ligne : " + numberUser);
+    private InterfacePrincipale interfacePrincipale;
     private JTextField msgText = new JTextField();
     private JButton myAccount = new JButton("Mon Compte");
     private JButton newConv = new JButton("Nouvelle Conversation");
     private JButton newGroup = new JButton("Nouveau Groupe");
     private JButton sendMsg = new JButton("Envoyer");
     private Object[] elements = new Object[]{"liste 1", "liste 2"};
+    private String[] tab;
+    private SimpleDateFormat formater = new SimpleDateFormat("h:mm a");
+
+    public JTextField getMsgText() {
+        return msgText;
+    }
+
+    public JTextArea getConvText() {
+        return convText;
+    }
 
     public InterfacePrincipale() {
 
@@ -27,6 +42,7 @@ public class InterfacePrincipale {
         mainWindows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindows.setLayout(new BorderLayout());
         mainWindows.setLocationRelativeTo(null);
+
 
         JPanel northPanel = new JPanel();
         mainWindows.add(northPanel, BorderLayout.NORTH);
@@ -53,8 +69,12 @@ public class InterfacePrincipale {
         northPanel.add(listeConv, BorderLayout.WEST);
         listeConv.setPreferredSize(new Dimension(300, 30));
 
-        centerPanel.add(convText);
-        convText.setPreferredSize(new Dimension(400, 300));
+        scrollPane = new JScrollPane(convText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        centerPanel.add(scrollPane);
+
+        convText.setEditable(false);
+        convText.setLineWrap(true);
+        convText.setWrapStyleWord(true);
 
         eastPanel.add(myAccount);
         eastPanel.add(newConv);
@@ -92,12 +112,23 @@ public class InterfacePrincipale {
                 new InterfaceNewGroup();
             }
         });
+
+        sendMsg.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Date aujourdhui = new Date();
+                String message= msgText.getText();
+                if(!message.isEmpty()) {
+                    convText.append(formater.format(aujourdhui) + " : " + message + "\n");
+                    msgText.setText("");
+                }
+            }
+        });
+
     }
 
 
     public static void main(String[] args) {
-
         new InterfacePrincipale();
-
     }
 }

@@ -73,7 +73,7 @@ public class InterfacePrincipale {
 
     public static void main(String[] args) {
 
-        new InterfacePrincipale();
+        new Interface.InterfacePrincipale();
 
     }
 }
