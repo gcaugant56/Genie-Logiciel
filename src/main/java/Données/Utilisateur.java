@@ -1,31 +1,28 @@
 package Données;
 
 public class Utilisateur {
-    private String nom;
-    private String prenom;
-    private int num;
-    private Contacts contacts;
+    private String userName;
+    private String pseudo;
+    private String password;
+    private Message List = [];
 
-    public Utilisateur (String nom, String prenom, String message){
-        this.nom = nom;
-        this.prenom = prenom;
-        this.num = num;
-        this.contacts = contacts;
+    public String getUserName() {
+        return userName;
     }
 
-    public String getNom() {
-        return nom;
+    public String getPseudo() {
+        return pseudo;
     }
 
-    public String getPrenom() {
-        return prenom;
+    public String getPassword() {
+        return password;
     }
 
-    public int getNum() {
-        return num;
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
     }
 
-    public String getContacts() {
-        return contacts;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

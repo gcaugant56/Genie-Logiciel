@@ -1,33 +1,45 @@
 package Données;
 
 public class Message {
-    private String Utilisateur;
-    private String contenu;
-    private String destinataire;
-    private int numerod;
-    private String Objet;
+    private String content="";
+    private Utilisateur destinataire;
+    private Utilisateur expediteur;
+    private Groupe destinataire;
+    private date heure;
 
-
-    public Message(String utilisateur, String message, String destinataire, int numerod) {
-        this.Utilisateur = utilisateur;
-        this.message = message;
-        this.destinataire = destinataire;
-        this.numerod = numerod;
+    public String getContent() {
+        return content;
     }
 
-    public String getUtilisateur() {
-        return Utilisateur;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getContenu() {
-        return contenu;
-    }
-
-    public String getDestinataire() {
+    public Utilisateur getDestinataire() {
         return destinataire;
     }
 
-    public int getNumerod() {
-        return numerod;
+    public void setDestinataire(Groupe destinataire) {
+        this.destinataire = destinataire;
+    }
+
+    public date getHeure() {
+        return heure;
+    }
+
+    public void setHeure(date heure) {
+        this.heure = heure;
+    }
+
+    public void setDestinataire(Utilisateur destinataire) {
+        this.destinataire = destinataire;
+    }
+
+    public Utilisateur getExpediteur() {
+        return expediteur;
+    }
+
+    public void setExpediteur(Utilisateur expediteur) {
+        this.expediteur = expediteur;
     }
 }
