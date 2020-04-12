@@ -5,7 +5,7 @@ public class Message {
     private Utilisateur destinataire;
     private Utilisateur expediteur;
     private Groupe destinataire;
-    private date heure;
+
 
     public String getContent() {
         return content;
@@ -19,20 +19,16 @@ public class Message {
         return destinataire;
     }
 
-    public void setDestinataire(Groupe destinataire) {
-        this.destinataire = destinataire;
+    public void setDestinataire(Utilisateur user) {
+        this.destinataire = user;
     }
 
-    public date getHeure() {
-        return heure;
+    public Groupe getDestinataire() {
+        return destinataire;
     }
 
-    public void setHeure(date heure) {
-        this.heure = heure;
-    }
-
-    public void setDestinataire(Utilisateur destinataire) {
-        this.destinataire = destinataire;
+    public void setDestinataire(Groupe groupe) {
+        this.destinataire = groupe;
     }
 
     public Utilisateur getExpediteur() {

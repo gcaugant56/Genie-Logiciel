@@ -1,10 +1,11 @@
 package Données;
 
+import java.util.ArrayList;
+
 public class Utilisateur {
     private String userName;
     private String pseudo;
     private String password;
-    private Message List = [];
 
     public String getUserName() {
         return userName;
