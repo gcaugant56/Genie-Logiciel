@@ -1,11 +1,13 @@
 package Données;
 
+import java.util.Date;
+
 public class Message {
     private String content="";
     private Utilisateur destinataire;
+   // private Groupe destinataire;
     private Utilisateur expediteur;
-    private Groupe destinataire;
-
+    private Date heure;
 
     public String getContent() {
         return content;
@@ -19,16 +21,8 @@ public class Message {
         return destinataire;
     }
 
-    public void setDestinataire(Utilisateur user) {
-        this.destinataire = user;
-    }
-
-    public Groupe getDestinataire() {
-        return destinataire;
-    }
-
-    public void setDestinataire(Groupe groupe) {
-        this.destinataire = groupe;
+    public void setDestinataire(Utilisateur destinataire) {
+        this.destinataire = destinataire;
     }
 
     public Utilisateur getExpediteur() {
@@ -37,5 +31,13 @@ public class Message {
 
     public void setExpediteur(Utilisateur expediteur) {
         this.expediteur = expediteur;
+    }
+
+    public Date getHeure() {
+        return heure;
+    }
+
+    public void setHeure(Date heure) {
+        this.heure = heure;
     }
 }
