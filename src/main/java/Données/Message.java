@@ -1,11 +1,10 @@
-package Données;
+package Projet;
 
 import java.util.Date;
 
 public class Message {
     private String content="";
-    private Utilisateur destinataire;
-   // private Groupe destinataire;
+    private String destinataire;
     private Utilisateur expediteur;
     private Date heure;
 
@@ -17,11 +16,11 @@ public class Message {
         this.content = content;
     }
 
-    public Utilisateur getDestinataire() {
+    public String getDestinataire() {
         return destinataire;
     }
 
-    public void setDestinataire(Utilisateur destinataire) {
+    public void setDestinataire(String destinataire) {
         this.destinataire = destinataire;
     }
 

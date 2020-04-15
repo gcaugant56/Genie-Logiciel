@@ -1,8 +1,8 @@
-package Données;
+package Projet;
 
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -21,8 +21,6 @@ public class main {
         //Serialisation();
        Deserialisation();
     }
-
-
     private static void Deserialisation(){
 
         String nmdf = "//Users//MatteoQ//Documents//FinalTest//Testser.txt";
@@ -39,12 +37,8 @@ public class main {
         }
 
         //Type racinet = new TypeToken<ArrayList<Racine>>(){}.getType();
-
         //ArrayList<Racine> racine = new Gson().fromJson(json, racinet);
-
        // Racine[] racine = new Gson().fromJson(json, Racine[].class);
-
-       Racine racine = new Gson().fromJson(test,Racine.class);
-       // Utilisateur utilisateur = new Gson().fromJson(json, Utilisateur.class);
+        Racine racine = new Gson().fromJson(json,Racine.class);
     }
 }
