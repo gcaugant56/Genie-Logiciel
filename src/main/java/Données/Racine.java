@@ -1,15 +1,9 @@
 package Données;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 public class Racine {
-    ArrayList<Utilisateur> Utilisateurs;
+    List<Utilisateur> Utilisateur;
 
-    public ArrayList<Utilisateur> getUtilisateurs() {
-        return Utilisateurs;
-    }
-
-    public void setUtilisateurs(ArrayList<Utilisateur> utilisateurs) {
-        Utilisateurs = utilisateurs;
-    }
 }
