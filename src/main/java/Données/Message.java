@@ -1,9 +1,9 @@
-package Projet;
+package Données;
 
 import java.util.Date;
 
 public class Message {
-    private String content="";
+    private String content;
     private String destinataire;
     private Utilisateur expediteur;
     private Date heure;
@@ -40,3 +40,4 @@ public class Message {
         this.heure = heure;
     }
 }
+

@@ -1,4 +1,4 @@
-package Projet;
+package Données;
 
 import java.util.*;
 
@@ -23,7 +23,7 @@ public class Contacts {
         }
 
         @Override
-        public Iterator<Projet.Message> iterator() {
+        public Iterator<Données.Message> iterator() {
             return null;
         }
 
@@ -38,7 +38,7 @@ public class Contacts {
         }
 
         @Override
-        public boolean add(Projet.Message message) {
+        public boolean add(Données.Message message) {
             return false;
         }
 
@@ -53,12 +53,12 @@ public class Contacts {
         }
 
         @Override
-        public boolean addAll(Collection<? extends Projet.Message> c) {
+        public boolean addAll(Collection<? extends Données.Message> c) {
             return false;
         }
 
         @Override
-        public boolean addAll(int index, Collection<? extends Projet.Message> c) {
+        public boolean addAll(int index, Collection<? extends Données.Message> c) {
             return false;
         }
 
@@ -78,22 +78,22 @@ public class Contacts {
         }
 
         @Override
-        public Projet.Message get(int index) {
+        public Données.Message get(int index) {
             return null;
         }
 
         @Override
-        public Projet.Message set(int index, Projet.Message element) {
+        public Données.Message set(int index, Données.Message element) {
             return null;
         }
 
         @Override
-        public void add(int index, Projet.Message element) {
+        public void add(int index, Données.Message element) {
 
         }
 
         @Override
-        public Projet.Message remove(int index) {
+        public Données.Message remove(int index) {
             return null;
         }
 
@@ -108,17 +108,17 @@ public class Contacts {
         }
 
         @Override
-        public ListIterator<Projet.Message> listIterator() {
+        public ListIterator<Données.Message> listIterator() {
             return null;
         }
 
         @Override
-        public ListIterator<Projet.Message> listIterator(int index) {
+        public ListIterator<Données.Message> listIterator(int index) {
             return null;
         }
 
         @Override
-        public List<Projet.Message> subList(int fromIndex, int toIndex) {
+        public List<Données.Message> subList(int fromIndex, int toIndex) {
             return null;
         }
     };
@@ -147,11 +147,11 @@ public class Contacts {
         this.password = password;
     }
 
-    public List<Projet.Message> getMessage() {
+    public List<Données.Message> getMessage() {
         return Message;
     }
 
-    public void setMessage(List<Projet.Message> message) {
+    public void setMessage(List<Données.Message> message) {
         Message = message;
     }
 }

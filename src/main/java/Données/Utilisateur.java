@@ -1,7 +1,10 @@
-package Projet;
+package Données;
 
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 
 public class Utilisateur {
@@ -25,7 +28,7 @@ public class Utilisateur {
         }
 
         @Override
-        public Iterator<Projet.Contacts> iterator() {
+        public Iterator<Données.Contacts> iterator() {
             return null;
         }
 
@@ -40,7 +43,7 @@ public class Utilisateur {
         }
 
         @Override
-        public boolean add(Projet.Contacts contacts) {
+        public boolean add(Données.Contacts contacts) {
             return false;
         }
 
@@ -55,12 +58,12 @@ public class Utilisateur {
         }
 
         @Override
-        public boolean addAll(Collection<? extends Projet.Contacts> c) {
+        public boolean addAll(Collection<? extends Données.Contacts> c) {
             return false;
         }
 
         @Override
-        public boolean addAll(int index, Collection<? extends Projet.Contacts> c) {
+        public boolean addAll(int index, Collection<? extends Données.Contacts> c) {
             return false;
         }
 
@@ -90,22 +93,22 @@ public class Utilisateur {
         }
 
         @Override
-        public Projet.Contacts get(int index) {
+        public Données.Contacts get(int index) {
             return null;
         }
 
         @Override
-        public Projet.Contacts set(int index, Projet.Contacts element) {
+        public Données.Contacts set(int index, Données.Contacts element) {
             return null;
         }
 
         @Override
-        public void add(int index, Projet.Contacts element) {
+        public void add(int index, Données.Contacts element) {
 
         }
 
         @Override
-        public Projet.Contacts remove(int index) {
+        public Données.Contacts remove(int index) {
             return null;
         }
 
@@ -120,17 +123,17 @@ public class Utilisateur {
         }
 
         @Override
-        public ListIterator<Projet.Contacts> listIterator() {
+        public ListIterator<Données.Contacts> listIterator() {
             return null;
         }
 
         @Override
-        public ListIterator<Projet.Contacts> listIterator(int index) {
+        public ListIterator<Données.Contacts> listIterator(int index) {
             return null;
         }
 
         @Override
-        public List<Projet.Contacts> subList(int fromIndex, int toIndex) {
+        public List<Données.Contacts> subList(int fromIndex, int toIndex) {
             return null;
         }
     };
@@ -159,11 +162,11 @@ public class Utilisateur {
         this.password = password;
     }
 
-    public List<Projet.Contacts> getContacts() {
+    public List<Données.Contacts> getContacts() {
         return Contacts;
     }
 
-    public void setContacts(List<Projet.Contacts> contacts) {
+    public void setContacts(List<Données.Contacts> contacts) {
         Contacts = contacts;
     }
 }

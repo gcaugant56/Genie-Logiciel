@@ -1,11 +1,10 @@
-package Projet;
+package Données;
 
 
 import java.util.*;
 
 
 public class Racine {
-
     List<Utilisateur> Utilisateur= new List<Utilisateur>() {
         @Override
         public int size() {
@@ -23,7 +22,7 @@ public class Racine {
         }
 
         @Override
-        public Iterator<Projet.Utilisateur> iterator() {
+        public Iterator<Données.Utilisateur> iterator() {
             return null;
         }
 
@@ -38,7 +37,7 @@ public class Racine {
         }
 
         @Override
-        public boolean add(Projet.Utilisateur utilisateur) {
+        public boolean add(Données.Utilisateur utilisateur) {
             return false;
         }
 
@@ -53,12 +52,12 @@ public class Racine {
         }
 
         @Override
-        public boolean addAll(Collection<? extends Projet.Utilisateur> c) {
+        public boolean addAll(Collection<? extends Données.Utilisateur> c) {
             return false;
         }
 
         @Override
-        public boolean addAll(int index, Collection<? extends Projet.Utilisateur> c) {
+        public boolean addAll(int index, Collection<? extends Données.Utilisateur> c) {
             return false;
         }
 
@@ -88,22 +87,22 @@ public class Racine {
         }
 
         @Override
-        public Projet.Utilisateur get(int index) {
+        public Données.Utilisateur get(int index) {
             return null;
         }
 
         @Override
-        public Projet.Utilisateur set(int index, Projet.Utilisateur element) {
+        public Données.Utilisateur set(int index, Données.Utilisateur element) {
             return null;
         }
 
         @Override
-        public void add(int index, Projet.Utilisateur element) {
+        public void add(int index, Données.Utilisateur element) {
 
         }
 
         @Override
-        public Projet.Utilisateur remove(int index) {
+        public Données.Utilisateur remove(int index) {
             return null;
         }
 
@@ -118,26 +117,26 @@ public class Racine {
         }
 
         @Override
-        public ListIterator<Projet.Utilisateur> listIterator() {
+        public ListIterator<Données.Utilisateur> listIterator() {
             return null;
         }
 
         @Override
-        public ListIterator<Projet.Utilisateur> listIterator(int index) {
+        public ListIterator<Données.Utilisateur> listIterator(int index) {
             return null;
         }
 
         @Override
-        public List<Projet.Utilisateur> subList(int fromIndex, int toIndex) {
+        public List<Données.Utilisateur> subList(int fromIndex, int toIndex) {
             return null;
         }
     };
 
-    public List<Projet.Utilisateur> getUtilisateur() {
+    public List<Données.Utilisateur> getUtilisateur() {
         return Utilisateur;
     }
 
-    public void setUtilisateur(List<Projet.Utilisateur> utilisateur) {
+    public void setUtilisateur(List<Données.Utilisateur> utilisateur) {
         Utilisateur = utilisateur;
     }
 }

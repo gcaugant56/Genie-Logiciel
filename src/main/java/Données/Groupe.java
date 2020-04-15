@@ -1,10 +1,10 @@
-package Projet;
+package Données;
 
 
 import java.util.*;
 
 public class Groupe {
-    List<Utilisateur> Groupe= new List<Utilisateur>() {
+    List<Utilisateur> groupe= new List<Utilisateur>() {
         @Override
         public int size() {
             return 0;
