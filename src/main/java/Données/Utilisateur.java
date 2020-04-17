@@ -1,142 +1,20 @@
 package Données;
 
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.*;
 
 
 public class Utilisateur {
-    private String userName;
-    private String pseudo;
-    private String password;
-    List<Contacts> Contacts = new List<Contacts>() {
-        @Override
-        public int size() {
-            return 0;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return false;
-        }
-
-        @Override
-        public boolean contains(Object o) {
-            return false;
-        }
-
-        @Override
-        public Iterator<Données.Contacts> iterator() {
-            return null;
-        }
-
-        @Override
-        public Object[] toArray() {
-            return new Object[0];
-        }
-
-        @Override
-        public <T> T[] toArray(T[] a) {
-            return null;
-        }
-
-        @Override
-        public boolean add(Données.Contacts contacts) {
-            return false;
-        }
-
-        @Override
-        public boolean remove(Object o) {
-            return false;
-        }
-
-        @Override
-        public boolean containsAll(Collection<?> c) {
-            return false;
-        }
-
-        @Override
-        public boolean addAll(Collection<? extends Données.Contacts> c) {
-            return false;
-        }
-
-        @Override
-        public boolean addAll(int index, Collection<? extends Données.Contacts> c) {
-            return false;
-        }
-
-        @Override
-        public boolean removeAll(Collection<?> c) {
-            return false;
-        }
-
-        @Override
-        public boolean retainAll(Collection<?> c) {
-            return false;
-        }
-
-        @Override
-        public void clear() {
-
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return 0;
-        }
-
-        @Override
-        public Données.Contacts get(int index) {
-            return null;
-        }
-
-        @Override
-        public Données.Contacts set(int index, Données.Contacts element) {
-            return null;
-        }
-
-        @Override
-        public void add(int index, Données.Contacts element) {
-
-        }
-
-        @Override
-        public Données.Contacts remove(int index) {
-            return null;
-        }
-
-        @Override
-        public int indexOf(Object o) {
-            return 0;
-        }
-
-        @Override
-        public int lastIndexOf(Object o) {
-            return 0;
-        }
-
-        @Override
-        public ListIterator<Données.Contacts> listIterator() {
-            return null;
-        }
-
-        @Override
-        public ListIterator<Données.Contacts> listIterator(int index) {
-            return null;
-        }
-
-        @Override
-        public List<Données.Contacts> subList(int fromIndex, int toIndex) {
-            return null;
-        }
-    };
+    @SerializedName("userName")
+    String userName ;
+    @SerializedName("pseudo")
+    private String pseudo ;
+    @SerializedName("password")
+    private String password ;
+    @SerializedName("Contacts")
+    private ArrayList<Contacts> Contacts = new ArrayList<Contacts>();
 
     public String getUserName() {
         return userName;
@@ -162,11 +40,12 @@ public class Utilisateur {
         this.password = password;
     }
 
-    public List<Données.Contacts> getContacts() {
+    public ArrayList<Données.Contacts> getContacts() {
         return Contacts;
     }
 
-    public void setContacts(List<Données.Contacts> contacts) {
+    public void setContacts(ArrayList<Données.Contacts> contacts) {
         Contacts = contacts;
     }
 }
+

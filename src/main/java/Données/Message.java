@@ -1,12 +1,18 @@
 package Données;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class Message {
+    @SerializedName("content")
     private String content;
+    @SerializedName("destinataire")
     private String destinataire;
+    @SerializedName("expediteur")
     private Utilisateur expediteur;
-    private Date heure;
+    @SerializedName("date")
+    private Date date;
 
     public String getContent() {
         return content;
@@ -32,12 +38,12 @@ public class Message {
         this.expediteur = expediteur;
     }
 
-    public Date getHeure() {
-        return heure;
+    public Date getDate() {
+        return date;
     }
 
-    public void setHeure(Date heure) {
-        this.heure = heure;
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
 
