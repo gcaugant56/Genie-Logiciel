@@ -17,6 +17,7 @@ public class InterfaceAccount {
     private JLabel label5 = new JLabel("Nouveau : ");
     private JLabel label6 = new JLabel("");
     private JLabel label7 = new JLabel("");
+    private JLabel label8 = new JLabel("");
     private JButton validateButton = new JButton("Valider");
     private JButton validateButton1 = new JButton("Valider");
     private JTextField textField = new JTextField();
@@ -48,7 +49,7 @@ public class InterfaceAccount {
         topPanel.add(textField2);
 
         bottomPanel.add(label4);
-        bottomPanel.add(textField3);
+        bottomPanel.add(label8);
         bottomPanel.add(label7);
         bottomPanel.add(label5);
         bottomPanel.add(textField4);
