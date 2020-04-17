@@ -2,24 +2,41 @@ package Données;
 
 
 import com.google.gson.Gson;
+import jdk.jshell.execution.Util;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class main {
 
 
     public static void main(String[] args){
 
-        //Serialisation();
-        Deserialisation();
+        Serialisation();
+        //Deserialisation();
     }
 
-    private static void Serialisation(){
-       // Utilisateur Utilisateur = new Utilisateur();
+    private static void Serialisation() {
+
+        ArrayList<Message> messagep = new ArrayList<Message>();
+        messagep.add(new Message("I finally figured it out","Guillaume","Matteo","17/04/2020"));
+
+        ArrayList<Contacts> contacts = new ArrayList<Contacts>();
+        contacts.add(new Contacts("Guillaume",messagep));
+
+        ArrayList<Utilisateur> Utilisateur = new ArrayList<Utilisateur>();
+        Utilisateur.add(new Utilisateur("Matteo", "Alloms", "lacite", contacts));
+
+        Racine ListeUtilisateur = new Racine(Utilisateur);
+
+
+
+        String jsone = new Gson().toJson(ListeUtilisateur);
     }
 
     private static void Deserialisation(){

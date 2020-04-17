@@ -2,6 +2,8 @@ package Données;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Message {
     @SerializedName("content")
     private String content;
@@ -11,6 +13,14 @@ public class Message {
     private String expediteur;
     @SerializedName("date")
     private String date;
+
+    public Message(String content, String destinataire, String expediteur, String date) {
+        this.content = content;
+        this.destinataire = destinataire;
+        this.expediteur = expediteur;
+        this.date = date;
+    }
+
 
     public String getContent() {
         return content;
