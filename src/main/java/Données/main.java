@@ -23,14 +23,14 @@ public class main {
 
     private static void Serialisation() {
 
-        ArrayList<Message> messagep = new ArrayList<Message>();
-        messagep.add(new Message("I finally figured it out","Guillaume","Matteo","17/04/2020"));
+        ArrayList<Message> Message = new ArrayList<Message>();
+        Message.add(new Message("","","",""));
 
-        ArrayList<Contacts> contacts = new ArrayList<Contacts>();
-        contacts.add(new Contacts("Guillaume",messagep));
+        ArrayList<Contacts> Contacts = new ArrayList<Contacts>();
+        Contacts.add(new Contacts("",Message));
 
         ArrayList<Utilisateur> Utilisateur = new ArrayList<Utilisateur>();
-        Utilisateur.add(new Utilisateur("Matteo", "Alloms", "lacite", contacts));
+        Utilisateur.add(new Utilisateur("", "", "", contacts));
 
         Racine ListeUtilisateur = new Racine(Utilisateur);
 
