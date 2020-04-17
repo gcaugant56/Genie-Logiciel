@@ -2,17 +2,15 @@ package Données;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
-
 public class Message {
     @SerializedName("content")
     private String content;
     @SerializedName("destinataire")
     private String destinataire;
     @SerializedName("expediteur")
-    private Utilisateur expediteur;
+    private String expediteur;
     @SerializedName("date")
-    private Date date;
+    private String date;
 
     public String getContent() {
         return content;
@@ -30,19 +28,19 @@ public class Message {
         this.destinataire = destinataire;
     }
 
-    public Utilisateur getExpediteur() {
+    public String getExpediteur() {
         return expediteur;
     }
 
-    public void setExpediteur(Utilisateur expediteur) {
+    public void setExpediteur(String expediteur) {
         this.expediteur = expediteur;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

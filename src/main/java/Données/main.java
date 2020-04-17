@@ -6,18 +6,20 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.File;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class main {
 
 
     public static void main(String[] args){
 
-       // Serialisation();
+        //Serialisation();
         Deserialisation();
     }
 
     private static void Serialisation(){
-
+       // Utilisateur Utilisateur = new Utilisateur();
     }
 
     private static void Deserialisation(){
@@ -28,13 +30,13 @@ public class main {
         try (BufferedReader bufferedreader = new BufferedReader(new FileReader(path))) {
             String strCurrentLine;
             while ((strCurrentLine = bufferedreader.readLine()) != null) {
-                json = json + strCurrentLine;
+                json += strCurrentLine;
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
 
-        Utilisateur Utilisateur = new Gson().fromJson( json , Utilisateur.class);
+        Racine Liste_Utilisateurs = new Gson().fromJson( json , Racine.class);
 
     }
 }
