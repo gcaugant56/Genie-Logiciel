@@ -2,47 +2,52 @@ package Données;
 
 
 import com.google.gson.Gson;
-import jdk.jshell.execution.Util;
+import com.google.gson.GsonBuilder;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.File;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Date;
+import java.io.*;
 
 public class main {
+
+
 
 
     public static void main(String[] args){
 
         Serialisation();
-        //Deserialisation();
+        Deserialisation();
     }
 
-    private static void Serialisation() {
+    private static boolean Serialisation(File File) {
 
-        ArrayList<Message> Message = new ArrayList<Message>();
-        Message.add(new Message("","","",""));
+        boolean verif;
 
-        ArrayList<Contacts> Contacts = new ArrayList<Contacts>();
-        Contacts.add(new Contacts("",Message));
+        Gson gson = new GsonBuilder()
+                .serializeNulls()
+                .setPrettyPrinting()
+                .disableHtmlEscaping()
+                .create();
 
-        ArrayList<Utilisateur> Utilisateur = new ArrayList<Utilisateur>();
-        Utilisateur.add(new Utilisateur("", "", "", contacts));
+        String jsone = gson.toJson(Racine);
 
-        Racine ListeUtilisateur = new Racine(Utilisateur);
+        try
+        {
+            FileWriter fw = new FileWriter(File);
+            BufferedWriter output = new BufferedWriter(fw);
+            output.write(jsone);
+            output.close();
+            verif = true
+        }
+        catch(IOException ioe){
+            ioe.printStackTrace();
+            verif = false;
+        }
 
-
-
-        String jsone = new Gson().toJson(ListeUtilisateur);
+        return verif;
     }
 
-    private static void Deserialisation(){
+    private static  Racine Deserialisation(File File) {
 
-        File file = new File("Json.json");
-        String path = file.getAbsolutePath();
+        String path = File.getAbsolutePath();
         String json = " ";
         try (BufferedReader bufferedreader = new BufferedReader(new FileReader(path))) {
             String strCurrentLine;
@@ -53,7 +58,8 @@ public class main {
             ioe.printStackTrace();
         }
 
-        Racine Liste_Utilisateurs = new Gson().fromJson( json , Racine.class);
+        Racine Racine = new Gson().fromJson(json, Racine.class);
 
+        return Racine;
     }
 }
