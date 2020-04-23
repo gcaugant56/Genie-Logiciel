@@ -1,0 +1,24 @@
+{
+  "Utilisateur": [
+    {
+      "userName": "",
+      "pseudo": "",
+      "password": "",
+      "Contacts": [
+        {
+          "userName": "",
+          "pseudo": "",
+          "password": "",
+          "Message": [
+            {
+              "destinataire": "",
+              "expediteur": "",
+              "content": "",
+              "date": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
