@@ -4,6 +4,9 @@ package Données;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import java.io.*;
 
 public class main {
@@ -17,9 +20,7 @@ public class main {
         Deserialisation();
     }
 
-    private static boolean Serialisation(File File) {
-
-        boolean verif;
+    public static boolean Serialisation(Racine File) throws IOException {
 
         Gson gson = new GsonBuilder()
                 .serializeNulls()
@@ -27,39 +28,27 @@ public class main {
                 .disableHtmlEscaping()
                 .create();
 
-        String jsone = gson.toJson(Racine);
+        String jsone = gson.toJson(File);
+        FileWriter fw = new FileWriter("./messagecomplete.json");
+        fw.write(jsone);
+        fw.close();
+        return true;
 
-        try
-        {
-            FileWriter fw = new FileWriter(File);
-            BufferedWriter output = new BufferedWriter(fw);
-            output.write(jsone);
-            output.close();
-            verif = true
-        }
-        catch(IOException ioe){
-            ioe.printStackTrace();
-            verif = false;
-        }
-
-        return verif;
     }
 
-    private static  Racine Deserialisation(File File) {
+    public static Racine Deserialisation (String path) throws IOException {
 
-        String path = File.getAbsolutePath();
-        String json = " ";
-        try (BufferedReader bufferedreader = new BufferedReader(new FileReader(path))) {
-            String strCurrentLine;
-            while ((strCurrentLine = bufferedreader.readLine()) != null) {
-                json += strCurrentLine;
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+        Gson gson = new GsonBuilder()
+                .serializeNulls()
+                .setPrettyPrinting()
+                .disableHtmlEscaping()
+                .create();
 
-        Racine Racine = new Gson().fromJson(json, Racine.class);
+        String json = Files.readString(Paths.get(path));
 
-        return Racine;
+        Racine File = gson.fromJson(json, Racine.class);
+
+        return File;
+
     }
 }
