@@ -1,15 +1,8 @@
-Timer/InterfaceAccount.class
-Timer/InterfacePrincipale$1.class
 Timer/MainClient.class
-Timer/InterfaceNewConv.class
 Données/Utilisateur.class
 Timer/MainServer.class
 Timer/TimeServer.class
-Timer/InterfaceNewGroup.class
 Données/Message.class
 Timer/TimeServer$1.class
 Timer/ClientConnexion.class
-Timer/InterfacePrincipale$3.class
 Timer/ClientProcessor.class
-Timer/InterfacePrincipale.class
-Timer/InterfacePrincipale$2.class

@@ -1,7 +1,5 @@
 Timer/MainServer.class
 Timer/TimeServer.class
-Seriadeseria/Deserialisation.class
-Seriadeseria/Serialisation.class
 Timer/MainClient.class
 Timer/TimeServer$1.class
 Timer/ClientConnexion.class
