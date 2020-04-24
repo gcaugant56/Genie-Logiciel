@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.1" type="repository">
+    <properties maven-id="com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.1" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/fatboyindustrial/gson-javatime-serialisers/gson-javatime-serialisers/1.1.1/gson-javatime-serialisers-1.1.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.3.1/gson-2.3.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
