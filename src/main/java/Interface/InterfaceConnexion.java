@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class InterfaceConnexion {
-    private JLabel chat = new JLabel("Accédez au Chat en vous connectant");
+    private JLabel chat = new JLabel("Accédez au Chat");
     private JLabel userName = new JLabel("Identifiant : ");
     private JLabel passWord = new JLabel("Mot de passe : ");
     private JTextField jTextFieldUserName = new JTextField();
