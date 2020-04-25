@@ -1,9 +1,16 @@
 package Interface;
 
+import javafx.event.EventHandler;
+import javafx.scene.control.Hyperlink;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class InterfaceConnexion {
     private JLabel chat = new JLabel("Accédez au Chat");
@@ -13,6 +20,7 @@ public class InterfaceConnexion {
     private JTextField jTextFieldPassWord = new JTextField();
     private JButton plugIn = new JButton("Connexion");
     private Font font = new Font("Arial", Font.BOLD, 12);
+    private JLabel createCompte = new JLabel("Pas de compte créez-en un ici");
     private JPanel northPanel = new JPanel();
     private JPanel centerPanel = new JPanel(new GridLayout(2,2));
     private JPanel southPanel = new JPanel();
@@ -29,11 +37,17 @@ public class InterfaceConnexion {
 
         chat.setFont(font);
         northPanel.add(chat,BorderLayout.CENTER);
+
         centerPanel.add(userName);
         centerPanel.add(jTextFieldUserName);
         centerPanel.add(passWord);
         centerPanel.add(jTextFieldPassWord);
-        southPanel.add(plugIn,BorderLayout.CENTER);
+
+        southPanel.setLayout(new GridLayout(2,1));
+        southPanel.add(plugIn);
+        createCompte.setForeground(Color.BLUE.darker());
+        createCompte.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        southPanel.add(createCompte);
 
         newConnection.setVisible(true);
         newConnection.revalidate();
@@ -47,6 +61,14 @@ public class InterfaceConnexion {
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Connexion impossible");
                 }
+            }
+        });
+
+        createCompte.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                new InterfaceAddAccount();
             }
         });
     }
