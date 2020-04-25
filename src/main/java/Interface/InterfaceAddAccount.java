@@ -20,17 +20,22 @@ public class InterfaceAddAccount {
     private JPanel southPanel = new JPanel();
 
     public InterfaceAddAccount() {
+
+        //création de la fenêtre addaccount
         JFrame addAccount = new JFrame();
         addAccount.setMinimumSize(new Dimension(390, 220));
         addAccount.setLayout(new GridLayout(3,1));
         addAccount.setLocationRelativeTo(null);
 
+        //ajout des panels du haut, du milieu et du bas à la fenêtre
         addAccount.add(northPanel,BorderLayout.NORTH);
         addAccount.add(centerPanel,BorderLayout.CENTER);
         addAccount.add(southPanel,BorderLayout.SOUTH);
 
+        //ajout du label dans le panel du haut
         northPanel.add(createAccount, BorderLayout.CENTER);
 
+        //ajout des composants dans le panel du milieu
         centerPanel.add(userName);
         centerPanel.add(jTextFieldUserName);
         centerPanel.add(pseudo);
@@ -38,12 +43,14 @@ public class InterfaceAddAccount {
         centerPanel.add(password);
         centerPanel.add(jTextFieldPassword);
 
+        //ajout du bouton "Créer" dans le panel du bas
         southPanel.add(create);
 
         addAccount.setVisible(true);
         addAccount.revalidate();
         addAccount.repaint();
 
+        //Actions à l'appui du bouton "Créer" du panel du bas
         create.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {

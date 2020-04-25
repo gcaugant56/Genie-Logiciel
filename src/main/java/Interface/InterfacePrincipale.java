@@ -25,62 +25,58 @@ public class InterfacePrincipale {
     private Object[] elements = new Object[]{"liste 1", "liste 2"};
     private String[] tab;
     private SimpleDateFormat formater = new SimpleDateFormat("h:mm a");
-
-    public JTextField getMsgText() {
-        return msgText;
-    }
-
-    public JTextArea getConvText() {
-        return convText;
-    }
+    JPanel northPanel = new JPanel();
+    JPanel centerPanel = new JPanel();
+    JPanel eastPanel = new JPanel();
+    JPanel southPanel = new JPanel();
+    JPanel centerNorthPanel = new JPanel();
+    JPanel centerSouthPanel = new JPanel();
+    JPanel southWestPanel = new JPanel();
+    JPanel southEastPanel = new JPanel();
 
     public InterfacePrincipale() {
 
-        // déclaration de la fenêtre principale
+        //création de la fenêtre principale
         JFrame mainWindows = new JFrame();
         mainWindows.setMinimumSize(new Dimension(640, 380));
         mainWindows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindows.setLayout(new BorderLayout());
         mainWindows.setLocationRelativeTo(null);
 
-
-        JPanel northPanel = new JPanel();
+        //ajout des panels du haut, du milieu, du bas et de droite à la fenêtre
         mainWindows.add(northPanel, BorderLayout.NORTH);
-        JPanel centerPanel = new JPanel();
         mainWindows.add(centerPanel, BorderLayout.CENTER);
-        JPanel eastPanel = new JPanel();
         mainWindows.add(eastPanel, BorderLayout.EAST);
         eastPanel.setLayout(new GridLayout(4,0));
-        JPanel southPanel = new JPanel();
         mainWindows.add(southPanel, BorderLayout.SOUTH);
         southPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
 
-        JPanel centerNorthPanel = new JPanel();
-        centerPanel.add(centerNorthPanel, BorderLayout.NORTH);
-        JPanel centerSouthPanel = new JPanel();
-        centerPanel.add(centerSouthPanel, BorderLayout.SOUTH);
 
-        JPanel southWestPanel = new JPanel();
+        centerPanel.add(centerNorthPanel, BorderLayout.NORTH);
+        centerPanel.add(centerSouthPanel, BorderLayout.SOUTH);
         southPanel.add(southWestPanel, BorderLayout.WEST);
-        JPanel southEastPanel = new JPanel();
         southPanel.add(southEastPanel, BorderLayout.EAST);
 
+        //liste déroulante ajoutée au panel du haut
         listeConv = new JComboBox(elements);
         northPanel.add(listeConv, BorderLayout.WEST);
         listeConv.setPreferredSize(new Dimension(300, 30));
 
+        //ajout au panel du centre d'un scroll vertical et horizontal quand le texte dépasse le jtextarea
         scrollPane = new JScrollPane(convText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         centerPanel.add(scrollPane);
 
-        convText.setEditable(false);
-        convText.setLineWrap(true);
-        convText.setWrapStyleWord(true);
+        convText.setEditable(false); //abscence de curseur pour écrire sur le jtextarea
+        convText.setLineWrap(true); //Retour à la ligne de la zone de texte
+        convText.setWrapStyleWord(true); //Lignes enveloppées aux limites des mots
 
+        //ajout des composants dans le panel de droite
         eastPanel.add(myAccount);
         eastPanel.add(newConv);
         eastPanel.add(newGroup);
         eastPanel.add(userOnLine);
 
+        //ajout des composants dans le panel du bas
         southPanel.add(msg, BorderLayout.WEST);
         southPanel.add(msgText);
         southPanel.add(sendMsg);
@@ -92,6 +88,7 @@ public class InterfacePrincipale {
         mainWindows.revalidate();
         mainWindows.repaint();
 
+        //Actions à l'appui du bouton "Mon Compte" : redirection vers l'interface Mon Compte
         myAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -99,6 +96,7 @@ public class InterfacePrincipale {
             }
         });
 
+        //Actions à l'appui du bouton "Nouvelle Conversation" : redirection vers l'interface Nouvelle Conversation
         newConv.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -106,6 +104,7 @@ public class InterfacePrincipale {
             }
         });
 
+        //Actions à l'appui du bouton "Nouveau Groupe" : redirection vers l'interface Nouveau Groupe
         newGroup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -113,14 +112,15 @@ public class InterfacePrincipale {
             }
         });
 
+        //Actions à l'appui du bouton "Envoyer" : envoi du contenu écrit dans le jtextfield vers le jtextarea
         sendMsg.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Date aujourdhui = new Date();
+                Date aujourdhui = new Date(); //date de l'envoi du message
                 String message= msgText.getText();
                 if(!message.isEmpty()) {
-                    convText.append(formater.format(aujourdhui) + " : " + message + "\n");
-                    msgText.setText("");
+                    convText.append(formater.format(aujourdhui) + " : " + message + "\n"); //format du message : date + contenu
+                    msgText.setText(""); //RAZ du jtextfield à chaque envoi de message
                 }
             }
         });

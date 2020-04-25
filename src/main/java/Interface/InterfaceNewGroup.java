@@ -2,35 +2,50 @@ package Interface;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class InterfaceNewGroup {
 
-    private JLabel label1 = new JLabel("Nom du groupe : ");
-    private JLabel label2 = new JLabel("<html>Entrez les noms des destinataires<br>espacés par une virgule :</html>");
-    private JTextField textField1 = new JTextField(15);
-    private JTextField textField2 = new JTextField(15);
+    private JLabel nameOfGroup = new JLabel("Nom du groupe : ");
+    private JLabel recipients = new JLabel("<html>Entrez les noms des destinataires<br>espacés par une virgule :</html>");
+    private JTextField jtextFieldNameOfGroup = new JTextField(15);
+    private JTextField jtextFieldRecipients = new JTextField(15);
     private JButton startTalk = new JButton("Demarrer la discussion");
+    JPanel topPanel = new JPanel(new FlowLayout());
+    JPanel centerPanel = new JPanel(new GridLayout(2,1));
+    JPanel bottomPanel = new JPanel();
 
     public InterfaceNewGroup() {
+
+        //création de la fenêtre newgroupwindows
         JFrame newGroupWindows = new JFrame();
         newGroupWindows.setMinimumSize(new Dimension(390, 220));
         newGroupWindows.setLayout(new GridLayout(3,1));
         newGroupWindows.setLocationRelativeTo(null);
 
-        JPanel topPanel = new JPanel(new FlowLayout());
+        //ajout des panels du haut, du milieu et du bas à la fenêtre
         newGroupWindows.add(topPanel);
-        JPanel centerPanel = new JPanel(new GridLayout(2,1));
         newGroupWindows.add(centerPanel);
-        JPanel bottomPanel = new JPanel();
         newGroupWindows.add(bottomPanel);
 
-        label2.setHorizontalAlignment(SwingConstants.CENTER);
+        //centrer le label
+        recipients.setHorizontalAlignment(SwingConstants.CENTER);
 
-        topPanel.add(label1);
-        topPanel.add(textField1);
-        centerPanel.add(label2);
-        centerPanel.add(textField2);
+        //ajout des composants dans les différents panels
+        topPanel.add(nameOfGroup);
+        topPanel.add(jtextFieldNameOfGroup);
+        centerPanel.add(recipients);
+        centerPanel.add(jtextFieldRecipients);
         bottomPanel.add(startTalk);
+
+        //Actions à l'appui du bouton "Démarrer la discussion" :
+        startTalk.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+            }
+        });
 
         newGroupWindows.setVisible(true);
         newGroupWindows.revalidate();

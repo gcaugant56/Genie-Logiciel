@@ -26,33 +26,40 @@ public class InterfaceConnexion {
     private JPanel southPanel = new JPanel();
 
     public InterfaceConnexion() {
+
+        //création de la fenêtre newconnection
         JFrame newConnection = new JFrame();
         newConnection.setMinimumSize(new Dimension(390, 220));
         newConnection.setLayout(new GridLayout(3,1));
         newConnection.setLocationRelativeTo(null);
 
+        //ajout des panels du haut, du milieu et du bas à la fenêtre
         newConnection.add(northPanel,BorderLayout.NORTH);
         newConnection.add(centerPanel,BorderLayout.CENTER);
         newConnection.add(southPanel,BorderLayout.SOUTH);
 
+        //paramétrage de la police du label "chat" et ajout de celui-ci dans le panel du haut
         chat.setFont(font);
         northPanel.add(chat,BorderLayout.CENTER);
 
+        //ajout des composants dans le panel du milieu
         centerPanel.add(userName);
         centerPanel.add(jTextFieldUserName);
         centerPanel.add(passWord);
         centerPanel.add(jTextFieldPassWord);
 
+        //ajout des composants dans le panel du bas qui est quadrillé en 2 lignes et 1 colonnes
         southPanel.setLayout(new GridLayout(2,1));
         southPanel.add(plugIn);
-        createCompte.setForeground(Color.BLUE.darker());
-        createCompte.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        createCompte.setForeground(Color.BLUE.darker()); //label transformé en hyperlink standard
+        createCompte.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); //Pour que le curseur de la souris se transforme en icône de main lorsque l'utilisateur déplace la souris sur l'étiquette
         southPanel.add(createCompte);
 
         newConnection.setVisible(true);
         newConnection.revalidate();
         newConnection.repaint();
 
+        //Actions à l'appui du bouton "Connecter" du panel du bas : redirection vers l'interface du chat
         plugIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -64,6 +71,7 @@ public class InterfaceConnexion {
             }
         });
 
+        //Actions à l'appui de l'hyperlink du panel du bas : redirection vers l'interface de création d'un compte
         createCompte.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
