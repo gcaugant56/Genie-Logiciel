@@ -3,6 +3,8 @@ package Interface;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class InterfaceAccount {
 
@@ -10,50 +12,68 @@ public class InterfaceAccount {
     private JPanel bottomPanel = new JPanel(new GridLayout(2,3));
     private Border topTitle =  BorderFactory.createTitledBorder("Modifier votre mot de passe : ");
     private Border bottomTitle =  BorderFactory.createTitledBorder("Modifier votre nom d'utilisateur : ");
-    private JLabel label1 = new JLabel("Ancien : ");
-    private JLabel label2 = new JLabel("Nouveau : ");
-    private JLabel label3 = new JLabel("Nouveau : ");
-    private JLabel label4 = new JLabel("Actuel : ");
-    private JLabel label5 = new JLabel("Nouveau : ");
-    private JLabel label6 = new JLabel("");
-    private JLabel label7 = new JLabel("");
-    private JLabel label8 = new JLabel("");
-    private JButton validateButton = new JButton("Valider");
+    private JLabel oldPassword = new JLabel("Ancien : ");
+    private JLabel newPassword = new JLabel("Nouveau : ");
+    private JLabel newRepeatPassword = new JLabel("Nouveau : ");
+    private JLabel currentUserName = new JLabel("Actuel : ");
+    private JLabel newUserName = new JLabel("Nouveau : ");
+    private JLabel labelEmptyTopPanel = new JLabel("");
+    private JLabel labelEmptyBottomPanel = new JLabel("");
+    private JLabel displayCurrentUserName = new JLabel("");
     private JButton validateButton1 = new JButton("Valider");
-    private JTextField textField = new JTextField();
-    private JTextField textField1 = new JTextField();
-    private JTextField textField2 = new JTextField();
-    private JTextField textField3 = new JTextField();
-    private JTextField textField4 = new JTextField();
-    private JTextField textField5 = new JTextField();
+    private JButton validateButton2 = new JButton("Valider");
+    private JTextField jtextFieldOldPassword = new JTextField();
+    private JTextField jtextFieldNewPassword = new JTextField();
+    private JTextField jtextFieldRepeatNewPassword = new JTextField();
+    private JTextField jtextFieldNewUserName = new JTextField();
 
     public InterfaceAccount() {
+        //création de la fenêtre Mon Compte
         JFrame accountWindows = new JFrame();
         accountWindows.setMinimumSize(new Dimension(490, 320));
         accountWindows.setLayout(new GridLayout(2,1));
         accountWindows.setLocationRelativeTo(null);
 
+        //ajout des panels dans la fenêtre
         accountWindows.add(topPanel);
         accountWindows.add(bottomPanel);
 
         topPanel.setBorder(topTitle);
         bottomPanel.setBorder(bottomTitle);
 
-        topPanel.add(label1);
-        topPanel.add(textField);
-        topPanel.add(label6);
-        topPanel.add(label2);
-        topPanel.add(textField1);
-        topPanel.add(validateButton);
-        topPanel.add(label3);
-        topPanel.add(textField2);
+        //ajout des composants dans le panel du haut
+        topPanel.add(oldPassword);
+        topPanel.add(jtextFieldOldPassword);
+        topPanel.add(labelEmptyTopPanel);
+        topPanel.add(newPassword);
+        topPanel.add(jtextFieldNewPassword);
+        topPanel.add(validateButton1);
+        topPanel.add(newRepeatPassword);
+        topPanel.add(jtextFieldRepeatNewPassword);
 
-        bottomPanel.add(label4);
-        bottomPanel.add(label8);
-        bottomPanel.add(label7);
-        bottomPanel.add(label5);
-        bottomPanel.add(textField4);
-        bottomPanel.add(validateButton1);
+        //ajout des composants dans le panel du bas
+        bottomPanel.add(currentUserName);
+        bottomPanel.add(displayCurrentUserName);
+        bottomPanel.add(labelEmptyBottomPanel);
+        bottomPanel.add(newUserName);
+        bottomPanel.add(jtextFieldNewUserName);
+        bottomPanel.add(validateButton2);
+
+        //Actions à l'appui du bouton "Valider" du panel du haut
+        validateButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+            }
+        });
+
+        //Actions à l'appui du bouton "Valider" du panel du bas
+        validateButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+            }
+        });
 
         accountWindows.setVisible(true);
         accountWindows.revalidate();
