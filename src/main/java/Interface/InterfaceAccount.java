@@ -11,21 +11,21 @@ public class InterfaceAccount {
     private JPanel topPanel = new JPanel(new GridLayout(3,3));
     private JPanel bottomPanel = new JPanel(new GridLayout(2,3));
     private Border topTitle =  BorderFactory.createTitledBorder("Modifier votre mot de passe : ");
-    private Border bottomTitle =  BorderFactory.createTitledBorder("Modifier votre pseudo : ");
+    private Border bottomTitle =  BorderFactory.createTitledBorder("Modifier votre nom d'utilisateur : ");
     private JLabel oldPassword = new JLabel("Ancien : ");
     private JLabel newPassword = new JLabel("Nouveau : ");
     private JLabel newRepeatPassword = new JLabel("Nouveau : ");
-    private JLabel currentPseudo = new JLabel("Actuel : ");
-    private JLabel newPseudo = new JLabel("Nouveau : ");
+    private JLabel currentUserName = new JLabel("Actuel : ");
+    private JLabel newUserName = new JLabel("Nouveau : ");
     private JLabel labelEmptyTopPanel = new JLabel("");
     private JLabel labelEmptyBottomPanel = new JLabel("");
-    private JLabel displayCurrentPseudo = new JLabel("");
+    private JLabel displayCurrentUserName = new JLabel("");
     private JButton validateButton1 = new JButton("Valider");
     private JButton validateButton2 = new JButton("Valider");
     private JTextField jtextFieldOldPassword = new JTextField();
     private JTextField jtextFieldNewPassword = new JTextField();
     private JTextField jtextFieldRepeatNewPassword = new JTextField();
-    private JTextField jtextFieldNewPseudo = new JTextField();
+    private JTextField jtextFieldNewUserName = new JTextField();
 
     public InterfaceAccount() {
         //création de la fenêtre Mon Compte
@@ -52,11 +52,11 @@ public class InterfaceAccount {
         topPanel.add(jtextFieldRepeatNewPassword);
 
         //ajout des composants dans le panel du bas
-        bottomPanel.add(currentPseudo);
-        bottomPanel.add(displayCurrentPseudo);
+        bottomPanel.add(currentUserName);
+        bottomPanel.add(displayCurrentUserName);
         bottomPanel.add(labelEmptyBottomPanel);
-        bottomPanel.add(newPseudo);
-        bottomPanel.add(jtextFieldNewPseudo);
+        bottomPanel.add(newUserName);
+        bottomPanel.add(jtextFieldNewUserName);
         bottomPanel.add(validateButton2);
 
         //Actions à l'appui du bouton "Valider" du panel du haut

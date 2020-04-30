@@ -39,7 +39,7 @@ public class InterfaceNewGroup {
         centerPanel.add(jtextFieldRecipients);
         bottomPanel.add(startTalk);
 
-        //Actions à l'appui du bouton "Démarrer la discussion" :
+        //Actions à l'appui du bouton "Démarrer la discussion"
         startTalk.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
