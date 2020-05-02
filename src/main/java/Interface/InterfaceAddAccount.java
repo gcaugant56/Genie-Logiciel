@@ -1,11 +1,14 @@
 package Interface;
 
+import Données.RequestClient;
+import Données.RequestCode;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class InterfaceAddAccount {
+public class InterfaceAddAccount implements RequestClient {
 
     private JLabel createAccount = new JLabel("Créer un compte");
     private JLabel userName = new JLabel("Nom d'utilisateur : ");
@@ -54,8 +57,14 @@ public class InterfaceAddAccount {
         create.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                createAccount();
+                System.out.println(createAccount());
             }
         });
+    }
+
+    @Override
+    public String createAccount() {
+        return jTextFieldUserName.getText() +"*"+jTextFieldPseudo.getText()+"*"+jTextFieldPassword.getText();
     }
 }
