@@ -1,9 +1,16 @@
 package Interface;
 
+import Données.RequestClient;
+import Données.RequestCode;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 
 public class InterfaceAddAccount {
 
@@ -18,6 +25,7 @@ public class InterfaceAddAccount {
     private JPanel northPanel = new JPanel();
     private JPanel centerPanel = new JPanel(new GridLayout(3,2));
     private JPanel southPanel = new JPanel();
+    private RequestClient requestClient = new RequestClient();
 
     public InterfaceAddAccount() {
 
@@ -54,7 +62,16 @@ public class InterfaceAddAccount {
         create.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                try {
+                    if(Données.RequestClient.createAccount(jTextFieldUserName.getText(),jTextFieldPseudo.getText(),jTextFieldPassword.getText())) {
+                        JOptionPane.showMessageDialog(null, "Création du compte réussie");
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Création du compte impossible");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
