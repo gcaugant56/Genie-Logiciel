@@ -1,8 +1,6 @@
-package Données;
+package Donnees;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
 
 public class Message {
     @SerializedName("content")

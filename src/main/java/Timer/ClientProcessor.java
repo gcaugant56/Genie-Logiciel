@@ -1,5 +1,8 @@
 package Timer;
 
+import Donnees.Racine;
+import Donnees.Utilisateur;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -48,21 +51,28 @@ public class ClientProcessor implements Runnable{
 
                 //On traite la demande du client en fonction de la commande envoyée
                 String toSend = "";
+                String[] tabResponse = response.split("\\*"); //permet de séparer le tableau par carractère
+                if (tabResponse[0]=="1") {
+                 Racine Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                 for(Utilisateur base : Json.getUtilisateur())
+                 {
+                     if (base.getUserName()==tabResponse[1] ||
+                         base.getPseudo()==tabResponse[2])
+                     {
+                         toSend="false";
+                     }
 
-                if ("FULL".equals(response.toUpperCase())) {
-                    toSend = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.MEDIUM).format(new Date());
-                } else if ("DATE".equals(response.toUpperCase())) {
-                    toSend = DateFormat.getDateInstance(DateFormat.FULL).format(new Date());
-                } else if ("HOUR".equals(response.toUpperCase())) {
-                    toSend = DateFormat.getTimeInstance(DateFormat.MEDIUM).format(new Date());
-                } else if ("PROJET".equals(response.toUpperCase())) {
-                    toSend = "C'EST QUI QUI VA RÉUSSIR LE PROJET ?? C'EST NOUUUUUUUUUUS";
-                } else if ("CLOSE".equals(response.toUpperCase())) {
-                    toSend = "Communication terminée";
-                    closeConnexion = true;
-                } else {
-                    toSend = "Commande inconnu !";
+                 }
+                 if ( toSend!="false")
+                    {
+                       Utilisateur nouveau = new Utilisateur(tabResponse[1],tabResponse[2], tabResponse[3]);
+                       Json.setUtilisateur(nouveau);
+                       Donnees.Serializationmessage.Serialization(Json, "Json.json");
+                       toSend="true";
+                    }
+                 
                 }
+
 
                 //On envoie la réponse au client
                 writer.write(toSend);
