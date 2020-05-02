@@ -12,7 +12,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class InterfaceAddAccount implements RequestClient {
+public class InterfaceAddAccount {
 
     private JLabel createAccount = new JLabel("Créer un compte");
     private JLabel userName = new JLabel("Nom d'utilisateur : ");
@@ -25,6 +25,7 @@ public class InterfaceAddAccount implements RequestClient {
     private JPanel northPanel = new JPanel();
     private JPanel centerPanel = new JPanel(new GridLayout(3,2));
     private JPanel southPanel = new JPanel();
+    private RequestClient requestClient = new RequestClient();
 
     public InterfaceAddAccount() {
 
@@ -62,7 +63,7 @@ public class InterfaceAddAccount implements RequestClient {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    if(createAccount()) {
+                    if(Données.RequestClient.createAccount(jTextFieldUserName.getText(),jTextFieldPseudo.getText(),jTextFieldPassword.getText())) {
                         JOptionPane.showMessageDialog(null, "Création du compte réussie");
                     }
                     else {
@@ -73,32 +74,5 @@ public class InterfaceAddAccount implements RequestClient {
                 }
             }
         });
-    }
-
-    @Override
-    public boolean createAccount() throws IOException {
-        String requestAccount = RequestCode.CREATION_COMPTE+"*"+jTextFieldUserName.getText() +"*"+jTextFieldPseudo.getText()+"*"+jTextFieldPassword.getText();
-        Socket sock = new Socket("127.0.0.1",1515);
-
-        //nous créons donc un flux en écriture
-        BufferedOutputStream bos = new BufferedOutputStream(sock.getOutputStream());
-
-        //nous écrivons notre requête
-        bos.write(requestAccount.getBytes());
-
-        //Vu que nous utilisons un buffer, nous devons utiliser la méthode flush afin que les données soient bien écrites et envoyées au serveur
-        bos.flush();
-
-        //On récupère maintenant la réponse du serveur dans un flux
-        BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
-
-        //Il ne nous reste plus qu'à le lire
-        String response = "";
-        int stream;
-        byte[] b = new byte[4096];
-        stream = bis.read(b);
-        response = new String(b, 0, stream);
-
-        return Boolean.parseBoolean(response);
     }
 }
