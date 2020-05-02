@@ -1,5 +1,8 @@
 package Données;
 
+import java.io.IOException;
+
 public interface RequestClient {
-    public String createAccount();
+    public boolean createAccount() throws IOException;
+
 }
