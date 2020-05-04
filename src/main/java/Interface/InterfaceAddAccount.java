@@ -27,7 +27,7 @@ public class InterfaceAddAccount {
     private JPanel southPanel = new JPanel();
     private RequestClient requestClient = new RequestClient();
 
-    public InterfaceAddAccount() {
+    public InterfaceAddAccount() throws IOException {
 
         //création de la fenêtre addaccount
         JFrame addAccount = new JFrame();
@@ -58,16 +58,18 @@ public class InterfaceAddAccount {
         addAccount.revalidate();
         addAccount.repaint();
 
-        //Actions à l'appui du bouton "Créer" du panel du bas
         create.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    if(Données.RequestClient.createAccount(jTextFieldUserName.getText(),jTextFieldPseudo.getText(),jTextFieldPassword.getText())) {
+                    if(RequestClient.createAccount(jTextFieldUserName.getText(),jTextFieldPseudo.getText(),jTextFieldPassword.getText())) {
                         JOptionPane.showMessageDialog(null, "Création du compte réussie");
+                        RequestClient.getSock().close();  //fermeture du socket création de compte
+                        new InterfaceConnexion(); //ouverture de la fenetre connexion
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "Création du compte impossible");
+                        RequestClient.getSock().close();  //fermeture du socket créationde compte
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -1,5 +1,7 @@
 package Interface;
 
+import Données.RequestClient;
+import Données.Utilisateur;
 import javafx.event.EventHandler;
 import javafx.scene.control.Hyperlink;
 
@@ -14,7 +16,7 @@ import java.net.URISyntaxException;
 
 public class InterfaceConnexion {
     private JLabel chat = new JLabel("Accédez au Chat");
-    private JLabel userName = new JLabel("Identifiant : ");
+    private JLabel userName = new JLabel("Username : ");
     private JLabel passWord = new JLabel("Mot de passe : ");
     private JTextField jTextFieldUserName = new JTextField();
     private JTextField jTextFieldPassWord = new JTextField();
@@ -24,8 +26,9 @@ public class InterfaceConnexion {
     private JPanel northPanel = new JPanel();
     private JPanel centerPanel = new JPanel(new GridLayout(2,2));
     private JPanel southPanel = new JPanel();
+    private RequestClient requestClient = new RequestClient();
 
-    public InterfaceConnexion() {
+    public InterfaceConnexion() throws IOException {
 
         //création de la fenêtre newconnection
         JFrame newConnection = new JFrame();
@@ -64,10 +67,18 @@ public class InterfaceConnexion {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    new InterfacePrincipale();
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Connexion impossible");
+                    Utilisateur user = RequestClient.chatConnect(jTextFieldUserName.getText(),jTextFieldPassWord.getText());
+
+                    if(user != null) {
+                        new InterfacePrincipale();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Connexion impossible");
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
             }
         });
 
@@ -76,12 +87,16 @@ public class InterfaceConnexion {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                new InterfaceAddAccount();
+                try {
+                    new InterfaceAddAccount();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new InterfaceConnexion();
     }
 }
