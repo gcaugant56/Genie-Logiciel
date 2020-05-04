@@ -10,8 +10,7 @@ import java.net.Socket;
 public class RequestClient {
 
 
-    private static Socket sockCreateAccount;
-    private static Socket sockChatConnect;
+    private static Socket sock = null;
     private static Gson gson = new Gson();
 
     public RequestClient() throws IOException {
@@ -19,20 +18,16 @@ public class RequestClient {
     }
 
     public static Socket getSock() {
-        return sockCreateAccount;
-    }
-
-    public static Socket getSockChatConnect() {
-        return sockChatConnect;
+        return sock;
     }
 
 
     public static boolean createAccount(String userName, String pseudo, String password) throws IOException {
         String requestAccount = RequestCode.CREATION_COMPTE+"*"+userName+"*"+pseudo+"*"+password;
-        sockCreateAccount = new Socket("127.0.0.1",1515);
+        sock = new Socket("127.0.0.1",1515);
 
         //nous créons donc un flux en écriture
-        BufferedOutputStream bos = new BufferedOutputStream(sockCreateAccount.getOutputStream());
+        BufferedOutputStream bos = new BufferedOutputStream(sock.getOutputStream());
 
         //nous écrivons notre requête
         bos.write(requestAccount.getBytes());
@@ -41,7 +36,7 @@ public class RequestClient {
         bos.flush();
 
         //On récupère maintenant la réponse du serveur dans un flux
-        BufferedInputStream bis = new BufferedInputStream(sockCreateAccount.getInputStream());
+        BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
 
         //Il ne nous reste plus qu'à le lire
         String response = "";
@@ -57,10 +52,10 @@ public class RequestClient {
         String requestConnect = RequestCode.CONNEXION_CHAT+"*"+userName+"*"+password;
         Utilisateur user;
 
-        sockChatConnect = new Socket("127.0.0.1",1515);
+        sock = new Socket("127.0.0.1",1515);
 
         //nous créons donc un flux en écriture
-        BufferedOutputStream bos1 = new BufferedOutputStream(sockChatConnect.getOutputStream());
+        BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
 
         //nous écrivons notre requête
         bos1.write(requestConnect.getBytes());
@@ -69,7 +64,7 @@ public class RequestClient {
         bos1.flush();
 
         //On récupère maintenant la réponse du serveur dans un flux
-        BufferedInputStream bis = new BufferedInputStream(sockChatConnect.getInputStream());
+        BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
 
         //Il ne nous reste plus qu'à le lire
         String response = "";
