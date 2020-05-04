@@ -17,11 +17,10 @@ public class Utilisateur {
     private ArrayList<Contacts> Contacts = new ArrayList<Contacts>();
 
 
-    public Utilisateur(String userName, String pseudo, String password, ArrayList<Données.Contacts> contacts) {
+    public Utilisateur(String userName, String pseudo, String password) {
         this.userName = userName;
         this.pseudo = pseudo;
         this.password = password;
-        Contacts = contacts;
     }
 
 

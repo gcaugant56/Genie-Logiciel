@@ -1,10 +1,18 @@
 package Interface;
 
+import Données.RequestClient;
+import Données.RequestCode;
+import Données.Utilisateur;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -25,6 +33,7 @@ public class InterfacePrincipale {
     private Object[] elements = new Object[]{"liste 1", "liste 2"};
     private String[] tab;
     private SimpleDateFormat formater = new SimpleDateFormat("h:mm a");
+    private InterfaceConnexion userName = new InterfaceConnexion();
     JPanel northPanel = new JPanel();
     JPanel centerPanel = new JPanel();
     JPanel eastPanel = new JPanel();
@@ -34,12 +43,11 @@ public class InterfacePrincipale {
     JPanel southWestPanel = new JPanel();
     JPanel southEastPanel = new JPanel();
 
-    public InterfacePrincipale() {
+    public InterfacePrincipale() throws IOException {
 
         //création de la fenêtre principale
         JFrame mainWindows = new JFrame();
         mainWindows.setMinimumSize(new Dimension(640, 380));
-        mainWindows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindows.setLayout(new BorderLayout());
         mainWindows.setLocationRelativeTo(null);
 
@@ -125,10 +133,13 @@ public class InterfacePrincipale {
             }
         });
 
+        if(mainWindows.EXIT_ON_CLOSE == 0) {
+            RequestClient.chatDisconnect(userName.getjTextFieldUserName().getText());
+        }
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new InterfacePrincipale();
     }
 }

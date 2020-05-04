@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-class TimeServer {
+public class TimeServer {
 
     //On initialise des valeurs par défaut
     private int port = 2345;

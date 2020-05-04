@@ -28,6 +28,10 @@ public class InterfaceConnexion {
     private JPanel southPanel = new JPanel();
     private RequestClient requestClient = new RequestClient();
 
+    public JTextField getjTextFieldUserName() {
+        return jTextFieldUserName;
+    }
+
     public InterfaceConnexion() throws IOException {
 
         //création de la fenêtre newconnection
