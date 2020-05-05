@@ -1,8 +1,12 @@
 package Timer;
 
+import Données.Utilisateur;
+import com.google.gson.Gson;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
@@ -14,6 +18,7 @@ public class ClientProcessor implements Runnable{
     private Socket sock;
     private PrintWriter writer = null;
     private BufferedInputStream reader = null;
+    private Gson gson = new Gson();
 
     public ClientProcessor(Socket pSock){
         sock = pSock;
@@ -36,6 +41,8 @@ public class ClientProcessor implements Runnable{
 
                 //On attend la demande du client
                 String response = read();
+                Utilisateur utilisateur = new Utilisateur("armelito","armel","tchiasso");
+                String json = gson.toJson(this);
                 InetSocketAddress remote = (InetSocketAddress)sock.getRemoteSocketAddress();
 
                 //On affiche quelques infos, pour le débuggage
@@ -49,12 +56,12 @@ public class ClientProcessor implements Runnable{
                 //On traite la demande du client en fonction de la commande envoyée
                 String toSend = "";
 
-                if ("FULL".equals(response.toUpperCase())) {
-                    toSend = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.MEDIUM).format(new Date());
-                } else if ("DATE".equals(response.toUpperCase())) {
-                    toSend = DateFormat.getDateInstance(DateFormat.FULL).format(new Date());
-                } else if ("HOUR".equals(response.toUpperCase())) {
-                    toSend = DateFormat.getTimeInstance(DateFormat.MEDIUM).format(new Date());
+                if (response.contains("1")) {
+                    toSend = "true";
+                } else if (response.contains("2")) {
+                    toSend = json;
+                } else if (response.contains("3")) {
+
                 } else if ("PROJET".equals(response.toUpperCase())) {
                     toSend = "C'EST QUI QUI VA RÉUSSIR LE PROJET ?? C'EST NOUUUUUUUUUUS";
                 } else if ("CLOSE".equals(response.toUpperCase())) {

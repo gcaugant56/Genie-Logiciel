@@ -1,10 +1,18 @@
 package Interface;
 
+import Données.RequestClient;
+import Données.RequestCode;
+import Données.Utilisateur;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -22,9 +30,11 @@ public class InterfacePrincipale {
     private JButton newConv = new JButton("Nouvelle Conversation");
     private JButton newGroup = new JButton("Nouveau Groupe");
     private JButton sendMsg = new JButton("Envoyer");
+    private JButton disconnect = new JButton("Déconnexion");
     private Object[] elements = new Object[]{"liste 1", "liste 2"};
     private String[] tab;
     private SimpleDateFormat formater = new SimpleDateFormat("h:mm a");
+    private InterfaceConnexion userName = new InterfaceConnexion();
     JPanel northPanel = new JPanel();
     JPanel centerPanel = new JPanel();
     JPanel eastPanel = new JPanel();
@@ -34,12 +44,11 @@ public class InterfacePrincipale {
     JPanel southWestPanel = new JPanel();
     JPanel southEastPanel = new JPanel();
 
-    public InterfacePrincipale() {
+    public InterfacePrincipale() throws IOException {
 
         //création de la fenêtre principale
         JFrame mainWindows = new JFrame();
         mainWindows.setMinimumSize(new Dimension(640, 380));
-        mainWindows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindows.setLayout(new BorderLayout());
         mainWindows.setLocationRelativeTo(null);
 
@@ -59,7 +68,9 @@ public class InterfacePrincipale {
 
         //liste déroulante ajoutée au panel du haut
         listeConv = new JComboBox(elements);
-        northPanel.add(listeConv, BorderLayout.WEST);
+        northPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 85, 10));
+        northPanel.add(listeConv);
+        northPanel.add(disconnect);
         listeConv.setPreferredSize(new Dimension(300, 30));
 
         //ajout au panel du centre d'un scroll vertical et horizontal quand le texte dépasse le jtextarea
@@ -125,10 +136,20 @@ public class InterfacePrincipale {
             }
         });
 
+        disconnect.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    RequestClient.chatDisconnect(InterfaceConnexion.getjTextFieldUserName()); //on va chercher la valeur du JTextField user présente dans l'interface connexion
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new InterfacePrincipale();
     }
 }

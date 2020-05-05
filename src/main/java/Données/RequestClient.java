@@ -1,7 +1,9 @@
 package Données;
 
+import Interface.InterfacePrincipale;
 import com.google.gson.Gson;
 
+import javax.swing.*;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -51,19 +53,11 @@ public class RequestClient {
     public static Utilisateur chatConnect(String userName, String password) throws IOException {
         String requestConnect = RequestCode.CONNEXION_CHAT+"*"+userName+"*"+password;
         Utilisateur user;
-
         sock = new Socket("127.0.0.1",1515);
 
-        //nous créons donc un flux en écriture
         BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
-
-        //nous écrivons notre requête
         bos1.write(requestConnect.getBytes());
-
-        //Vu que nous utilisons un buffer, nous devons utiliser la méthode flush afin que les données soient bien écrites et envoyées au serveur
         bos1.flush();
-
-        //On récupère maintenant la réponse du serveur dans un flux
         BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
 
         //Il ne nous reste plus qu'à le lire
@@ -76,5 +70,15 @@ public class RequestClient {
         user = gson.fromJson(response, Utilisateur.class);
 
         return user;
+    }
+
+    public static void chatDisconnect(String userName) throws IOException {
+        String requestConnect = RequestCode.DECONNEXION+"*"+userName;
+
+        BufferedOutputStream bos1 = new BufferedOutputStream(RequestClient.getSock().getOutputStream());
+        bos1.write(requestConnect.getBytes());
+        bos1.flush();
+        RequestClient.getSock().close();
+
     }
 }
