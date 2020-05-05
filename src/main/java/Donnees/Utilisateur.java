@@ -1,4 +1,4 @@
-package Données;
+package Donnees;
 
 
 import com.google.gson.annotations.SerializedName;
@@ -49,11 +49,11 @@ public class Utilisateur {
         this.password = password;
     }
 
-    public ArrayList<Données.Contacts> getContacts() {
+    public ArrayList<Donnees.Contacts> getContacts() {
         return Contacts;
     }
 
-    public void setContacts(ArrayList<Données.Contacts> contacts) {
+    public void setContacts(ArrayList<Donnees.Contacts> contacts) {
         Contacts = contacts;
     }
 }

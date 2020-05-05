@@ -1,24 +1,20 @@
 package Timer;
-
-import Données.Utilisateur;
-import com.google.gson.Gson;
-
+import Donnees.Racine;
+import Donnees.RequestCode;
+import Donnees.Utilisateur;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
-import java.text.DateFormat;
-import java.util.Date;
+
 
 public class ClientProcessor implements Runnable{
 
     private Socket sock;
     private PrintWriter writer = null;
     private BufferedInputStream reader = null;
-    private Gson gson = new Gson();
 
     public ClientProcessor(Socket pSock){
         sock = pSock;
@@ -41,8 +37,6 @@ public class ClientProcessor implements Runnable{
 
                 //On attend la demande du client
                 String response = read();
-                Utilisateur utilisateur = new Utilisateur("armelito","armel","tchiasso");
-                String json = gson.toJson(this);
                 InetSocketAddress remote = (InetSocketAddress)sock.getRemoteSocketAddress();
 
                 //On affiche quelques infos, pour le débuggage
@@ -55,27 +49,48 @@ public class ClientProcessor implements Runnable{
 
                 //On traite la demande du client en fonction de la commande envoyée
                 String toSend = "";
+                String[] tabResponse = response.split("\\*"); //permet de séparer le tableau par carractère
+                RequestCode Code = RequestCode.values()[Integer.parseInt(tabResponse[0])-1];
+                switch (Code)
+                {
+                    case CREATION_COMPTE:
+                        Racine Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        for(Utilisateur base : Json.getUtilisateur())
+                        {
+                            if (base.getUserName().equals(tabResponse[1]) ||
+                                    base.getPseudo().equals(tabResponse[2]))
+                            {
+                                toSend="false";
+                            }
 
-                if (response.contains("1")) {
-                    toSend = "true";
-                } else if (response.contains("2")) {
-                    toSend = json;
-                } else if (response.contains("3")) {
+                        }
+                        if ( toSend!="false")
+                        {
+                            Utilisateur nouveau = new Utilisateur(tabResponse[1],tabResponse[2], tabResponse[3]);
+                            Json.setUtilisateur(nouveau);
+                            Donnees.Serializationmessage.Serialization(Json, "Json.json");
+                            toSend="true";
+                        }
+                        break;
+                    case CONNEXION_CHAT:
+                        break;
+                    case DECONNEXION:
+                        break;
+                    case ENVOI_MSG:
+                        break;
+                    case MODIF_MDP:
+                        break;
+                    case MODIF_USERNAME:
+                        break;
+                    case AJOUT_CONTACT:
+                        break;
+                    case CREATION_GROUP:
+                         break;
+                    case ENVOI_GROUP:
+                        break;
 
-                } else if ("PROJET".equals(response.toUpperCase())) {
-                    toSend = "C'EST QUI QUI VA RÉUSSIR LE PROJET ?? C'EST NOUUUUUUUUUUS";
-                } else if ("CLOSE".equals(response.toUpperCase())) {
-                    toSend = "Communication terminée";
-                    closeConnexion = true;
-                } else {
-                    toSend = "Commande inconnu !";
                 }
-
-                //On envoie la réponse au client
                 writer.write(toSend);
-                //Il FAUT IMPERATIVEMENT UTILISER flush()
-                //Sinon les données ne seront pas transmises au client
-                //et il attendra indéfiniment
                 writer.flush();
 
                 if(closeConnexion){

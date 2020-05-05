@@ -1,4 +1,4 @@
-package Données;
+package Donnees;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +10,7 @@ public class Contacts {
     @SerializedName("Message")
     private ArrayList<Message> Message = new ArrayList<Message>();
 
-    public Contacts(String pseudo,ArrayList<Données.Message> message) {
+    public Contacts(String pseudo,ArrayList<Donnees.Message> message) {
         this.pseudo = pseudo;
         Message = message;
     }
@@ -24,11 +24,11 @@ public class Contacts {
         this.pseudo = pseudo;
     }
 
-    public ArrayList<Données.Message> getMessage() {
+    public ArrayList<Donnees.Message> getMessage() {
         return Message;
     }
 
-    public void setMessage(ArrayList<Données.Message> message) {
+    public void setMessage(ArrayList<Donnees.Message> message) {
         Message = message;
     }
 }
