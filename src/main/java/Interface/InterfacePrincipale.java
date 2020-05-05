@@ -30,6 +30,7 @@ public class InterfacePrincipale {
     private JButton newConv = new JButton("Nouvelle Conversation");
     private JButton newGroup = new JButton("Nouveau Groupe");
     private JButton sendMsg = new JButton("Envoyer");
+    private JButton disconnect = new JButton("Déconnexion");
     private Object[] elements = new Object[]{"liste 1", "liste 2"};
     private String[] tab;
     private SimpleDateFormat formater = new SimpleDateFormat("h:mm a");
@@ -67,7 +68,9 @@ public class InterfacePrincipale {
 
         //liste déroulante ajoutée au panel du haut
         listeConv = new JComboBox(elements);
-        northPanel.add(listeConv, BorderLayout.WEST);
+        northPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 85, 10));
+        northPanel.add(listeConv);
+        northPanel.add(disconnect);
         listeConv.setPreferredSize(new Dimension(300, 30));
 
         //ajout au panel du centre d'un scroll vertical et horizontal quand le texte dépasse le jtextarea
@@ -133,9 +136,16 @@ public class InterfacePrincipale {
             }
         });
 
-        if(mainWindows.EXIT_ON_CLOSE == 0) {
-            RequestClient.chatDisconnect(userName.getjTextFieldUserName().getText());
-        }
+        disconnect.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    RequestClient.chatDisconnect(InterfaceConnexion.getjTextFieldUserName()); //on va chercher la valeur du JTextField user présente dans l'interface connexion
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 

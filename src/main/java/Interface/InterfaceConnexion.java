@@ -2,8 +2,6 @@ package Interface;
 
 import Données.RequestClient;
 import Données.Utilisateur;
-import javafx.event.EventHandler;
-import javafx.scene.control.Hyperlink;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,13 +10,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 public class InterfaceConnexion {
     private JLabel chat = new JLabel("Accédez au Chat");
     private JLabel userName = new JLabel("Username : ");
     private JLabel passWord = new JLabel("Mot de passe : ");
-    private JTextField jTextFieldUserName = new JTextField();
+    private static JTextField jTextFieldUserName = new JTextField();
     private JTextField jTextFieldPassWord = new JTextField();
     private JButton plugIn = new JButton("Connexion");
     private Font font = new Font("Arial", Font.BOLD, 12);
@@ -28,8 +25,8 @@ public class InterfaceConnexion {
     private JPanel southPanel = new JPanel();
     private RequestClient requestClient = new RequestClient();
 
-    public JTextField getjTextFieldUserName() {
-        return jTextFieldUserName;
+    public static String getjTextFieldUserName() {
+        return jTextFieldUserName.getText();
     }
 
     public InterfaceConnexion() throws IOException {
@@ -74,7 +71,7 @@ public class InterfaceConnexion {
                     Utilisateur user = RequestClient.chatConnect(jTextFieldUserName.getText(),jTextFieldPassWord.getText());
 
                     if(user != null) {
-                        new InterfacePrincipale();
+                        new Interface.InterfacePrincipale();
                     } else {
                         JOptionPane.showMessageDialog(null, "Connexion impossible");
                     }
