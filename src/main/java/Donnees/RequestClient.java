@@ -1,9 +1,7 @@
-package Données;
+package Donnees;
 
-import Interface.InterfacePrincipale;
 import com.google.gson.Gson;
 
-import javax.swing.*;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;

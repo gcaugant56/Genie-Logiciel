@@ -1,7 +1,7 @@
 package Interface;
 
-import Données.RequestClient;
-import Données.Utilisateur;
+import Donnees.Utilisateur;
+import Donnees.RequestClient;
 
 import javax.swing.*;
 import java.awt.*;

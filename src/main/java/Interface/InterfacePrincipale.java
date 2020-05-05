@@ -1,18 +1,13 @@
 package Interface;
 
-import Données.RequestClient;
-import Données.RequestCode;
-import Données.Utilisateur;
+import Donnees.RequestClient;
+
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
