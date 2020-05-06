@@ -1,6 +1,7 @@
 package Interface;
 
 import Donnees.RequestClient;
+import Donnees.Utilisateur;
 
 
 import javax.swing.*;
@@ -29,7 +30,6 @@ public class InterfacePrincipale {
     private Object[] elements = new Object[]{"liste 1", "liste 2"};
     private String[] tab;
     private SimpleDateFormat formater = new SimpleDateFormat("h:mm a");
-    private InterfaceConnexion userName = new InterfaceConnexion();
     JPanel northPanel = new JPanel();
     JPanel centerPanel = new JPanel();
     JPanel eastPanel = new JPanel();
@@ -39,8 +39,9 @@ public class InterfacePrincipale {
     JPanel southWestPanel = new JPanel();
     JPanel southEastPanel = new JPanel();
 
-    public InterfacePrincipale() throws IOException {
+    public InterfacePrincipale(Utilisateur user) throws IOException {
 
+        Utilisateur utilisateur = user;
         //création de la fenêtre principale
         JFrame mainWindows = new JFrame();
         mainWindows.setMinimumSize(new Dimension(640, 380));
@@ -98,7 +99,7 @@ public class InterfacePrincipale {
         myAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                new InterfaceAccount();
+                new InterfaceAccount(utilisateur);
             }
         });
 
@@ -135,16 +136,14 @@ public class InterfacePrincipale {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    RequestClient.chatDisconnect(InterfaceConnexion.getjTextFieldUserName()); //on va chercher la valeur du JTextField user présente dans l'interface connexion
+                    RequestClient.chatDisconnect(InterfaceConnexion.getjTextFieldUserName());//on va chercher la valeur du JTextField user présente dans l'interface connexion
+                    JOptionPane.showMessageDialog(null, "Déconnexion du chat");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                mainWindows.dispose();
             }
         });
     }
 
-
-    public static void main(String[] args) throws IOException {
-        new InterfacePrincipale();
-    }
 }

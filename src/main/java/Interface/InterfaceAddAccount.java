@@ -61,7 +61,7 @@ public class InterfaceAddAccount {
                     if(RequestClient.createAccount(jTextFieldUserName.getText(),jTextFieldPseudo.getText(),jTextFieldPassword.getText())) {
                         JOptionPane.showMessageDialog(null, "Création du compte réussie");
                         RequestClient.getSock().close();  //fermeture du socket création de compte
-                        new InterfaceConnexion(); //ouverture de la fenetre connexion
+                        addAccount.setVisible(false);
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "Création du compte impossible");

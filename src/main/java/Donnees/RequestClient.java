@@ -58,7 +58,6 @@ public class RequestClient {
         bos1.flush();
         BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
 
-        //Il ne nous reste plus qu'à le lire
         String response = "";
         int stream;
         byte[] b = new byte[4096];
@@ -79,4 +78,22 @@ public class RequestClient {
         RequestClient.getSock().close();
 
     }
+
+    public static boolean checkPassword(String userName, String oldPassword, String newPassword) throws IOException {
+        String requestConnect = RequestCode.MODIF_MDP+"*"+userName+"*"+oldPassword+"*"+newPassword;
+
+        BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
+        bos1.write(requestConnect.getBytes());
+        bos1.flush();
+        BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
+
+        String response = "";
+        int stream;
+        byte[] b = new byte[4096];
+        stream = bis.read(b);
+        response = new String(b, 0, stream);
+
+        return Boolean.parseBoolean(response);
+    }
+
 }
