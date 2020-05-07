@@ -2,6 +2,8 @@ package Timer;
 import Donnees.Racine;
 import Donnees.RequestCode;
 import Donnees.Utilisateur;
+import com.google.gson.Gson;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -51,28 +53,44 @@ public class ClientProcessor implements Runnable{
                 String toSend = "";
                 String[] tabResponse = response.split("\\*"); //permet de séparer le tableau par carractère
                 RequestCode Code = RequestCode.values()[Integer.parseInt(tabResponse[0])-1];
-                switch (Code)
-                {
+                Racine Json = null;
+                try {
+                switch (Code) {
                     case CREATION_COMPTE:
-                        Racine Json = Donnees.Serializationmessage.Deserialization("Json.json");
-                        for(Utilisateur base : Json.getUtilisateur())
-                        {
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        for (Utilisateur base : Json.getUtilisateur()) {
                             if (base.getUserName().equals(tabResponse[1]) ||
-                                    base.getPseudo().equals(tabResponse[2]))
-                            {
-                                toSend="false";
+                                    base.getPseudo().equals(tabResponse[2])) {
+                                toSend = "false";
                             }
 
                         }
-                        if ( toSend!="false")
-                        {
-                            Utilisateur nouveau = new Utilisateur(tabResponse[1],tabResponse[2], tabResponse[3]);
+                        if (toSend != "false") {
+                            Utilisateur nouveau = new Utilisateur(tabResponse[1], tabResponse[2], tabResponse[3]);
                             Json.setUtilisateur(nouveau);
                             Donnees.Serializationmessage.Serialization(Json, "Json.json");
-                            toSend="true";
+                            toSend = "true";
                         }
                         break;
                     case CONNEXION_CHAT:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        String json = null;
+                        for (Utilisateur base : Json.getUtilisateur()) {
+                            if (base.getUserName().equals(tabResponse[1]) &&
+                                    base.getPassword().equals(tabResponse[2]))
+                            // on cherche à savoir si le mdp/user_name correspondent au Json
+                            {
+                                Gson gson = new Gson();
+                                json = gson.toJson(base);//transformation de l'objet en json
+
+                            }
+                        }
+                        if (json == null) {
+                            toSend = "null";
+                        } else {
+                            toSend = json;
+                        }
+
                         break;
                     case DECONNEXION:
                         break;
@@ -85,12 +103,14 @@ public class ClientProcessor implements Runnable{
                     case AJOUT_CONTACT:
                         break;
                     case CREATION_GROUP:
-                         break;
+                        break;
                     case ENVOI_GROUP:
                         break;
 
-                }
-                writer.write(toSend);
+                   }} catch (IOException e) {
+                e.printStackTrace();
+            }
+            writer.write(toSend);
                 writer.flush();
 
                 if(closeConnexion){
