@@ -65,7 +65,7 @@ public class ClientProcessor implements Runnable{
                             }
 
                         }
-                        if (toSend != "false") {
+                        if (!toSend.equals("false")) {
                             Utilisateur nouveau = new Utilisateur(tabResponse[1], tabResponse[2], tabResponse[3]);
                             Json.setUtilisateur(nouveau);
                             Donnees.Serializationmessage.Serialization(Json, "Json.json");
@@ -85,7 +85,7 @@ public class ClientProcessor implements Runnable{
 
                             }
                         }
-                        if (json == null) {
+                        if (json.equals(null)) {
                             toSend = "null";
                         } else {
                             toSend = json;
@@ -97,6 +97,20 @@ public class ClientProcessor implements Runnable{
                     case ENVOI_MSG:
                         break;
                     case MODIF_MDP:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        for (Utilisateur base : Json.getUtilisateur()) {
+                            if(base.getUserName().equals(tabResponse[1]) &&
+                                    base.getPassword().equals(tabResponse[2]))
+                            {
+                                base.setPassword(tabResponse[3]);
+                                Donnees.Serializationmessage.Serialization(Json,"Json.json");
+                                toSend="true";
+
+                            }
+                            if (!toSend.equals("true")){
+                                toSend= "false";
+                            }
+                        }
                         break;
                     case MODIF_USERNAME:
                         break;
