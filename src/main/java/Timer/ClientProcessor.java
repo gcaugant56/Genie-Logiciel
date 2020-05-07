@@ -54,6 +54,7 @@ public class ClientProcessor implements Runnable{
                 String[] tabResponse = response.split("\\*"); //permet de séparer le tableau par carractère
                 RequestCode Code = RequestCode.values()[Integer.parseInt(tabResponse[0])-1];
                 Racine Json = null;
+                String json = "";
                 try {
                 switch (Code) {
                     case CREATION_COMPTE:
@@ -74,7 +75,7 @@ public class ClientProcessor implements Runnable{
                         break;
                     case CONNEXION_CHAT:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
-                        String json = null;
+                        json = "";
                         for (Utilisateur base : Json.getUtilisateur()) {
                             if (base.getUserName().equals(tabResponse[1]) &&
                                     base.getPassword().equals(tabResponse[2]))
@@ -85,7 +86,7 @@ public class ClientProcessor implements Runnable{
 
                             }
                         }
-                        if (json.equals(null)) {
+                        if (json.equals("")) {
                             toSend = "null";
                         } else {
                             toSend = json;
@@ -113,6 +114,21 @@ public class ClientProcessor implements Runnable{
                         }
                         break;
                     case MODIF_USERNAME:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        json = "";
+                        for (Utilisateur base : Json.getUtilisateur()) {
+                            if (base.getUserName().equals(tabResponse[1])) {
+                                base.setPseudo(tabResponse[2]);
+                                Donnees.Serializationmessage.Serialization(Json, "Json.json");
+                                Gson gson = new Gson();
+                                json = gson.toJson(base);
+                            }
+                        }
+                        if (json.equals("")) {
+                            toSend = "null";
+                        } else {
+                            toSend = json;
+                        }
                         break;
                     case AJOUT_CONTACT:
                         break;
