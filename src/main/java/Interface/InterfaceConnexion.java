@@ -16,18 +16,18 @@ public class InterfaceConnexion {
     private JLabel userName = new JLabel("Username : ");
     private JLabel passWord = new JLabel("Mot de passe : ");
     private static JTextField jTextFieldUserName = new JTextField();
-    private JTextField jTextFieldPassWord = new JTextField();
+    private static JTextField jTextFieldPassWord = new JTextField();
     private JButton plugIn = new JButton("Connexion");
     private Font font = new Font("Arial", Font.BOLD, 12);
     private JLabel createCompte = new JLabel("Pas de compte créez-en un ici");
     private JPanel northPanel = new JPanel();
     private JPanel centerPanel = new JPanel(new GridLayout(2,2));
     private JPanel southPanel = new JPanel();
-    private RequestClient requestClient = new RequestClient();
 
     public static String getjTextFieldUserName() {
         return jTextFieldUserName.getText();
     }
+    public static String getjTextFieldPassWord() { return jTextFieldPassWord.getText(); }
 
     public InterfaceConnexion() throws IOException {
 
@@ -35,6 +35,7 @@ public class InterfaceConnexion {
         JFrame newConnection = new JFrame();
         newConnection.setMinimumSize(new Dimension(390, 220));
         newConnection.setLayout(new GridLayout(3,1));
+        newConnection.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         newConnection.setLocationRelativeTo(null);
 
         //ajout des panels du haut, du milieu et du bas à la fenêtre
@@ -69,9 +70,9 @@ public class InterfaceConnexion {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     Utilisateur user = RequestClient.chatConnect(jTextFieldUserName.getText(),jTextFieldPassWord.getText());
-
-                    if(user != null) {
-                        new Interface.InterfacePrincipale();
+                    if(user != null && jTextFieldUserName.getText() != "" && jTextFieldPassWord.getText() != "") {
+                        new InterfacePrincipale(user);
+                        newConnection.dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, "Connexion impossible");
                     }
@@ -79,7 +80,6 @@ public class InterfaceConnexion {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         });
 
