@@ -147,9 +147,11 @@ public class InterfaceAccount {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    utilisateur = RequestClient.checkPseudo(displayCurrentPseudo.getText(), jtextFieldNewPseudo.getText());
+                    utilisateur = RequestClient.checkPseudo(user.getUserName(), jtextFieldNewPseudo.getText());
                     if (utilisateur != null) {
                         JOptionPane.showMessageDialog(null, "Votre pseudo a été modifié");
+                        bottomPanel.revalidate();
+                        displayCurrentPseudo.setText(utilisateur.getPseudo());
                     } else {
                         JOptionPane.showMessageDialog(null, "Le pseudo n'est pas valide");
                         jtextFieldNewPseudo.setBackground(Color.RED);

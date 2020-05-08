@@ -97,7 +97,7 @@ public class RequestClient {
     }
 
     public static Utilisateur checkPseudo(String username, String newPseudo) throws IOException {
-        String requestConnect = RequestCode.MODIF_MDP+"*"+username+"*"+newPseudo;
+        String requestConnect = RequestCode.MODIF_USERNAME+"*"+username+"*"+newPseudo;
         Utilisateur user;
 
         BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
