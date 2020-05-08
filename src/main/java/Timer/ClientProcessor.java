@@ -10,18 +10,20 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
-
+import java.util.Hashtable;
 
 public class ClientProcessor implements Runnable{
 
     private Socket sock;
     private PrintWriter writer = null;
     private BufferedInputStream reader = null;
+    private Hashtable dic = null;
 
-    public ClientProcessor(Socket pSock){
+    public ClientProcessor(Socket pSock, Hashtable dic){
         sock = pSock;
-    }
+        this.dic = dic;
 
+    }
     //Le traitement lancé dans un thread séparé
     public void run(){
         System.err.println("Lancement du traitement de la connexion cliente");
@@ -83,7 +85,10 @@ public class ClientProcessor implements Runnable{
                             {
                                 Gson gson = new Gson();
                                 json = gson.toJson(base);//transformation de l'objet en json
-
+                                if(!dic.containsKey(base.getUserName()))
+                                {
+                                    dic.put(base.getUserName(),sock);
+                                }
                             }
                         }
                         if (json.equals("")) {
@@ -91,7 +96,6 @@ public class ClientProcessor implements Runnable{
                         } else {
                             toSend = json;
                         }
-
                         break;
                     case DECONNEXION:
                         break;
@@ -143,13 +147,6 @@ public class ClientProcessor implements Runnable{
             writer.write(toSend);
                 writer.flush();
 
-                if(closeConnexion){
-                    System.err.println("COMMANDE CLOSE DETECTEE ! ");
-                    writer = null;
-                    reader = null;
-                    sock.close();
-                    break;
-                }
             }catch(SocketException e){
                 System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
                 break;

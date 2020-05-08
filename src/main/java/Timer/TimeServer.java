@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Hashtable;
 
 public class TimeServer {
 
@@ -13,6 +14,7 @@ public class TimeServer {
     private String host = "192.168.1.22";
     private ServerSocket server = null;
     private boolean isRunning = true;
+    Hashtable dic = new Hashtable();
 
     public TimeServer() {
         try {
@@ -28,6 +30,7 @@ public class TimeServer {
         host = pHost;
         port = pPort;
         try {
+
             server = new ServerSocket(port, 100, InetAddress.getByName(host));
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -51,9 +54,8 @@ public class TimeServer {
 
                         //Une fois reçue, on la traite dans un thread séparé
                         System.out.println("Connexion cliente reçue.");
-                        Thread t = new Thread(new ClientProcessor(client));
+                        Thread t = new Thread(new ClientProcessor(client,dic));
                         t.start();
-                        //System.err.println(client.);
 
 
                     } catch (IOException e) {

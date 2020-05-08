@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
+import Timer.ClientConnexion;
 public class InterfacePrincipale {
 
     private int numberUser;
@@ -100,6 +100,9 @@ public class InterfacePrincipale {
         mainWindows.setVisible(true);
         mainWindows.revalidate();
         mainWindows.repaint();
+
+        Thread t = new Thread(new ClientConnexion(RequestClient.getSock()));
+        t.start();
 
         //Actions à l'appui du bouton "Mon Compte" : redirection vers l'interface Mon Compte
         myAccount.addActionListener(new ActionListener() {
