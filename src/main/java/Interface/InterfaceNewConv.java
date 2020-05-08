@@ -1,17 +1,25 @@
 package Interface;
 
+import Donnees.RequestClient;
+import Donnees.Utilisateur;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class InterfaceNewConv {
 
     private JLabel label1 = new JLabel("Destinataire : ");
     private JTextField textField1 = new JTextField(10);
     private JButton startButton = new JButton(" Demarrer");
-    JPanel topPanel = new JPanel();
-    JPanel bottomPanel = new JPanel();
+    private Utilisateur utilisateur;
+    private JPanel topPanel = new JPanel();
+    private JPanel bottomPanel = new JPanel();
 
-    public InterfaceNewConv() {
+    public InterfaceNewConv(Utilisateur user) {
+
 
         //création de la fenêtre newconwindows
         JFrame newConvWindows = new JFrame();
@@ -33,6 +41,22 @@ public class InterfaceNewConv {
         newConvWindows.setVisible(true);
         newConvWindows.revalidate();
         newConvWindows.repaint();
+
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    utilisateur = RequestClient.addContact(user.getUserName(),textField1.getText());
+                    if(utilisateur != null) {
+                        JOptionPane.showMessageDialog(null, "Contact ajouté");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Erreur dans l'ajout du contact");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 }
