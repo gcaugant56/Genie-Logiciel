@@ -1,5 +1,6 @@
 package Interface;
 
+import Donnees.Contacts;
 import Donnees.RequestClient;
 import Donnees.Utilisateur;
 
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class InterfacePrincipale {
@@ -27,7 +29,6 @@ public class InterfacePrincipale {
     private JButton newGroup = new JButton("Nouveau Groupe");
     private JButton sendMsg = new JButton("Envoyer");
     private JButton disconnect = new JButton("Déconnexion");
-    private Object[] elements = new Object[]{"liste 1", "liste 2"};
     private String[] tab;
     private SimpleDateFormat formater = new SimpleDateFormat("h:mm a");
     JPanel northPanel = new JPanel();
@@ -62,8 +63,13 @@ public class InterfacePrincipale {
         southPanel.add(southWestPanel, BorderLayout.WEST);
         southPanel.add(southEastPanel, BorderLayout.EAST);
 
+        //stocke dans une liste tous les pseudos pour less afficher dans le jcombobox
+        ArrayList<String> contactPseudoList = new ArrayList<>();
+        for (Contacts contactList : user.getContacts()) {
+            contactPseudoList.add(contactList.getPseudo());
+        }
         //liste déroulante ajoutée au panel du haut
-        listeConv = new JComboBox(elements);
+        listeConv = new JComboBox(contactPseudoList.toArray());
         northPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 85, 10));
         northPanel.add(listeConv);
         northPanel.add(disconnect);
@@ -107,7 +113,7 @@ public class InterfacePrincipale {
         newConv.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                new InterfaceNewConv();
+                new InterfaceNewConv(utilisateur);
             }
         });
 
