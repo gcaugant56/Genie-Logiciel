@@ -56,5 +56,6 @@ public class Utilisateur {
     public void setContacts(ArrayList<Donnees.Contacts> contacts) {
         Contacts = contacts;
     }
+
 }
 

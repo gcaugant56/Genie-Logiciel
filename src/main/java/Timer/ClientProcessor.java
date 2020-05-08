@@ -1,7 +1,5 @@
 package Timer;
-import Donnees.Racine;
-import Donnees.RequestCode;
-import Donnees.Utilisateur;
+import Donnees.*;
 import com.google.gson.Gson;
 
 import java.io.BufferedInputStream;
@@ -10,6 +8,8 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ClientProcessor implements Runnable{
@@ -131,6 +131,20 @@ public class ClientProcessor implements Runnable{
                         }
                         break;
                     case AJOUT_CONTACT:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        for (Utilisateur base : Json.getUtilisateur())
+
+                            if (base.getPseudo().equals(tabResponse[2]))
+                            // On vérifie le username de l'utilisateur et du contact
+                            {
+                                Contacts nouveauContact = new Contacts();
+
+                            }
+                            if (!toSend.equals("true")){
+                                toSend= "false";
+                            }
+
+
                         break;
                     case CREATION_GROUP:
                         break;
