@@ -79,7 +79,7 @@ public class RequestClient {
 
     }
 
-    public static boolean checkPassword(String userName, String oldPassword, String newPassword) throws IOException {
+    public static void checkPassword(String userName, String oldPassword, String newPassword) throws IOException {
         String requestConnect = RequestCode.MODIF_MDP+"*"+userName+"*"+oldPassword+"*"+newPassword;
 
         BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
@@ -87,16 +87,9 @@ public class RequestClient {
         bos1.flush();
         BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
 
-        String response = "";
-        int stream;
-        byte[] b = new byte[4096];
-        stream = bis.read(b);
-        response = new String(b, 0, stream);
-
-        return Boolean.parseBoolean(response);
     }
 
-    public static Utilisateur checkPseudo(String username, String newPseudo) throws IOException {
+    public static void checkPseudo(String username, String newPseudo) throws IOException {
         String requestConnect = RequestCode.MODIF_USERNAME+"*"+username+"*"+newPseudo;
         Utilisateur user;
 
@@ -104,19 +97,9 @@ public class RequestClient {
         bos1.write(requestConnect.getBytes());
         bos1.flush();
         BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
-
-        String response = "";
-        int stream;
-        byte[] b = new byte[4096];
-        stream = bis.read(b);
-        response = new String(b, 0, stream);
-
-        user = gson.fromJson(response, Utilisateur.class);
-
-        return user;
     }
 
-    public static Utilisateur addContact(String username, String contactUsermame) throws IOException {
+    public static void addContact(String username, String contactUsermame) throws IOException {
         String requestConnect = RequestCode.MODIF_MDP+"*"+username+"*"+contactUsermame;
         Utilisateur user;
 
@@ -125,15 +108,6 @@ public class RequestClient {
         bos1.flush();
         BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
 
-        String response = "";
-        int stream;
-        byte[] b = new byte[4096];
-        stream = bis.read(b);
-        response = new String(b, 0, stream);
-
-        user = gson.fromJson(response, Utilisateur.class);
-
-        return user;
     }
 
 }

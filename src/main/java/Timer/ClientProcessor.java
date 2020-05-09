@@ -98,6 +98,19 @@ public class ClientProcessor implements Runnable{
                         }
                         break;
                     case DECONNEXION:
+
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        json = "";
+                        for (Utilisateur base : Json.getUtilisateur()) {
+                            if (base.getUserName().equals(tabResponse[1]))
+                            // on cherche à savoir si le mdp/user_name correspondent au Json
+                            {
+                                if(dic.containsKey(base.getUserName()))
+                                {
+                                    dic.remove(base.getUserName());
+                                }
+                            }
+                        }
                         break;
                     case ENVOI_MSG:
                         break;
@@ -109,11 +122,11 @@ public class ClientProcessor implements Runnable{
                             {
                                 base.setPassword(tabResponse[3]);
                                 Donnees.Serializationmessage.Serialization(Json,"Json.json");
-                                toSend="true";
+                                toSend=RequestCode.MODIF_MDP+"*true";
 
                             }
-                            if (!toSend.equals("true")){
-                                toSend= "false";
+                            if (!toSend.equals(RequestCode.MODIF_MDP+"*true")){
+                                toSend= RequestCode.MODIF_MDP+"*false";
                             }
                         }
                         break;
@@ -124,15 +137,15 @@ public class ClientProcessor implements Runnable{
                             if (base.getUserName().equals(tabResponse[1])) {
                                 base.setPseudo(tabResponse[2]);
                                 Donnees.Serializationmessage.Serialization(Json, "Json.json");
-                                Gson gson = new Gson();
-                                json = gson.toJson(base);
+                                toSend= RequestCode.MODIF_USERNAME+"*true";
+
+                            }
+                            if (!toSend.equals(RequestCode.MODIF_USERNAME+"*true")){
+                                toSend= RequestCode.MODIF_USERNAME+"*false";
                             }
                         }
-                        if (json.equals("")) {
-                            toSend = "null";
-                        } else {
-                            toSend = json;
-                        }
+
+
                         break;
                     case AJOUT_CONTACT:
                         break;
