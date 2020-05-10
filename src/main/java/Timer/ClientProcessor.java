@@ -10,18 +10,20 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
-
+import java.util.Hashtable;
 
 public class ClientProcessor implements Runnable{
 
     private Socket sock;
     private PrintWriter writer = null;
     private BufferedInputStream reader = null;
+    private Hashtable dic = null;
 
-    public ClientProcessor(Socket pSock){
+    public ClientProcessor(Socket pSock, Hashtable dic){
         sock = pSock;
-    }
+        this.dic = dic;
 
+    }
     //Le traitement lancé dans un thread séparé
     public void run(){
         System.err.println("Lancement du traitement de la connexion cliente");
@@ -83,7 +85,10 @@ public class ClientProcessor implements Runnable{
                             {
                                 Gson gson = new Gson();
                                 json = gson.toJson(base);//transformation de l'objet en json
-
+                                if(!dic.containsKey(base.getUserName()))
+                                {
+                                    dic.put(base.getUserName(),sock);
+                                }
                             }
                         }
                         if (json.equals("")) {
@@ -91,9 +96,21 @@ public class ClientProcessor implements Runnable{
                         } else {
                             toSend = json;
                         }
-
                         break;
                     case DECONNEXION:
+
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        json = "";
+                        for (Utilisateur base : Json.getUtilisateur()) {
+                            if (base.getUserName().equals(tabResponse[1]))
+                            // on cherche à savoir si le mdp/user_name correspondent au Json
+                            {
+                                if(dic.containsKey(base.getUserName()))
+                                {
+                                    dic.remove(base.getUserName());
+                                }
+                            }
+                        }
                         break;
                     case ENVOI_MSG:
                         break;
@@ -105,11 +122,11 @@ public class ClientProcessor implements Runnable{
                             {
                                 base.setPassword(tabResponse[3]);
                                 Donnees.Serializationmessage.Serialization(Json,"Json.json");
-                                toSend="true";
+                                toSend=RequestCode.MODIF_MDP+"*true";
 
                             }
-                            if (!toSend.equals("true")){
-                                toSend= "false";
+                            if (!toSend.equals(RequestCode.MODIF_MDP+"*true")){
+                                toSend= RequestCode.MODIF_MDP+"*false";
                             }
                         }
                         break;
@@ -120,15 +137,15 @@ public class ClientProcessor implements Runnable{
                             if (base.getUserName().equals(tabResponse[1])) {
                                 base.setPseudo(tabResponse[2]);
                                 Donnees.Serializationmessage.Serialization(Json, "Json.json");
-                                Gson gson = new Gson();
-                                json = gson.toJson(base);
+                                toSend= RequestCode.MODIF_USERNAME+"*true";
+
+                            }
+                            if (!toSend.equals(RequestCode.MODIF_USERNAME+"*true")){
+                                toSend= RequestCode.MODIF_USERNAME+"*false";
                             }
                         }
-                        if (json.equals("")) {
-                            toSend = "null";
-                        } else {
-                            toSend = json;
-                        }
+
+
                         break;
                     case AJOUT_CONTACT:
                         break;
@@ -143,13 +160,6 @@ public class ClientProcessor implements Runnable{
             writer.write(toSend);
                 writer.flush();
 
-                if(closeConnexion){
-                    System.err.println("COMMANDE CLOSE DETECTEE ! ");
-                    writer = null;
-                    reader = null;
-                    sock.close();
-                    break;
-                }
             }catch(SocketException e){
                 System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
                 break;

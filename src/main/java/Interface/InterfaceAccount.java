@@ -8,7 +8,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-
+import java.util.concurrent.TimeUnit;
+import Timer.ClientConnexion;
 public class InterfaceAccount {
 
     private JPanel topPanel = new JPanel(new GridLayout(3,3));
@@ -30,10 +31,10 @@ public class InterfaceAccount {
     private JTextField jtextFieldRepeatNewPassword = new JTextField();
     private JTextField jtextFieldNewPseudo = new JTextField();
     private Utilisateur utilisateur;
-
-    public InterfaceAccount(Utilisateur user) {
-
-        utilisateur = user;
+    private ClientConnexion connexion;
+    public InterfaceAccount(Utilisateur user, ClientConnexion connexion) {
+        this.connexion = connexion;
+        this.utilisateur = user;
         //création de la fenêtre Mon Compte
         JFrame accountWindows = new JFrame();
         accountWindows.setMinimumSize(new Dimension(490, 320));
@@ -101,8 +102,16 @@ public class InterfaceAccount {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    if (RequestClient.checkPassword(utilisateur.getUserName(), jtextFieldOldPassword.getText(), jtextFieldNewPassword.getText())) {
+
+                    RequestClient.checkPassword(utilisateur.getUserName(), jtextFieldOldPassword.getText(), jtextFieldNewPassword.getText());
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (Boolean.parseBoolean(connexion.getVerdict())) {
                         JOptionPane.showMessageDialog(null, "Votre mot de passe a été modifié");
+
                     } else {
                         JOptionPane.showMessageDialog(null, "Le mot de passe n'est pas bon");
                         jtextFieldOldPassword.setBackground(Color.RED);
@@ -110,6 +119,8 @@ public class InterfaceAccount {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+
             }
         });
 
@@ -146,19 +157,29 @@ public class InterfaceAccount {
         validateButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                //try {
                 try {
-                    utilisateur = RequestClient.checkPseudo(user.getUserName(), jtextFieldNewPseudo.getText());
-                    if (utilisateur != null) {
-                        JOptionPane.showMessageDialog(null, "Votre pseudo a été modifié");
-                        bottomPanel.revalidate();
-                        displayCurrentPseudo.setText(utilisateur.getPseudo());
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Le pseudo n'est pas valide");
-                        jtextFieldNewPseudo.setBackground(Color.RED);
-                    }
+                    RequestClient.checkPseudo(utilisateur.getUserName(), jtextFieldNewPseudo.getText());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                try {
+                    TimeUnit.MILLISECONDS.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(Boolean.parseBoolean(connexion.getVerdict()))
+                {
+                    utilisateur.setPseudo(jtextFieldNewPseudo.getText());
+                    JOptionPane.showMessageDialog(null, "Votre pseudo a été modifié");
+                    bottomPanel.revalidate();
+                    displayCurrentPseudo.setText(utilisateur.getPseudo());
+                } else
+                {
+                    JOptionPane.showMessageDialog(null, "Le pseudo n'est pas valide");
+                    jtextFieldNewPseudo.setBackground(Color.RED);
+                }
+
             }
         });
 

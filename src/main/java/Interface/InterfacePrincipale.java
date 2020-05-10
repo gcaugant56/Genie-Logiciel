@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
+import Timer.ClientConnexion;
 public class InterfacePrincipale {
 
     private int numberUser;
@@ -31,6 +31,8 @@ public class InterfacePrincipale {
     private JButton disconnect = new JButton("Déconnexion");
     private String[] tab;
     private SimpleDateFormat formater = new SimpleDateFormat("h:mm a");
+    private ClientConnexion connection;
+    public Thread t;
     JPanel northPanel = new JPanel();
     JPanel centerPanel = new JPanel();
     JPanel eastPanel = new JPanel();
@@ -95,17 +97,19 @@ public class InterfacePrincipale {
         southPanel.add(sendMsg);
         msgText.setPreferredSize(new Dimension(300,50));
 
-
         mainWindows.getContentPane().add(centerPanel);
         mainWindows.setVisible(true);
         mainWindows.revalidate();
         mainWindows.repaint();
+        t = new Thread(connection = new ClientConnexion(RequestClient.getSock(), utilisateur));
+        t.start();
+        t.setPriority(Thread.MAX_PRIORITY);
 
         //Actions à l'appui du bouton "Mon Compte" : redirection vers l'interface Mon Compte
         myAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                new InterfaceAccount(utilisateur);
+                new InterfaceAccount(utilisateur, connection);
             }
         });
 
