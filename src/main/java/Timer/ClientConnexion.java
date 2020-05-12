@@ -53,8 +53,13 @@ public class ClientConnexion implements Runnable{
                         verdict = response;
                         break;
                     case AJOUT_CONTACT:
+                        verdict = response;
                         break;
                     case CREATION_GROUP:
+                        break;
+                    case DEMANDE_LISTE:
+                        verdict = response;
+                        System.out.println(verdict);
                         break;
                     case ENVOI_GROUP:
                         break;

@@ -10,7 +10,8 @@ public enum RequestCode {
     MODIF_USERNAME(6),
     AJOUT_CONTACT(7),
     CREATION_GROUP(8),
-    ENVOI_GROUP(9);
+    ENVOI_GROUP(9),
+    DEMANDE_LISTE(10);
 
     private int numero;
 

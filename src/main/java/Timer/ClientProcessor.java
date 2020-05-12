@@ -1,7 +1,9 @@
 package Timer;
+import Donnees.Contacts;
 import Donnees.Racine;
 import Donnees.RequestCode;
 import Donnees.Utilisateur;
+import Interface.InterfaceNewConv;
 import com.google.gson.Gson;
 
 import java.io.BufferedInputStream;
@@ -10,6 +12,7 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class ClientProcessor implements Runnable{
@@ -18,6 +21,7 @@ public class ClientProcessor implements Runnable{
     private PrintWriter writer = null;
     private BufferedInputStream reader = null;
     private Hashtable dic = null;
+    private Utilisateur currentUser = null;
 
     public ClientProcessor(Socket pSock, Hashtable dic){
         sock = pSock;
@@ -83,6 +87,7 @@ public class ClientProcessor implements Runnable{
                                     base.getPassword().equals(tabResponse[2]))
                             // on cherche à savoir si le mdp/user_name correspondent au Json
                             {
+                                currentUser = base;
                                 Gson gson = new Gson();
                                 json = gson.toJson(base);//transformation de l'objet en json
                                 if(!dic.containsKey(base.getUserName()))
@@ -148,12 +153,48 @@ public class ClientProcessor implements Runnable{
 
                         break;
                     case AJOUT_CONTACT:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        json = "";
+                        Contacts contacts = null;
+                        for (Utilisateur base : Json.getUtilisateur()) {
+                            if(base.getPseudo().equals(tabResponse[2])) {
+                                contacts = new Contacts(base.getPseudo(), base.getUserName());
+                                Gson gson = new Gson();
+                                json = RequestCode.AJOUT_CONTACT+"*"+gson.toJson(contacts);
+                            }
+                        }
+
+                        if(json.equals("")) {
+                            toSend = RequestCode.AJOUT_CONTACT+"*false";
+                        } else {
+                            for (Utilisateur base : Json.getUtilisateur()) {
+                                if(base.getUserName().equals(tabResponse[1])) {
+                                    base.getContacts().add(contacts);
+                                    Donnees.Serializationmessage.Serialization(Json, "Json.json");
+                                }
+                            }
+                            toSend = json;
+                        }
                         break;
                     case CREATION_GROUP:
                         break;
+                    case DEMANDE_LISTE:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        String pseudoListString = "";
+                        for (Utilisateur base : Json.getUtilisateur()) {
+                            if(!base.getPseudo().equals(currentUser.getPseudo())) {
+                                pseudoListString += base.getPseudo()+",";
+                            }
+                        }
+                        pseudoListString = pseudoListString.substring(1, pseudoListString.length()-1);
+                        if(pseudoListString.equals("")) {
+                            toSend = RequestCode.DEMANDE_LISTE+"*false";
+                        } else {
+                            toSend = RequestCode.DEMANDE_LISTE+"*"+pseudoListString;
+                        }
+                        break;
                     case ENVOI_GROUP:
                         break;
-
                    }} catch (IOException e) {
                 e.printStackTrace();
             }

@@ -7,12 +7,14 @@ import java.util.*;
 public class Contacts {
     @SerializedName("pseudo")
     private String pseudo="";
+    @SerializedName("userName")
+    private String username="";
     @SerializedName("Message")
     private ArrayList<Message> Message = new ArrayList<Message>();
 
-    public Contacts(String pseudo,ArrayList<Donnees.Message> message) {
+    public Contacts(String pseudo, String username) {
         this.pseudo = pseudo;
-        Message = message;
+        this.username = username;
     }
 
 

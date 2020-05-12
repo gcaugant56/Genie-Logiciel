@@ -13,27 +13,30 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import Timer.ClientConnexion;
 public class InterfacePrincipale {
 
     private int numberUser;
-    private JComboBox listeConv;
+    private static JComboBox listeConv;
     private JLabel msg = new JLabel("Message : ");
     private JTextArea convText = new JTextArea(12,35);
     private JScrollPane scrollPane;
     private JLabel userOnLine = new JLabel("Nombre d'utilisateur en ligne : " + numberUser);
-    private InterfacePrincipale interfacePrincipale;
     private JTextField msgText = new JTextField();
     private JButton myAccount = new JButton("Mon Compte");
     private JButton newConv = new JButton("Nouvelle Conversation");
     private JButton newGroup = new JButton("Nouveau Groupe");
     private JButton sendMsg = new JButton("Envoyer");
     private JButton disconnect = new JButton("Déconnexion");
-    private String[] tab;
     private SimpleDateFormat formater = new SimpleDateFormat("h:mm a");
-    private ClientConnexion connection;
+    private static ClientConnexion connection;
+    private static ArrayList<String> tabContact;
+    private Utilisateur utilisateur;
+    private String[] tabVerdict;
     public Thread t;
-    JPanel northPanel = new JPanel();
+    static JPanel northPanel = new JPanel();
     JPanel centerPanel = new JPanel();
     JPanel eastPanel = new JPanel();
     JPanel southPanel = new JPanel();
@@ -42,9 +45,9 @@ public class InterfacePrincipale {
     JPanel southWestPanel = new JPanel();
     JPanel southEastPanel = new JPanel();
 
-    public InterfacePrincipale(Utilisateur user) throws IOException {
+    public InterfacePrincipale(Utilisateur user) {
 
-        Utilisateur utilisateur = user;
+        utilisateur = user;
         //création de la fenêtre principale
         JFrame mainWindows = new JFrame();
         mainWindows.setMinimumSize(new Dimension(640, 380));
@@ -66,12 +69,11 @@ public class InterfacePrincipale {
         southPanel.add(southEastPanel, BorderLayout.EAST);
 
         //stocke dans une liste tous les pseudos pour less afficher dans le jcombobox
-        ArrayList<String> contactPseudoList = new ArrayList<>();
-        for (Contacts contactList : user.getContacts()) {
-            contactPseudoList.add(contactList.getPseudo());
+        tabContact = new ArrayList<>();
+        for (Contacts c : utilisateur.getContacts()) {
+            tabContact.add(c.getPseudo());
         }
-        //liste déroulante ajoutée au panel du haut
-        listeConv = new JComboBox(contactPseudoList.toArray());
+        listeConv = new JComboBox(tabContact.toArray());
         northPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 85, 10));
         northPanel.add(listeConv);
         northPanel.add(disconnect);
@@ -117,7 +119,19 @@ public class InterfacePrincipale {
         newConv.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                new InterfaceNewConv(utilisateur);
+                try {
+                    RequestClient.askListContact(utilisateur.getUserName());
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    tabVerdict = connection.getVerdict().split(",");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                new InterfaceNewConv(utilisateur, tabVerdict, connection, listeConv);
+
             }
         });
 
@@ -146,14 +160,24 @@ public class InterfacePrincipale {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    RequestClient.chatDisconnect(InterfaceConnexion.getjTextFieldUserName());//on va chercher la valeur du JTextField user présente dans l'interface connexion
+                    RequestClient.chatDisconnect(utilisateur.getUserName());//on va chercher la valeur du JTextField user présente dans l'interface connexion
                     JOptionPane.showMessageDialog(null, "Déconnexion du chat");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    RequestClient.getSock().close();
+                    t.interrupt();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 mainWindows.dispose();
             }
         });
+    }
+
+    public static ArrayList<String> getTabContact() {
+        return tabContact;
     }
 
 }

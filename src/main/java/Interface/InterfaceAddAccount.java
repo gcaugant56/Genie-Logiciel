@@ -1,6 +1,8 @@
 package Interface;
 
+import Donnees.Racine;
 import Donnees.RequestClient;
+import Donnees.Utilisateur;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +23,6 @@ public class InterfaceAddAccount {
     private JPanel northPanel = new JPanel();
     private JPanel centerPanel = new JPanel(new GridLayout(3,2));
     private JPanel southPanel = new JPanel();
-    private RequestClient requestClient = new RequestClient();
 
     public InterfaceAddAccount() throws IOException {
 
