@@ -53,8 +53,9 @@ public class Utilisateur {
         return Contacts;
     }
 
-    public void setContacts(ArrayList<Donnees.Contacts> contacts) {
-        Contacts = contacts;
+    public void setContacts(Contacts contacts) {
+        Contacts.add(contacts);
     }
+
 }
 

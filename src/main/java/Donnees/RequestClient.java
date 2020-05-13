@@ -99,8 +99,18 @@ public class RequestClient {
         BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
     }
 
+    public static void askListContact(String username) throws IOException {
+        String requestConnect = RequestCode.DEMANDE_LISTE+"*"+username;
+        Utilisateur user;
+
+        BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
+        bos1.write(requestConnect.getBytes());
+        bos1.flush();
+        BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
+    }
+
     public static void addContact(String username, String contactUsermame) throws IOException {
-        String requestConnect = RequestCode.MODIF_MDP+"*"+username+"*"+contactUsermame;
+        String requestConnect = RequestCode.AJOUT_CONTACT+"*"+username+"*"+contactUsermame;
         Utilisateur user;
 
         BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());

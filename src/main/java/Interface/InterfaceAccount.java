@@ -32,6 +32,7 @@ public class InterfaceAccount {
     private JTextField jtextFieldNewPseudo = new JTextField();
     private Utilisateur utilisateur;
     private ClientConnexion connexion;
+
     public InterfaceAccount(Utilisateur user, ClientConnexion connexion) {
         this.connexion = connexion;
         this.utilisateur = user;
