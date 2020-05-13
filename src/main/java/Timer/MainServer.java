@@ -2,7 +2,8 @@ package Timer;
 
 public class MainServer {
 
-    public static void main(String[] args){
+    public static boolean start(){
+
         String host = "127.0.0.1";
         int port = 1515;
 
@@ -10,6 +11,6 @@ public class MainServer {
         ts.open();
 
         System.out.println("Serveur initialisé.");
-
+        return true;
     }
 }
