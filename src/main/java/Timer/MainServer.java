@@ -10,6 +10,6 @@ public class MainServer {
         ts.open();
 
         System.out.println("Serveur initialisé.");
-
+        return true;
     }
 }
