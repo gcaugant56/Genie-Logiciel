@@ -22,9 +22,10 @@ public class ClientProcessor implements Runnable{
     private BufferedInputStream reader = null;
     private Hashtable dic = null;
     private Utilisateur currentUser = null;
-
+    private Socket socketClient;
     public ClientProcessor(Socket pSock, Hashtable dic){
         sock = pSock;
+        socketClient = pSock;
         this.dic = dic;
 
     }
@@ -118,6 +119,9 @@ public class ClientProcessor implements Runnable{
                         }
                         break;
                     case ENVOI_MSG:
+                        sock = (Socket) dic.get("toto");
+                        writer = new PrintWriter(sock.getOutputStream());
+                        toSend = RequestCode.ENVOI_MSG+"*toto";
                         break;
                     case MODIF_MDP:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
@@ -200,7 +204,7 @@ public class ClientProcessor implements Runnable{
             }
             writer.write(toSend);
                 writer.flush();
-
+            sock = socketClient;
             }catch(SocketException e){
                 System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
                 break;

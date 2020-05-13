@@ -23,9 +23,11 @@ public class ClientConnexion implements Runnable{
     private BufferedInputStream reader = null;
     private Utilisateur user;
     private String verdict;
-    public ClientConnexion(Socket connexion, Utilisateur user){
+    private JTextArea text;
+    public ClientConnexion(Socket connexion, Utilisateur user,JTextArea text){
         this.connexion = connexion;
         this.user = user;
+        this.text = text;
     }
 
 
@@ -45,6 +47,8 @@ public class ClientConnexion implements Runnable{
                     case DECONNEXION:
                         break;
                     case ENVOI_MSG:
+                        verdict = response;
+                        text.append(response);
                         break;
                     case MODIF_MDP:
                         verdict = response;

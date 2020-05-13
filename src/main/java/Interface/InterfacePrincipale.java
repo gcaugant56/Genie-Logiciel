@@ -103,7 +103,7 @@ public class InterfacePrincipale {
         mainWindows.setVisible(true);
         mainWindows.revalidate();
         mainWindows.repaint();
-        t = new Thread(connection = new ClientConnexion(RequestClient.getSock(), utilisateur));
+        t = new Thread(connection = new ClientConnexion(RequestClient.getSock(), utilisateur,convText));
         t.start();
         t.setPriority(Thread.MAX_PRIORITY);
 
@@ -152,6 +152,11 @@ public class InterfacePrincipale {
                 if(!message.isEmpty()) {
                     convText.append(formater.format(aujourdhui) + " : " + message + "\n"); //format du message : date + contenu
                     msgText.setText(""); //RAZ du jtextfield à chaque envoi de message
+                    try {
+                        RequestClient.SendMsg(user.getUserName(),formater.format(aujourdhui) + " : " + message + "\n");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

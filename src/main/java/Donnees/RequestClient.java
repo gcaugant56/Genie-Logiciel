@@ -116,8 +116,12 @@ public class RequestClient {
         BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
         bos1.write(requestConnect.getBytes());
         bos1.flush();
-        BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
 
     }
-
+    public static void SendMsg(String username, String msg) throws IOException {
+        String requestsMsg = RequestCode.ENVOI_MSG+"*"+username+"*"+msg;
+        BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
+        bos1.write(requestsMsg.getBytes());
+        bos1.flush();
+    }
 }
