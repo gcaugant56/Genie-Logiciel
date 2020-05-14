@@ -33,7 +33,7 @@ public class Contacts {
         return Message;
     }
 
-    public void setMessage(ArrayList<Donnees.Message> message) {
-        Message = message;
+    public void setMessage(Message message) {
+        Message.add(message);
     }
 }

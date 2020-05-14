@@ -1,8 +1,5 @@
 package Timer;
-import Donnees.Contacts;
-import Donnees.Racine;
-import Donnees.RequestCode;
-import Donnees.Utilisateur;
+import Donnees.*;
 import Interface.InterfaceNewConv;
 import com.google.gson.Gson;
 
@@ -128,6 +125,10 @@ public class ClientProcessor implements Runnable{
                             if(base.getUserName().equals(user)) {
                                 for (Contacts contacts : base.getContacts()) {
                                     if (contacts.getPseudo().equals(contacts.getPseudo())) {
+                                        Message message = new Message(msg,destinataire,base.getPseudo());
+                                        contacts.setMessage(message);
+                                        Donnees.Serializationmessage.Serialization(Json,"Json.json");
+
                                         sock = (Socket) dic.get(contacts.getUsername());
                                         writer = new PrintWriter(sock.getOutputStream());
                                         toSend = RequestCode.ENVOI_MSG + "*"+msg;
