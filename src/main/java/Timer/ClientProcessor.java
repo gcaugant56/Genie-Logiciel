@@ -119,9 +119,23 @@ public class ClientProcessor implements Runnable{
                         }
                         break;
                     case ENVOI_MSG:
-                        sock = (Socket) dic.get("toto");
-                        writer = new PrintWriter(sock.getOutputStream());
-                        toSend = RequestCode.ENVOI_MSG+"*toto";
+                        String user = tabResponse[1];
+                        String destinataire = tabResponse[2];
+                        String msg = tabResponse[3];
+
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        for (Utilisateur base : Json.getUtilisateur()) {
+                            if(base.getUserName().equals(user)) {
+                                for (Contacts contacts : base.getContacts()) {
+                                    if (contacts.getPseudo().equals(contacts.getPseudo())) {
+                                        sock = (Socket) dic.get(contacts.getUsername());
+                                        writer = new PrintWriter(sock.getOutputStream());
+                                        toSend = RequestCode.ENVOI_MSG + "*"+msg;
+                                    }
+                                }
+                            }
+                        }
+
                         break;
                     case MODIF_MDP:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");

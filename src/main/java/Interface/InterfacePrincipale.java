@@ -153,7 +153,7 @@ public class InterfacePrincipale {
                     convText.append(formater.format(aujourdhui) + " : " + message + "\n"); //format du message : date + contenu
                     msgText.setText(""); //RAZ du jtextfield à chaque envoi de message
                     try {
-                        RequestClient.SendMsg(user.getUserName(),formater.format(aujourdhui) + " : " + message + "\n");
+                        RequestClient.SendMsg(user.getUserName(), (String) listeConv.getSelectedItem(),formater.format(aujourdhui) + " : " + message + "\n");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
