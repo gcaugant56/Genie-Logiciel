@@ -85,7 +85,7 @@ public class InterfaceAccount {
 
             @Override
             public void keyReleased(KeyEvent keyEvent) {
-                if(jtextFieldNewPassword.getText().equals(jtextFieldRepeatNewPassword.getText()) && jtextFieldNewPassword.getText().length() > 5) {
+                if(jtextFieldNewPassword.getText().equals(jtextFieldRepeatNewPassword.getText()) && jtextFieldNewPassword.getText().length() > 0) {
                     jtextFieldNewPassword.setForeground(Color.GREEN);
                     jtextFieldRepeatNewPassword.setForeground(Color.GREEN);
                     validateButton1.setEnabled(true);
@@ -120,11 +120,8 @@ public class InterfaceAccount {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-
             }
         });
-
 
         displayCurrentPseudo.setText(user.getPseudo());
         displayCurrentPseudo.setHorizontalAlignment(JLabel.CENTER);
@@ -143,7 +140,7 @@ public class InterfaceAccount {
 
             @Override
             public void keyReleased(KeyEvent keyEvent) {
-                if(!jtextFieldNewPseudo.getText().equals(utilisateur.getPseudo()) && jtextFieldNewPseudo.getText().length() > 5) {
+                if(!jtextFieldNewPseudo.getText().equals(utilisateur.getPseudo()) && jtextFieldNewPseudo.getText().length() > 0) {
                     jtextFieldNewPseudo.setForeground(Color.GREEN);
                     validateButton2.setEnabled(true);
                 }

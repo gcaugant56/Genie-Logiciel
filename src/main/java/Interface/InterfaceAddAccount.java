@@ -16,19 +16,21 @@ public class InterfaceAddAccount {
     private JLabel userName = new JLabel("Nom d'utilisateur : ");
     private JLabel pseudo = new JLabel("Pseudo : ");
     private JLabel password = new JLabel("Mot de passe : ");
+    private JLabel passwordRepeat = new JLabel("Ré-écrire mot de passe : ");
     private JTextField jTextFieldUserName = new JTextField();
     private JTextField jTextFieldPseudo = new JTextField();
     private JTextField jTextFieldPassword = new JTextField();
+    private JTextField jTextFieldPasswordRepeat = new JTextField();
     private JButton create = new JButton("Créer");
     private JPanel northPanel = new JPanel();
-    private JPanel centerPanel = new JPanel(new GridLayout(3,2));
+    private JPanel centerPanel = new JPanel(new GridLayout(4,2));
     private JPanel southPanel = new JPanel();
 
     public InterfaceAddAccount() throws IOException {
 
         //création de la fenêtre addaccount
         JFrame addAccount = new JFrame();
-        addAccount.setMinimumSize(new Dimension(390, 220));
+        addAccount.setMinimumSize(new Dimension(440, 270));
         addAccount.setLayout(new GridLayout(3,1));
         addAccount.setLocationRelativeTo(null);
 
@@ -47,6 +49,8 @@ public class InterfaceAddAccount {
         centerPanel.add(jTextFieldPseudo);
         centerPanel.add(password);
         centerPanel.add(jTextFieldPassword);
+        centerPanel.add(passwordRepeat);
+        centerPanel.add(jTextFieldPasswordRepeat);
 
         //ajout du bouton "Créer" dans le panel du bas
         southPanel.add(create);
@@ -59,14 +63,22 @@ public class InterfaceAddAccount {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    if(RequestClient.createAccount(jTextFieldUserName.getText(),jTextFieldPseudo.getText(),jTextFieldPassword.getText())) {
-                        JOptionPane.showMessageDialog(null, "Création du compte réussie");
-                        RequestClient.getSock().close();  //fermeture du socket création de compte
-                        addAccount.setVisible(false);
+                    if(jTextFieldUserName.getText().equals("") || jTextFieldPseudo.getText().equals("") || jTextFieldPassword.getText().equals("") || jTextFieldPasswordRepeat.getText().equals("")) {
+                        JOptionPane.showMessageDialog(null, "Votre nom d'utilisateur, pseudo ou mot de passe doivent comporter au moins un caractère");
+                    }
+                    else if(!jTextFieldPassword.getText().equals(jTextFieldPasswordRepeat.getText())) {
+                        JOptionPane.showMessageDialog(null, "Votre saisie de mot de passe n'est pas bonne");
                     }
                     else {
-                        JOptionPane.showMessageDialog(null, "Création du compte impossible");
-                        RequestClient.getSock().close();  //fermeture du socket créationde compte
+                        if(RequestClient.createAccount(jTextFieldUserName.getText(),jTextFieldPseudo.getText(),jTextFieldPassword.getText())) {
+                            JOptionPane.showMessageDialog(null, "Création du compte réussie");
+                            RequestClient.getSock().close();  //fermeture du socket création de compte
+                            addAccount.setVisible(false);
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Création du compte impossible");
+                            RequestClient.getSock().close();  //fermeture du socket créationde compte
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

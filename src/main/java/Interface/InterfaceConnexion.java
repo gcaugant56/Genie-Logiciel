@@ -16,8 +16,8 @@ public class InterfaceConnexion {
     private JLabel userName = new JLabel("Username : ");
     private JLabel passWord = new JLabel("Mot de passe : ");
     private static JTextField jTextFieldUserName = new JTextField();
-    private static JTextField jTextFieldPassWord = new JTextField();
-    private JButton plugIn = new JButton("Connexion");
+    private static JPasswordField jTextFieldPassWord = new JPasswordField();
+    private JButton logIn = new JButton("Connexion");
     private Font font = new Font("Arial", Font.BOLD, 12);
     private JLabel createCompte = new JLabel("Pas de compte créez-en un ici");
     private JPanel northPanel = new JPanel();
@@ -55,7 +55,7 @@ public class InterfaceConnexion {
 
         //ajout des composants dans le panel du bas qui est quadrillé en 2 lignes et 1 colonnes
         southPanel.setLayout(new GridLayout(2,1));
-        southPanel.add(plugIn);
+        southPanel.add(logIn);
         createCompte.setForeground(Color.BLUE.darker()); //label transformé en hyperlink standard
         createCompte.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); //Pour que le curseur de la souris se transforme en icône de main lorsque l'utilisateur déplace la souris sur l'étiquette
         southPanel.add(createCompte);
@@ -65,7 +65,7 @@ public class InterfaceConnexion {
         newConnection.repaint();
 
         //Actions à l'appui du bouton "Connecter" du panel du bas : redirection vers l'interface du chat
-        plugIn.addActionListener(new ActionListener() {
+        logIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
