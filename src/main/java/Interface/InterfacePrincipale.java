@@ -198,7 +198,7 @@ public class InterfacePrincipale {
         listeConv.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                convText.removeAll();
+                convText.setText("");
                 for(Contacts contact : utilisateur.getContacts())
                 {
                     if(contact.getPseudo().equals(listeConv.getSelectedItem()))
