@@ -3,26 +3,24 @@ package Tests;
         import Donnees.RequestClient;
         import Timer.MainServer;
         import org.junit.jupiter.api.Test;
-        import org.junit.jupiter.api.Assertions;
+        import static org.junit.jupiter.api.Assertions.*;
 
         import java.io.IOException;
-
-        import static org.junit.jupiter.api.Assertions.*;
 
 class InterfaceConnexionTest {
 
     @Test
-
     public void testLancementServeur(){
-        Assertions.assertEquals(true, MainServer.start());
+        assertEquals(true, MainServer.start());
     }
 
     @Test
     public void testCreationCompte() throws IOException {
-        Assertions.assertEquals(true, RequestClient.createAccount("testUnitaire", "UnitTest", "motdepasse"));
+        MainServer.start();
+        assertEquals(true, RequestClient.createAccount("testUnitaire", "UnitTest", "motdepasse"));
     }
 
-    // verifier le json
+    // verifier le json pour voir si le compte à bien été créé
 
     public void testConnexionCompte(){
     }
