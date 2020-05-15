@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import Timer.ClientConnexion;
+import com.google.gson.Gson;
+
 public class InterfacePrincipale {
 
     private int numberUser;
@@ -119,7 +121,7 @@ public class InterfacePrincipale {
         mainWindows.setVisible(true);
         mainWindows.revalidate();
         mainWindows.repaint();
-        t = new Thread(connection = new ClientConnexion(RequestClient.getSock(), utilisateur,convText));
+        t = new Thread(connection = new ClientConnexion(RequestClient.getSock(), utilisateur,convText,listeConv));
         t.start();
         t.setPriority(Thread.MAX_PRIORITY);
 
@@ -199,17 +201,22 @@ public class InterfacePrincipale {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 convText.setText("");
-                for(Contacts contact : utilisateur.getContacts())
-                {
-                    if(contact.getPseudo().equals(listeConv.getSelectedItem()))
-                    {
-                        for(Message message : contact.getMessage())
-                        {
-                            convText.append(message.getContent());
-
-                        }
-                    }
+                Message[] message = null;
+                try {
+                    RequestClient.GetMsgHistory(user.getUserName(), (String) listeConv.getSelectedItem());
+                    TimeUnit.MILLISECONDS.sleep(100);
+                    String messages = connection.getVerdict();
+                    Gson gson = new Gson();
+                    message = gson.fromJson(messages,Message[].class);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
                 }
+
+                for(Message messages : message)
+                {
+                    convText.append(messages.getContent());
+                }
+
             }
         }
 

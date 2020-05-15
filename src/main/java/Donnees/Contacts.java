@@ -1,6 +1,7 @@
 package Donnees;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
 
 import java.util.*;
 
@@ -29,7 +30,7 @@ public class Contacts {
         this.pseudo = pseudo;
     }
 
-    public ArrayList<Donnees.Message> getMessage() {
+    public ArrayList<Message> getMessage() {
         return Message;
     }
 

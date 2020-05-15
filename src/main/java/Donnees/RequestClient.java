@@ -124,4 +124,11 @@ public class RequestClient {
         bos1.write(requestsMsg.getBytes());
         bos1.flush();
     }
+
+    public static void GetMsgHistory(String username, String destinataire) throws IOException {
+        String requestsMsg = RequestCode.Historique_Message+"*"+username+"*"+destinataire;
+        BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
+        bos1.write(requestsMsg.getBytes());
+        bos1.flush();
+    }
 }

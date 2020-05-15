@@ -3,9 +3,11 @@ import Donnees.*;
 import Interface.InterfaceNewConv;
 import com.google.gson.Gson;
 
+import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
@@ -17,14 +19,13 @@ public class ClientProcessor implements Runnable{
     private Socket sock;
     private PrintWriter writer = null;
     private BufferedInputStream reader = null;
-    private Hashtable dic = null;
+    private Hashtable dic;
     private Utilisateur currentUser = null;
     private Socket socketClient;
     public ClientProcessor(Socket pSock, Hashtable dic){
         sock = pSock;
         socketClient = pSock;
         this.dic = dic;
-
     }
     //Le traitement lancé dans un thread séparé
     public void run(){
@@ -124,18 +125,32 @@ public class ClientProcessor implements Runnable{
                         for (Utilisateur base : Json.getUtilisateur()) {
                             if(base.getUserName().equals(user)) {
                                 for (Contacts contacts : base.getContacts()) {
-                                    if (contacts.getPseudo().equals(contacts.getPseudo())) {
+                                    if (contacts.getPseudo().equals(destinataire)) {
                                         Message message = new Message(msg,destinataire,base.getPseudo());
                                         contacts.setMessage(message);
-                                        Donnees.Serializationmessage.Serialization(Json,"Json.json");
 
                                         sock = (Socket) dic.get(contacts.getUsername());
                                         writer = new PrintWriter(sock.getOutputStream());
-                                        toSend = RequestCode.ENVOI_MSG + "*"+msg;
+                                        toSend = RequestCode.ENVOI_MSG + "*"+msg+"*"+currentUser.getPseudo();
                                     }
                                 }
                             }
                         }
+                        for (Utilisateur base : Json.getUtilisateur()) {
+                            if (base.getPseudo().equals(destinataire)) {
+                                for (Contacts contacts : base.getContacts()) {
+                                    if (contacts.getUsername().equals(user)) {
+                                        Message message = new Message(msg, destinataire, base.getPseudo());
+                                        contacts.setMessage(message);
+                                    }
+                                }
+                            }
+                        }
+
+                        Donnees.Serializationmessage.Serialization(Json,"Json.json");
+
+
+
 
                         break;
                     case MODIF_MDP:
@@ -201,7 +216,7 @@ public class ClientProcessor implements Runnable{
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         String pseudoListString = "";
                         for (Utilisateur base : Json.getUtilisateur()) {
-                            if(!base.getPseudo().equals(currentUser.getPseudo())) {
+                            if(!base.getUserName().equals(currentUser.getPseudo())) {
                                 pseudoListString += base.getPseudo()+",";
                             }
                         }
@@ -213,6 +228,40 @@ public class ClientProcessor implements Runnable{
                         }
                         break;
                     case ENVOI_GROUP:
+                        break;
+                    case Historique_Message:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        json = "";
+                        String username = tabResponse[1];
+                        String contact = tabResponse[2];
+                        for(Utilisateur base : Json.getUtilisateur())
+                        {
+                            if(base.getUserName().equals(username))
+                            {
+                                for (Contacts contactHistory : base.getContacts())
+                                {
+                                    if(contactHistory.getPseudo().equals(contact))
+                                    {
+                                        Gson gson = new Gson();
+
+                                        json = gson.toJson(contactHistory.getMessage());
+                                    }
+
+                                }
+                            }
+                        }
+                        if(json.equals(""))
+                        {
+                            toSend = "null";
+                        }
+                        else
+                        {
+                            toSend = RequestCode.Historique_Message+"*"+json;
+                        }
+
+
+
+
                         break;
                    }} catch (IOException e) {
                 e.printStackTrace();
