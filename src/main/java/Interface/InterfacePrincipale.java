@@ -1,6 +1,7 @@
 package Interface;
 
 import Donnees.Contacts;
+import Donnees.Message;
 import Donnees.RequestClient;
 import Donnees.Utilisateur;
 
@@ -16,6 +17,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import Timer.ClientConnexion;
+import com.google.gson.Gson;
+
 public class InterfacePrincipale {
 
     private int numberUser;
@@ -62,30 +65,45 @@ public class InterfacePrincipale {
         mainWindows.add(southPanel, BorderLayout.SOUTH);
         southPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
 
+        scrollPane = new JScrollPane(convText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
 
         centerPanel.add(centerNorthPanel, BorderLayout.NORTH);
         centerPanel.add(centerSouthPanel, BorderLayout.SOUTH);
         southPanel.add(southWestPanel, BorderLayout.WEST);
         southPanel.add(southEastPanel, BorderLayout.EAST);
+        centerPanel.add(scrollPane);
 
+        convText.setEditable(false); //abscence de curseur pour écrire sur le jtextarea
+        convText.setLineWrap(true); //Retour à la ligne de la zone de texte
+        convText.setWrapStyleWord(true); //Lignes enveloppées aux limites des mots
         //stocke dans une liste tous les pseudos pour less afficher dans le jcombobox
+
         tabContact = new ArrayList<>();
         for (Contacts c : utilisateur.getContacts()) {
             tabContact.add(c.getPseudo());
         }
         listeConv = new JComboBox(tabContact.toArray());
+
+        for(Contacts contact : utilisateur.getContacts())
+        {
+            if(contact.getPseudo().equals(listeConv.getSelectedItem()))
+            {
+                for(Message message : contact.getMessage())
+                {
+                    convText.append(message.getContent());
+
+                }
+            }
+        }
+
         northPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 85, 10));
         northPanel.add(listeConv);
         northPanel.add(disconnect);
         listeConv.setPreferredSize(new Dimension(300, 30));
 
         //ajout au panel du centre d'un scroll vertical et horizontal quand le texte dépasse le jtextarea
-        scrollPane = new JScrollPane(convText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        centerPanel.add(scrollPane);
 
-        convText.setEditable(false); //abscence de curseur pour écrire sur le jtextarea
-        convText.setLineWrap(true); //Retour à la ligne de la zone de texte
-        convText.setWrapStyleWord(true); //Lignes enveloppées aux limites des mots
 
         //ajout des composants dans le panel de droite
         eastPanel.add(myAccount);
@@ -103,7 +121,7 @@ public class InterfacePrincipale {
         mainWindows.setVisible(true);
         mainWindows.revalidate();
         mainWindows.repaint();
-        t = new Thread(connection = new ClientConnexion(RequestClient.getSock(), utilisateur));
+        t = new Thread(connection = new ClientConnexion(RequestClient.getSock(), utilisateur,convText,listeConv));
         t.start();
         t.setPriority(Thread.MAX_PRIORITY);
 
@@ -152,6 +170,11 @@ public class InterfacePrincipale {
                 if(!message.isEmpty()) {
                     convText.append(formater.format(aujourdhui) + " : " + message + "\n"); //format du message : date + contenu
                     msgText.setText(""); //RAZ du jtextfield à chaque envoi de message
+                    try {
+                        RequestClient.SendMsg(user.getUserName(), (String) listeConv.getSelectedItem(),formater.format(aujourdhui) + " : " + message + "\n");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -174,6 +197,34 @@ public class InterfacePrincipale {
                 mainWindows.dispose();
             }
         });
+        listeConv.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                convText.setText("");
+                Message[] message = null;
+                try {
+                    RequestClient.GetMsgHistory(user.getUserName(), (String) listeConv.getSelectedItem());
+                    TimeUnit.MILLISECONDS.sleep(100);
+                    String messages = connection.getVerdict();
+                    Gson gson = new Gson();
+                    message = gson.fromJson(messages,Message[].class);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                for(Message messages : message)
+                {
+                    convText.append(messages.getContent());
+                }
+
+            }
+        }
+
+
+
+
+
+        );
     }
 
     public static ArrayList<String> getTabContact() {

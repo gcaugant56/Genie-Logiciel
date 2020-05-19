@@ -116,8 +116,19 @@ public class RequestClient {
         BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
         bos1.write(requestConnect.getBytes());
         bos1.flush();
-        BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
 
     }
+    public static void SendMsg(String username, String destinataire, String msg) throws IOException {
+        String requestsMsg = RequestCode.ENVOI_MSG+"*"+username+"*"+destinataire+"*"+msg;
+        BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
+        bos1.write(requestsMsg.getBytes());
+        bos1.flush();
+    }
 
+    public static void GetMsgHistory(String username, String destinataire) throws IOException {
+        String requestsMsg = RequestCode.Historique_Message+"*"+username+"*"+destinataire;
+        BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
+        bos1.write(requestsMsg.getBytes());
+        bos1.flush();
+    }
 }

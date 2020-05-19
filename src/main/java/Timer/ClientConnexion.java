@@ -1,9 +1,6 @@
 package Timer;
 
-import Donnees.Racine;
-import Donnees.RequestClient;
-import Donnees.RequestCode;
-import Donnees.Utilisateur;
+import Donnees.*;
 import Interface.InterfaceAccount;
 import com.google.gson.Gson;
 
@@ -23,9 +20,13 @@ public class ClientConnexion implements Runnable{
     private BufferedInputStream reader = null;
     private Utilisateur user;
     private String verdict;
-    public ClientConnexion(Socket connexion, Utilisateur user){
+    private JTextArea text;
+    private JComboBox contact;
+    public ClientConnexion(Socket connexion, Utilisateur user,JTextArea text, JComboBox contact){
         this.connexion = connexion;
         this.user = user;
+        this.text = text;
+        this.contact = contact;
     }
 
 
@@ -45,6 +46,13 @@ public class ClientConnexion implements Runnable{
                     case DECONNEXION:
                         break;
                     case ENVOI_MSG:
+                        String expediteur = tabResponse[2];
+                        if(expediteur.equals(contact.getSelectedItem()))
+                        {
+                            verdict = response;
+                            text.append(response);
+                        }
+
                         break;
                     case MODIF_MDP:
                         verdict = response;
@@ -63,7 +71,9 @@ public class ClientConnexion implements Runnable{
                         break;
                     case ENVOI_GROUP:
                         break;
-
+                    case Historique_Message:
+                        verdict = response;
+                        break;
                 }
 
 

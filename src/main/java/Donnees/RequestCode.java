@@ -11,7 +11,8 @@ public enum RequestCode {
     AJOUT_CONTACT(7),
     CREATION_GROUP(8),
     ENVOI_GROUP(9),
-    DEMANDE_LISTE(10);
+    DEMANDE_LISTE(10),
+    Historique_Message(11);
 
     private int numero;
 
