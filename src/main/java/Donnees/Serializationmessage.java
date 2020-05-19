@@ -12,22 +12,34 @@ public class Serializationmessage {
 
     public static boolean Serialization(Racine File, String path) throws IOException {
 
-        String jsone = new Gson().toJson(File);
-        FileWriter fw = new FileWriter(Paths.get(path).toString());
-        fw.write(jsone);
-        fw.close();
-        return true;
+        if (File !=null) {
 
+            try {
+                String jsone = new Gson().toJson(File);
+                FileWriter fw = new FileWriter(Paths.get(path).toString());
+                fw.write(jsone);
+                fw.close();
+                return true;
+            } catch (IOException e) {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
     }
 
     public static Racine Deserialization (String path) throws IOException {
 
+        try{
 
         String json = Files.readString(Paths.get(path));
 
         Racine File = new Gson().fromJson(json, Racine.class);
 
-        return File;
-
+        return File;}
+        catch (IOException e){
+            return null;
+        }
     }
 }
