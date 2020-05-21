@@ -1,4 +1,4 @@
-package Données;
+package Donnees;
 
 
 import com.google.gson.annotations.SerializedName;
@@ -17,11 +17,10 @@ public class Utilisateur {
     private ArrayList<Contacts> Contacts = new ArrayList<Contacts>();
 
 
-    public Utilisateur(String userName, String pseudo, String password, ArrayList<Données.Contacts> contacts) {
+    public Utilisateur(String userName, String pseudo, String password) {
         this.userName = userName;
         this.pseudo = pseudo;
         this.password = password;
-        Contacts = contacts;
     }
 
 
@@ -50,12 +49,13 @@ public class Utilisateur {
         this.password = password;
     }
 
-    public ArrayList<Données.Contacts> getContacts() {
+    public ArrayList<Donnees.Contacts> getContacts() {
         return Contacts;
     }
 
-    public void setContacts(ArrayList<Données.Contacts> contacts) {
-        Contacts = contacts;
+    public void setContacts(Contacts contacts) {
+        Contacts.add(contacts);
     }
+
 }
 

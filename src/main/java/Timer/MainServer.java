@@ -3,8 +3,8 @@ package Timer;
 public class MainServer {
 
     public static void main(String[] args){
-        String host = "192.168.1.91";
-        int port = 2345;
+        String host = "127.0.0.1";
+        int port = 1515;
 
         TimeServer ts = new TimeServer(host, port);
         ts.open();
