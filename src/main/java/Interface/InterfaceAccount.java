@@ -10,6 +10,10 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import Timer.ClientConnexion;
+
+/**
+ * Interface pour la modification du compte de l'utilisateur
+ */
 public class InterfaceAccount {
 
     private JPanel topPanel = new JPanel(new GridLayout(3,3));
@@ -33,6 +37,11 @@ public class InterfaceAccount {
     private Utilisateur utilisateur;
     private ClientConnexion connexion;
 
+    /**
+     * Constructeur de la fenetre "Mon Compte"
+     * @param user l'utilisateur connecté
+     * @param connexion socket de l'utilisateur connecté
+     */
     public InterfaceAccount(Utilisateur user, ClientConnexion connexion) {
         this.connexion = connexion;
         this.utilisateur = user;

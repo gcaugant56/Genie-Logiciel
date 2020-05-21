@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Class permettant la création d'une interface pour la création d'un groupe
+ */
 public class InterfaceNewGroup {
 
     private JLabel nameOfGroup = new JLabel("Nom du groupe : ");
@@ -16,6 +18,9 @@ public class InterfaceNewGroup {
     JPanel centerPanel = new JPanel(new GridLayout(2,1));
     JPanel bottomPanel = new JPanel();
 
+    /**
+     * Constructeur permettant la création d'une interface pour la création d'un groupe
+     */
     public InterfaceNewGroup() {
 
         //création de la fenêtre newgroupwindows
@@ -42,6 +47,9 @@ public class InterfaceNewGroup {
         //Actions à l'appui du bouton "Démarrer la discussion"
         startTalk.addActionListener(new ActionListener() {
             @Override
+            /**
+             * ActionListener du bouton "Nouvelle conversation"
+             */
             public void actionPerformed(ActionEvent actionEvent) {
 
             }

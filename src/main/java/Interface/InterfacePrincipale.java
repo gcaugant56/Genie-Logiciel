@@ -19,6 +19,9 @@ import java.util.concurrent.TimeUnit;
 import Timer.ClientConnexion;
 import com.google.gson.Gson;
 
+/**
+ * Classe permettant de créer l'interface princiale
+ */
 public class InterfacePrincipale {
 
     private int numberUser;
@@ -48,6 +51,10 @@ public class InterfacePrincipale {
     JPanel southWestPanel = new JPanel();
     JPanel southEastPanel = new JPanel();
 
+    /**
+     * Constructeur de l'interface principal
+     * @param user l'objet utilisateur qui c'est connecté
+     */
     public InterfacePrincipale(Utilisateur user) {
 
         utilisateur = user;
@@ -128,6 +135,9 @@ public class InterfacePrincipale {
         //Actions à l'appui du bouton "Mon Compte" : redirection vers l'interface Mon Compte
         myAccount.addActionListener(new ActionListener() {
             @Override
+            /**
+             * ActionListener permettant d'ouvrir l'interface "Mon Compte"
+             */
             public void actionPerformed(ActionEvent actionEvent) {
                 new InterfaceAccount(utilisateur, connection);
             }
@@ -136,6 +146,9 @@ public class InterfacePrincipale {
         //Actions à l'appui du bouton "Nouvelle Conversation" : redirection vers l'interface Nouvelle Conversation
         newConv.addActionListener(new ActionListener() {
             @Override
+            /**
+             * ActionListener permettant d'ouvrir l'interface "Nouvelle conversation"
+             */
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     RequestClient.askListContact(utilisateur.getUserName());
@@ -156,6 +169,9 @@ public class InterfacePrincipale {
         //Actions à l'appui du bouton "Nouveau Groupe" : redirection vers l'interface Nouveau Groupe
         newGroup.addActionListener(new ActionListener() {
             @Override
+            /**
+             * ActionListener permettant d'ouvrir l'interface "Nouveau Groupe"
+             */
             public void actionPerformed(ActionEvent actionEvent) {
                 new InterfaceNewGroup();
             }
@@ -164,6 +180,9 @@ public class InterfacePrincipale {
         //Actions à l'appui du bouton "Envoyer" : envoi du contenu écrit dans le jtextfield vers le jtextarea
         sendMsg.addActionListener(new ActionListener() {
             @Override
+            /**
+             * ActionListener permettant d'ouvrir l'interface "Nouvelle conversation"
+             */
             public void actionPerformed(ActionEvent actionEvent) {
                 Date aujourdhui = new Date(); //date de l'envoi du message
                 String message= msgText.getText();
@@ -181,6 +200,9 @@ public class InterfacePrincipale {
 
         disconnect.addActionListener(new ActionListener() {
             @Override
+            /**
+             * ActionListener permettant d'ouvrir l'interface "Deconnexion"
+             */
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     RequestClient.chatDisconnect(utilisateur.getUserName());//on va chercher la valeur du JTextField user présente dans l'interface connexion
@@ -199,6 +221,9 @@ public class InterfacePrincipale {
         });
         listeConv.addActionListener(new ActionListener() {
             @Override
+            /**
+             * ActionListener qui se déclenche au changement d'un contact dans le menu deroulant
+             */
             public void actionPerformed(ActionEvent actionEvent) {
                 convText.setText("");
                 Message[] message = null;

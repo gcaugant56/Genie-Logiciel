@@ -14,6 +14,10 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+/**
+ * Cette classe est utilise pour lire en continue sur le socket du client,
+ * sur la reception d'une requete, il l'a traite et répond au client
+ */
 public class ClientProcessor implements Runnable{
 
     private Socket sock;
@@ -22,12 +26,23 @@ public class ClientProcessor implements Runnable{
     private Hashtable dic;
     private Utilisateur currentUser = null;
     private Socket socketClient;
+
+    /**
+     * Constructeur de l'objet ClientProcesseur
+     * @param pSock Socket du client qui c'est connecter au serveur
+     * @param dic Dictionnaire permettant de stocker tout les socket des utilisateurs connecter, le nom de compte de
+     *            L'utilisateur est utilisé comme clé, et son socket comme valeur
+     */
     public ClientProcessor(Socket pSock, Hashtable dic){
         sock = pSock;
         socketClient = pSock;
         this.dic = dic;
     }
-    //Le traitement lancé dans un thread séparé
+
+    /**
+     * Cette méthode permet de lire en continu le socket du client afin de récuperer la requete
+     * et la reponse est défini en fonction de la requete du client
+     */
     public void run(){
         System.err.println("Lancement du traitement de la connexion cliente");
 

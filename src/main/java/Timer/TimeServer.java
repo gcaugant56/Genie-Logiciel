@@ -7,6 +7,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Hashtable;
 
+/**
+ * TimerServer est le serveur principal,
+ * il créer un socket, accepte toute les connexions entrantes.
+ * Pour chaque connexion entrante un thread est lancer avec une instance de ClientProcessor
+ */
 public class TimeServer {
 
     //On initialise des valeurs par défaut
@@ -16,6 +21,9 @@ public class TimeServer {
     private boolean isRunning = true;
     Hashtable dic = new Hashtable();
 
+    /**
+     * Constructeur de l'objet TimerServeur, il créer un socket. En utilisant des valeur par défaut
+     */
     public TimeServer() {
         try {
             server = new ServerSocket(port, 100, InetAddress.getByName(host));
@@ -26,6 +34,11 @@ public class TimeServer {
         }
     }
 
+    /**
+     *      * Constructeur de l'objet TimerServeur, il créer un socket.
+     * @param pHost IP du socket
+     * @param pPort port du socket
+     */
     public TimeServer(String pHost, int pPort) {
         host = pHost;
         port = pPort;
@@ -39,7 +52,9 @@ public class TimeServer {
         }
     }
 
-
+    /**
+     * Ecoute en continu, si un client ce connecte  la connexion est accepter et un objet ClientProcessor est créer
+     */
     //On lance notre serveur
     public void open() {
 
@@ -75,6 +90,9 @@ public class TimeServer {
         t.start();
     }
 
+    /**
+     * Arrete le serveur
+     */
     public void close() {
         isRunning = false;
     }

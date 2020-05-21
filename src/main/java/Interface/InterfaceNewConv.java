@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Classe permettant de créer une interface "Nouvelle Conversation"
+ */
 public class InterfaceNewConv {
 
     private JLabel label1 = new JLabel("Destinataire : ");
@@ -25,6 +28,13 @@ public class InterfaceNewConv {
     private Utilisateur utilisateur;
     private String[] pseudonymeList;
 
+    /**
+     * Constructeur permettant de créer une interface "Nouvelle Conversation"
+     * @param user Utilisateur connecté
+     * @param pseudoList Liste des pseudos des permettant possedant un compte
+     * @param connexion Socket utiliser par l'utilisateur
+     * @param comboBox
+     */
     public InterfaceNewConv(Utilisateur user, String[] pseudoList, ClientConnexion connexion, JComboBox comboBox) {
 
         utilisateur = user;
