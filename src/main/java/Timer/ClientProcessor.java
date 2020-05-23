@@ -216,7 +216,7 @@ public class ClientProcessor implements Runnable{
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         String pseudoListString = "";
                         for (Utilisateur base : Json.getUtilisateur()) {
-                            if(!base.getUserName().equals(currentUser.getPseudo())) {
+                            if(!base.getUserName().equals(currentUser.getUserName())) {
                                 pseudoListString += base.getPseudo()+",";
                             }
                         }
