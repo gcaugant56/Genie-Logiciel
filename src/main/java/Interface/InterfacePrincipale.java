@@ -186,17 +186,13 @@ public class InterfacePrincipale {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     RequestClient.chatDisconnect(utilisateur.getUserName());//on va chercher la valeur du JTextField user présente dans l'interface connexion
-                    JOptionPane.showMessageDialog(null, "Déconnexion du chat");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
                     RequestClient.getSock().close();
                     t.interrupt();
+                    System.exit(0);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                mainWindows.dispose();
             }
         });
         listeConv.addActionListener(new ActionListener() {
