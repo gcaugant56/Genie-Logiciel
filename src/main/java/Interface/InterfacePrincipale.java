@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -184,17 +186,13 @@ public class InterfacePrincipale {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     RequestClient.chatDisconnect(utilisateur.getUserName());//on va chercher la valeur du JTextField user présente dans l'interface connexion
-                    JOptionPane.showMessageDialog(null, "Déconnexion du chat");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
                     RequestClient.getSock().close();
                     t.interrupt();
+                    System.exit(0);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                mainWindows.dispose();
             }
         });
         listeConv.addActionListener(new ActionListener() {
@@ -218,13 +216,49 @@ public class InterfacePrincipale {
                 }
 
             }
-        }
+        });
 
+        mainWindows.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent windowEvent) {
 
+            }
 
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                try {
+                    RequestClient.getSock().close();
+                    mainWindows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
+            @Override
+            public void windowClosed(WindowEvent windowEvent) {
 
-        );
+            }
+
+            @Override
+            public void windowIconified(WindowEvent windowEvent) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent windowEvent) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent windowEvent) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent windowEvent) {
+
+            }
+        });
     }
 
     public static ArrayList<String> getTabContact() {
