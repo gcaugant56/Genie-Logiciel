@@ -303,4 +303,29 @@ public class ClientProcessor implements Runnable{
         return response;
     }
 
+    private Utilisateur findUserByUsername(String username, Racine root)
+    {
+        for(Utilisateur base : root.getUtilisateur())
+        {
+            if(base.getUserName().equals(username)) {
+                return base;
+
+            }
+        }
+        return null;
+    }
+
+    private Contacts findContactByPseudo(String pseudo, String username, Racine root)
+    {
+        Utilisateur user = findUserByUsername(username,root);
+        for (Contacts contacts : user.getContacts())
+        {
+            if(contacts.getPseudo().equals(pseudo))
+            {
+                return contacts;
+            }
+        }
+        return null;
+    }
+
 }
