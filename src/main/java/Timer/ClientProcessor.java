@@ -34,7 +34,9 @@ public class ClientProcessor implements Runnable{
         boolean closeConnexion = false;
         //tant que la connexion est active, on traite les demandes
         while(!sock.isClosed()){
-
+            String username,password,contact;
+            Contacts contacts;
+            Utilisateur user;
             try {
 
                 //Ici, nous n'utilisons pas les mêmes objets que précédemment
@@ -81,18 +83,17 @@ public class ClientProcessor implements Runnable{
                     case CONNEXION_CHAT:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         json = "";
-                        for (Utilisateur base : Json.getUtilisateur()) {
-                            if (base.getUserName().equals(tabResponse[1]) &&
-                                    base.getPassword().equals(tabResponse[2]))
-                            // on cherche à savoir si le mdp/user_name correspondent au Json
+                        username = tabResponse[1];
+                        password = tabResponse[2];
+                        user = findUserByUsername(username,Json);
+                        if(user != null && user.getPassword().equals(password))
+                        {
+                            currentUser = user;
+                            Gson gson = new Gson();
+                            json = gson.toJson(user);//transformation de l'objet en json
+                            if(!dic.containsKey(user.getUserName()))
                             {
-                                currentUser = base;
-                                Gson gson = new Gson();
-                                json = gson.toJson(base);//transformation de l'objet en json
-                                if(!dic.containsKey(base.getUserName()))
-                                {
-                                    dic.put(base.getUserName(),sock);
-                                }
+                                dic.put(user.getUserName(),sock);
                             }
                         }
                         if (json.equals("")) {
@@ -101,65 +102,64 @@ public class ClientProcessor implements Runnable{
                             toSend = json;
                         }
                         break;
-                    case DECONNEXION:
 
+                    case DECONNEXION:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         json = "";
-                        for (Utilisateur base : Json.getUtilisateur()) {
-                            if (base.getUserName().equals(tabResponse[1]))
-                            // on cherche à savoir si le mdp/user_name correspondent au Json
+                        username = tabResponse[1];
+                        user = findUserByUsername(username,Json);
+                        if (user != null)
+                        // on cherche à savoir si le mdp/user_name correspondent au Json
+                        {
+                            if(dic.containsKey(user.getUserName()))
                             {
-                                if(dic.containsKey(base.getUserName()))
-                                {
-                                    dic.remove(base.getUserName());
-                                }
+                                dic.remove(user.getUserName());
                             }
+
                         }
                         break;
+
                     case ENVOI_MSG:
-                        String user = tabResponse[1];
+                        username = tabResponse[1];
                         String destinataire = tabResponse[2];
                         String msg = tabResponse[3];
 
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
-                        for (Utilisateur base : Json.getUtilisateur()) {
-                            if(base.getUserName().equals(user)) {
-                                for (Contacts contacts : base.getContacts()) {
-                                    if (contacts.getPseudo().equals(destinataire)) {
-                                        Message message = new Message(msg,destinataire,base.getPseudo());
-                                        contacts.setMessage(message);
+                        contacts = findContactByPseudo(destinataire,username,Json);
+                        if(contacts != null)
+                        {
+                            Message message = new Message(msg,destinataire,currentUser.getPseudo());
+                            contacts.setMessage(message);
+                            sock = (Socket) dic.get(contacts.getUsername());
+                            writer = new PrintWriter(sock.getOutputStream());
+                            toSend = RequestCode.ENVOI_MSG + "*"+msg+"*"+currentUser.getPseudo();
 
-                                        sock = (Socket) dic.get(contacts.getUsername());
-                                        writer = new PrintWriter(sock.getOutputStream());
-                                        toSend = RequestCode.ENVOI_MSG + "*"+msg+"*"+currentUser.getPseudo();
-                                    }
-                                }
-                            }
                         }
+
                         for (Utilisateur base : Json.getUtilisateur()) {
                             if (base.getPseudo().equals(destinataire)) {
-                                for (Contacts contacts : base.getContacts()) {
-                                    if (contacts.getUsername().equals(user)) {
+                                for (Contacts contactToSend : base.getContacts()) {
+                                    if (contactToSend.getUsername().equals(username)) {
                                         Message message = new Message(msg, destinataire, base.getPseudo());
-                                        contacts.setMessage(message);
+                                        contactToSend.setMessage(message);
                                     }
                                 }
                             }
                         }
-
                         Donnees.Serializationmessage.Serialization(Json,"Json.json");
-
-
-
-
                         break;
+
                     case MODIF_MDP:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
-                        for (Utilisateur base : Json.getUtilisateur()) {
-                            if(base.getUserName().equals(tabResponse[1]) &&
-                                    base.getPassword().equals(tabResponse[2]))
+                        username = tabResponse[1];
+                        password = tabResponse[2];
+                        String newPassword = tabResponse[3];
+
+                        user = findUserByUsername(username,Json);
+                            if(user != null && user.getPassword().equals(password))
                             {
-                                base.setPassword(tabResponse[3]);
+                                user.setPassword(newPassword);
+                                currentUser.setPassword(newPassword);
                                 Donnees.Serializationmessage.Serialization(Json,"Json.json");
                                 toSend=RequestCode.MODIF_MDP+"*true";
 
@@ -167,29 +167,32 @@ public class ClientProcessor implements Runnable{
                             if (!toSend.equals(RequestCode.MODIF_MDP+"*true")){
                                 toSend= RequestCode.MODIF_MDP+"*false";
                             }
-                        }
                         break;
+
                     case MODIF_USERNAME:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
-                        json = "";
-                        for (Utilisateur base : Json.getUtilisateur()) {
-                            if (base.getUserName().equals(tabResponse[1])) {
-                                base.setPseudo(tabResponse[2]);
-                                Donnees.Serializationmessage.Serialization(Json, "Json.json");
-                                toSend= RequestCode.MODIF_USERNAME+"*true";
+                        username = tabResponse[1];
+                        password = tabResponse[2];
+                        String newPseudo = tabResponse[3];
 
-                            }
-                            if (!toSend.equals(RequestCode.MODIF_USERNAME+"*true")){
-                                toSend= RequestCode.MODIF_USERNAME+"*false";
-                            }
+                        user = findUserByUsername(username,Json);
+                        if(user != null && user.getPassword().equals(password))
+                        {
+                            user.setPseudo(newPseudo);
+                            currentUser.setPseudo(newPseudo);
+                            Donnees.Serializationmessage.Serialization(Json, "Json.json");
+                            toSend= RequestCode.MODIF_USERNAME+"*true";
                         }
 
-
+                        if (!toSend.equals(RequestCode.MODIF_USERNAME+"*true")){
+                            toSend= RequestCode.MODIF_USERNAME+"*false";
+                        }
                         break;
+
                     case AJOUT_CONTACT:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         json = "";
-                        Contacts contacts = null;
+                        contacts = null;
                         for (Utilisateur base : Json.getUtilisateur()) {
                             if(base.getPseudo().equals(tabResponse[2])) {
                                 contacts = new Contacts(base.getPseudo(), base.getUserName());
@@ -247,24 +250,16 @@ public class ClientProcessor implements Runnable{
                     case Historique_Message:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         json = "";
-                        String username = tabResponse[1];
-                        String contact = tabResponse[2];
-                        for(Utilisateur base : Json.getUtilisateur())
+                        username = tabResponse[1];
+                        String pseudo = tabResponse[2];
+                        contacts = findContactByPseudo(pseudo,username,Json);
+
+                        if(contacts != null)
                         {
-                            if(base.getUserName().equals(username))
-                            {
-                                for (Contacts contactHistory : base.getContacts())
-                                {
-                                    if(contactHistory.getPseudo().equals(contact))
-                                    {
-                                        Gson gson = new Gson();
-
-                                        json = gson.toJson(contactHistory.getMessage());
-                                    }
-
-                                }
-                            }
+                            Gson gson = new Gson();
+                            json = gson.toJson(contacts.getMessage());
                         }
+
                         if(json.equals(""))
                         {
                             toSend = "null";
@@ -273,12 +268,12 @@ public class ClientProcessor implements Runnable{
                         {
                             toSend = RequestCode.Historique_Message+"*"+json;
                         }
-
-
-
-
                         break;
-                   }} catch (IOException e) {
+
+                   }
+                }
+                catch (IOException e)
+                {
                 e.printStackTrace();
             }
             writer.write(toSend);
