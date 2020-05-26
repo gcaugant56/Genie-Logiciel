@@ -215,12 +215,27 @@ public class ClientProcessor implements Runnable{
                     case DEMANDE_LISTE:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         String pseudoListString = "";
-                        for (Utilisateur base : Json.getUtilisateur()) {
-                            if(!base.getUserName().equals(currentUser.getUserName())) {
-                                pseudoListString += base.getPseudo()+",";
+                        ArrayList<Utilisateur> allUser = Json.getUtilisateur();
+                        if(allUser.size() > 2)
+                        {
+                            for (Utilisateur base : allUser)
+                            {
+                                if(!base.getUserName().equals(currentUser.getUserName()))
+                                {
+                                    pseudoListString += base.getPseudo()+",";
+                                }
+                            }
+                            pseudoListString = pseudoListString.substring(1, pseudoListString.length()-1);
+
+                        }
+                        else
+                        {
+                            if(!allUser.get(1).getUserName().equals(currentUser.getUserName()))
+                            {
+                                pseudoListString = allUser.get(1).getPseudo();
                             }
                         }
-                        pseudoListString = pseudoListString.substring(1, pseudoListString.length()-1);
+
                         if(pseudoListString.equals("")) {
                             toSend = RequestCode.DEMANDE_LISTE+"*false";
                         } else {

@@ -1,8 +1,6 @@
 package Interface;
 
-import Donnees.Racine;
 import Donnees.RequestClient;
-import Donnees.Utilisateur;
 
 import javax.swing.*;
 import java.awt.*;
