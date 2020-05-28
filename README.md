@@ -1,5 +1,5 @@
 # Projet de Génie Logiciel
-Membres du groupe : Valentin CAMOZZI, Gauillaume CAUGANT, Rudy LOMBARD, Alloms Quintero, Nono Armel TCHIASSO, Issam ZEGGAÏ
+Membres du groupe : **Valentin CAMOZZI, Gauillaume CAUGANT, Rudy LOMBARD, Alloms Quintero, Nono Armel TCHIASSO, Issam ZEGGAÏ**
 
 # Introduction au projet : ChatRoom
 
