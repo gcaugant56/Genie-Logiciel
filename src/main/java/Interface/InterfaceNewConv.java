@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.concurrent.TimeUnit;
 
 public class InterfaceNewConv {
 
@@ -66,6 +67,7 @@ public class InterfaceNewConv {
                     {
                         System.out.println("null");
                         verdict = connexion.getVerdict();
+                        TimeUnit.MILLISECONDS.sleep(100);
 
                     }
                     if(verdict.equals("false")) {
@@ -73,13 +75,13 @@ public class InterfaceNewConv {
                     }
                     else {
                         Gson gson = new Gson();
-                        Contacts contacts = gson.fromJson(verdict, (Type) Contacts.class);
+                        Contacts contacts = gson.fromJson(verdict, Contacts.class);
                         utilisateur.setContacts(contacts);
                         JOptionPane.showMessageDialog(null, "Ajout de contact effectué");
                         comboBoxPrincipale.addItem(contacts.getPseudo());
                         newConvWindows.dispose();
                     }
-                } catch(IOException e) {
+                } catch(IOException | InterruptedException e) {
                     JOptionPane.showMessageDialog(null, "Ajout de contact impossible");
                 }
             }
