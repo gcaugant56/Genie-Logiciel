@@ -10,16 +10,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import Timer.ClientConnexion;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 public class InterfacePrincipale {
 
@@ -140,17 +138,32 @@ public class InterfacePrincipale {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
+                    String verdict;
                     RequestClient.askListContact(utilisateur.getUserName());
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    verdict = connection.getVerdict();
+                    while (verdict == null)
+                    {
+                        System.out.println("null");
+                        verdict = connection.getVerdict();
                     }
-                    tabVerdict = connection.getVerdict().split(",");
+                    if(verdict.equals("false"))
+                    {
+                        Boolean.parseBoolean(verdict);
+                        JOptionPane.showMessageDialog(null, "Aucun contacts disponibles");
+                    }
+                    else
+                    {
+                        tabVerdict = verdict.split(",");
+                        System.out.println("split "+tabVerdict);
+                        new InterfaceNewConv(utilisateur, tabVerdict, connection, listeConv);
+                    }
+
+
+
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                new InterfaceNewConv(utilisateur, tabVerdict, connection, listeConv);
 
             }
         });
@@ -177,6 +190,7 @@ public class InterfacePrincipale {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                 }
             }
         });
@@ -186,76 +200,54 @@ public class InterfacePrincipale {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     RequestClient.chatDisconnect(utilisateur.getUserName());//on va chercher la valeur du JTextField user présente dans l'interface connexion
-                    RequestClient.getSock().close();
-                    t.interrupt();
-                    System.exit(0);
-
+                    JOptionPane.showMessageDialog(null, "Déconnexion du chat");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                try {
+                    RequestClient.getSock().close();
+                    t.interrupt();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mainWindows.dispose();
             }
         });
         listeConv.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 convText.setText("");
-                Message[] message = null;
+                Message[] Multimessage = null;
+                Gson gson = new Gson();
+                String messages = "";
                 try {
                     RequestClient.GetMsgHistory(user.getUserName(), (String) listeConv.getSelectedItem());
-                    TimeUnit.MILLISECONDS.sleep(100);
-                    String messages = connection.getVerdict();
-                    Gson gson = new Gson();
-                    message = gson.fromJson(messages,Message[].class);
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
+                    messages = connection.getVerdict();
+                    while (messages == null)
+                    {
+                        System.out.println("null");
+                        messages = connection.getVerdict();
+                    }
+                    System.out.println("pas null");
 
-                for(Message messages : message)
-                {
-                    convText.append(messages.getContent());
-                }
+                    try
+                    {
+                        Multimessage = gson.fromJson(messages,Message[].class);
+                        for(Message message : Multimessage)
+                        {
+                            convText.append(message.getContent());
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Message Snglemessage = gson.fromJson(messages,Message.class);
+                        convText.append(Snglemessage.getContent());
+                    }
 
-            }
-        });
-
-        mainWindows.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent windowEvent) {
-
-            }
-
-            @Override
-            public void windowClosing(WindowEvent windowEvent) {
-                try {
-                    RequestClient.getSock().close();
-                    mainWindows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 } catch (IOException e) {
-                    e.printStackTrace();
+
                 }
-            }
 
-            @Override
-            public void windowClosed(WindowEvent windowEvent) {
-
-            }
-
-            @Override
-            public void windowIconified(WindowEvent windowEvent) {
-
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent windowEvent) {
-
-            }
-
-            @Override
-            public void windowActivated(WindowEvent windowEvent) {
-
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent windowEvent) {
 
             }
         });

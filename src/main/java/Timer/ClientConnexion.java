@@ -34,17 +34,13 @@ public class ClientConnexion implements Runnable{
         while(true) {
             try {
                 reader = new BufferedInputStream(connexion.getInputStream());
-                verdict = "";
+                verdict = null;
                 String response = read();
-                System.out.println(response);
+                System.out.println("Verdict defini");
                 String[] tabResponse = response.split("\\*"); //permet de séparer le tableau par carractère
                 RequestCode Code = RequestCode.values()[Integer.parseInt(tabResponse[0])-1];
                 response = tabResponse[1];
-                Racine Json = null;
-                String json = "";
                 switch (Code) {
-                    case DECONNEXION:
-                        break;
                     case ENVOI_MSG:
                         String expediteur = tabResponse[2];
                         if(expediteur.equals(contact.getSelectedItem()))
@@ -54,26 +50,10 @@ public class ClientConnexion implements Runnable{
                         }
 
                         break;
-                    case MODIF_MDP:
-                        verdict = response;
-                        break;
-                    case MODIF_USERNAME:
-                        verdict = response;
-                        break;
-                    case AJOUT_CONTACT:
-                        verdict = response;
-                        break;
-                    case CREATION_GROUP:
-                        break;
-                    case DEMANDE_LISTE:
+                    default:
                         verdict = response;
                         System.out.println(verdict);
-                        break;
-                    case ENVOI_GROUP:
-                        break;
-                    case Historique_Message:
-                        verdict = response;
-                        break;
+
                 }
 
 
@@ -82,7 +62,7 @@ public class ClientConnexion implements Runnable{
             }
 
             try {
-                Thread.currentThread().sleep(1000);
+                Thread.currentThread().sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

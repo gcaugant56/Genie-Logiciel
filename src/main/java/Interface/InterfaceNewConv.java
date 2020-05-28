@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.concurrent.TimeUnit;
 
 public class InterfaceNewConv {
 
@@ -60,13 +59,15 @@ public class InterfaceNewConv {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
+                    String verdict = null;
                     RequestClient.addContact(utilisateur.getUserName(),(String)comboBoxNewConv.getSelectedItem());
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    verdict = connexion.getVerdict();
+                    while(verdict == null)
+                    {
+                        System.out.println("null");
+                        verdict = connexion.getVerdict();
+
                     }
-                    String verdict = connexion.getVerdict();
                     if(verdict.equals("false")) {
                         JOptionPane.showMessageDialog(null, "Ajout de contact impossible");
                     }

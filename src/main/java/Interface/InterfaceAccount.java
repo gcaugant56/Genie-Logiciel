@@ -8,7 +8,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 import Timer.ClientConnexion;
 public class InterfaceAccount {
 
@@ -103,14 +102,16 @@ public class InterfaceAccount {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-
+                    String verdict;
                     RequestClient.checkPassword(utilisateur.getUserName(), jtextFieldOldPassword.getText(), jtextFieldNewPassword.getText());
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    verdict = connexion.getVerdict();
+                    while(verdict == null)
+                    {
+                        System.out.println("null");
+                        verdict = connexion.getVerdict();
+
                     }
-                    if (Boolean.parseBoolean(connexion.getVerdict())) {
+                    if (Boolean.parseBoolean(verdict)) {
                         JOptionPane.showMessageDialog(null, "Votre mot de passe a été modifié");
 
                     } else {
@@ -164,12 +165,14 @@ public class InterfaceAccount {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                try {
-                    TimeUnit.MILLISECONDS.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                String verdict = connexion.getVerdict();
+                while(verdict == null)
+                {
+                    System.out.println("null");
+                    verdict = connexion.getVerdict();
+
                 }
-                if(Boolean.parseBoolean(connexion.getVerdict()))
+                if (Boolean.parseBoolean(verdict))
                 {
                     utilisateur.setPseudo(jtextFieldNewPseudo.getText());
                     JOptionPane.showMessageDialog(null, "Votre pseudo a été modifié");
