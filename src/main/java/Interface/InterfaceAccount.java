@@ -107,6 +107,7 @@ public class InterfaceAccount {
                     verdict = connexion.getVerdict();
                     while(verdict == null)
                     {
+                        System.out.println("null");
                         verdict = connexion.getVerdict();
 
                     }
@@ -167,6 +168,7 @@ public class InterfaceAccount {
                 String verdict = connexion.getVerdict();
                 while(verdict == null)
                 {
+                    System.out.println("null");
                     verdict = connexion.getVerdict();
 
                 }

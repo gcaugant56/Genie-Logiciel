@@ -17,6 +17,7 @@ import java.util.Date;
 
 import Timer.ClientConnexion;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 public class InterfacePrincipale {
 
@@ -142,6 +143,7 @@ public class InterfacePrincipale {
                     verdict = connection.getVerdict();
                     while (verdict == null)
                     {
+                        System.out.println("null");
                         verdict = connection.getVerdict();
                     }
                     if(verdict.equals("false"))
@@ -152,6 +154,7 @@ public class InterfacePrincipale {
                     else
                     {
                         tabVerdict = verdict.split(",");
+                        System.out.println("split "+tabVerdict);
                         new InterfaceNewConv(utilisateur, tabVerdict, connection, listeConv);
                     }
 
@@ -214,10 +217,12 @@ public class InterfacePrincipale {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 convText.setText("");
-                Message[] message = null;
+                Message[] Multimessage = null;
+                Gson gson = new Gson();
+                String messages = "";
                 try {
                     RequestClient.GetMsgHistory(user.getUserName(), (String) listeConv.getSelectedItem());
-                    String messages = connection.getVerdict();
+                    messages = connection.getVerdict();
                     while (messages == null)
                     {
                         System.out.println("null");
@@ -225,16 +230,25 @@ public class InterfacePrincipale {
                     }
                     System.out.println("pas null");
 
-                    Gson gson = new Gson();
-                    message = gson.fromJson(messages,Message[].class);
+                    try
+                    {
+                        Multimessage = gson.fromJson(messages,Message[].class);
+                        for(Message message : Multimessage)
+                        {
+                            convText.append(message.getContent());
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Message Snglemessage = gson.fromJson(messages,Message.class);
+                        convText.append(Snglemessage.getContent());
+                    }
+
                 } catch (IOException e) {
-                    e.printStackTrace();
+
                 }
 
-                for(Message messages : message)
-                {
-                    convText.append(messages.getContent());
-                }
+
             }
         });
     }

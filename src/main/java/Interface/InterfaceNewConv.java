@@ -59,11 +59,12 @@ public class InterfaceNewConv {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    String verdict;
+                    String verdict = null;
                     RequestClient.addContact(utilisateur.getUserName(),(String)comboBoxNewConv.getSelectedItem());
                     verdict = connexion.getVerdict();
                     while(verdict == null)
                     {
+                        System.out.println("null");
                         verdict = connexion.getVerdict();
 
                     }

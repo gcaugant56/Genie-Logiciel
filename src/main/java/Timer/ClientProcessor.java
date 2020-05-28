@@ -130,10 +130,12 @@ public class ClientProcessor implements Runnable{
                         {
                             Message message = new Message(msg,destinataire,currentUser.getPseudo());
                             contacts.setMessage(message);
-                            sock = (Socket) dic.get(contacts.getUsername());
-                            writer = new PrintWriter(sock.getOutputStream());
-                            toSend = RequestCode.ENVOI_MSG + "*"+msg+"*"+currentUser.getPseudo();
-
+                            if(dic.containsKey(contacts.getUsername()))
+                            {
+                                sock = (Socket) dic.get(contacts.getUsername());
+                                writer = new PrintWriter(sock.getOutputStream());
+                                toSend = RequestCode.ENVOI_MSG + "*"+msg+"*"+currentUser.getPseudo();
+                            }
                         }
 
                         for (Utilisateur base : Json.getUtilisateur()) {
@@ -211,6 +213,7 @@ public class ClientProcessor implements Runnable{
                                 }
                             }
                             toSend = json;
+                            System.out.println("Reponse : "+json);
                         }
                         break;
                     case CREATION_GROUP:
