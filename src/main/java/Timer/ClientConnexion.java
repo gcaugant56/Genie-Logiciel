@@ -62,7 +62,7 @@ public class ClientConnexion implements Runnable{
             }
 
             try {
-                Thread.currentThread().sleep(2000);
+                Thread.currentThread().sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
