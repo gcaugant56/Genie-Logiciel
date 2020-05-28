@@ -12,6 +12,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Hashtable;
 
 public class ClientProcessor implements Runnable{
@@ -37,6 +39,7 @@ public class ClientProcessor implements Runnable{
             String username,password,contact;
             Contacts contacts;
             Utilisateur user;
+            String pseudo;
             try {
 
                 //Ici, nous n'utilisons pas les mêmes objets que précédemment
@@ -254,7 +257,7 @@ public class ClientProcessor implements Runnable{
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         json = "";
                         username = tabResponse[1];
-                        String pseudo = tabResponse[2];
+                        pseudo = tabResponse[2];
                         contacts = findContactByPseudo(pseudo,username,Json);
 
                         if(contacts != null)
@@ -272,6 +275,20 @@ public class ClientProcessor implements Runnable{
                             toSend = RequestCode.Historique_Message+"*"+json;
                         }
                         break;
+                    case Suppression_Message:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        json = "";
+                        username = tabResponse[1];
+                        pseudo = tabResponse[2];
+                        contacts = findContactByPseudo(pseudo,username,Json);
+                        Collection temp = contacts.getMessage();
+                        contacts.getMessage().removeAll(temp);
+
+                        Gson gson = new Gson();
+                        json = RequestCode.Suppression_Message+"*"+gson.toJson(contacts);
+                        toSend = RequestCode.Suppression_Message+"*"+contacts;
+
+
 
                    }
                 }
