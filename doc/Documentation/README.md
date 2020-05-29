@@ -1,27 +1,24 @@
-## Récuperation du repo
+# Organisation du projet
+Membres du groupe : Valentin CAMOZZI, Gauillaume CAUGANT, Rudy LOMBARD, Alloms Quintero, Nono Armel TCHIASSO, Issam ZEGGAÏ
 
-git clone https://github.com/gcaugant56/Android-Studio-Covid19.git
-Ouvrir le projet dans Android studio (ne pas l'importé)
 
----
-## Installation
----
-## Dépendances
----
-## Principe de fonctionnement
----
-## Version
+# La méthode de développement de projet choisie
 
-1.00 :
-- Appel de l'API COVID-19 (https://covid19api.com/summary)
-- Création de liste des pays
-- Création de l'écran detaillant l'état des pays
-- Ajout du global stats, qui récupere les stats du COVIS-19 a l'échelle mondial
-- Ajout des drapeaux pour chaque pays
+Dans le cadre de notre projet, la méthode de développement choisie fut le **SCRUM**.
 
-2.00 : 
-- Ajout de la géolocalisation de l'utilisateur
-- Ajout de la case "Your location" permettant d'afficher les statistiques du COVID-19 dans le pays dans lequel ce trouve l'utilisateur
-- Ajout des tests unitaire sur les get/setter des objet de base.
-- Ajout test unitaire sur les écran MainActivity (écran principal) et DetailsActivity (écran affichant les détails sur le pays selectionné)
----
+**Pourquoi?**
+
+Tout d'abord, en vue du cadre de notre projet et également après établissement du cahier des charges, nous cherchions une méthode de développement donnant un maximum de visibilité sur le temps par rapport aux tâches et sous-tâches que nous devions remplir au fur et à mesure.
+Ensuite, car le principe de "Sprint" est une facette de cette méthode auquel l'ensemble des membres du groupe et moi-même avons adhérés dans le cadre d'une vision "Gestion de Projet" permettant un rapport "travail à founir dans le temps" plus que convenable.
+
+Ensuite car le Scrum est une méthode de développement avec bien des avantages, notamment :
+- Une gestion intelligente du travail qui engendre plus d’efficacité et de productivité
+- Une meilleure visibilité et communication des équipes sur les sujets en cours
+- La valorisation et autonomie de chaque membre du groupe 
+- Une cohésion d’équipe, une réflexion constante pour dépasser les difficultés
+- La vélocité de l'équipe. 
+C’est l’idée de dire que l’équipe est capable de fournir une certaine quantité de travail en un temps donné, plus que de prédire une date finale de livraison.
+
+![Image](https://i.imgur.com/hkVqRpa.jpg)
+
+
