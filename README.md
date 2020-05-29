@@ -20,7 +20,7 @@ Scrum, XP, Kanban) et les pratiques appliquées
 
 
 
-2. La documentation sur : *Les Spécifications*
+2. La documentation sur *Les Spécifications* comportant :
 
 - Le Cahier des charges
 - La liste des exigences fonctionnelles et non-fonctionnelles
@@ -32,7 +32,7 @@ Scrum, XP, Kanban) et les pratiques appliquées
 
 
 
-3. La documentation portant sur : *La Conception*
+3. La documentation sur *La Conception* comportant :
 
   - Le Document d’Architecture Système:
   - La décomposition en modules de l’application
