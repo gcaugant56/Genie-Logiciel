@@ -1,4 +1,4 @@
-# Organisation du projet
+# Organisation du Projet
 Membres du groupe : Valentin CAMOZZI, Gauillaume CAUGANT, Rudy LOMBARD, Alloms Quintero, Nono Armel TCHIASSO, Issam ZEGGAÏ
 
 
