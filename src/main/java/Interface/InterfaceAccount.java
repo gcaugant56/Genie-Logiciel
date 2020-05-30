@@ -1,5 +1,6 @@
 package Interface;
 
+import Controleur.AccountController;
 import Donnees.RequestClient;
 import Donnees.Utilisateur;
 
@@ -11,35 +12,77 @@ import java.io.IOException;
 import Timer.ClientConnexion;
 public class InterfaceAccount {
 
-    private JPanel topPanel = new JPanel(new GridLayout(3,3));
-    private JPanel bottomPanel = new JPanel(new GridLayout(2,3));
+    private JPanel topPanel;
     private Border topTitle =  BorderFactory.createTitledBorder("Modifier votre mot de passe : ");
     private Border bottomTitle =  BorderFactory.createTitledBorder("Modifier votre pseudo : ");
-    private JLabel oldPassword = new JLabel("Ancien : ");
-    private JLabel newPassword = new JLabel("Nouveau : ");
     private JLabel newRepeatPassword = new JLabel("Nouveau : ");
     private JLabel currentPseudo = new JLabel("Actuel : ");
     private JLabel newPseudo = new JLabel("Nouveau : ");
-    private JLabel labelEmptyTopPanel = new JLabel("");
-    private JLabel labelEmptyBottomPanel = new JLabel("");
-    private JLabel displayCurrentPseudo = new JLabel("");
     private JButton validateButton1 = new JButton("Valider");
-    private JButton validateButton2 = new JButton("Valider");
-    private JTextField jtextFieldOldPassword = new JTextField();
-    private JTextField jtextFieldNewPassword = new JTextField();
-    private JTextField jtextFieldRepeatNewPassword = new JTextField();
-    private JTextField jtextFieldNewPseudo = new JTextField();
-    private Utilisateur utilisateur;
-    private ClientConnexion connexion;
+    private JButton validateButton2 = new JButton("Valider ");
+    private AccountController accountController;
+    private static JTextField jtextFieldOldPassword = new JTextField();
+    private static JTextField jtextFieldNewPassword = new JTextField();
+    private static JTextField jtextFieldRepeatNewPassword = new JTextField();
+    private static JTextField jtextFieldNewPseudo = new JTextField();
+    private static JFrame accountWindows;
+    private static JLabel labelEmptyTopPanel = new JLabel("");
+    private static JLabel labelEmptyBottomPanel = new JLabel("");
+    private static JLabel displayCurrentPseudo = new JLabel("");
+    private static Utilisateur utilisateur;
+    private static JLabel oldPassword = new JLabel("Ancien : ");
+    private static JLabel newPassword = new JLabel("Nouveau : ");
+    private static JPanel bottomPanel;
+    private static ClientConnexion connexion;
+
+    public static JPanel getBottomPanel() {
+        return bottomPanel;
+    }
+
+    public static JTextField getJtextFieldOldPassword() {
+        return jtextFieldOldPassword;
+    }
+
+    public static JTextField getJtextFieldNewPassword() {
+        return jtextFieldNewPassword;
+    }
+
+    public static JTextField getJtextFieldRepeatNewPassword() {
+        return jtextFieldRepeatNewPassword;
+    }
+
+    public static JTextField getJtextFieldNewPseudo() {
+        return jtextFieldNewPseudo;
+    }
+
+    public static Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public static ClientConnexion getConnexion() {
+        return connexion;
+    }
+
+    public static JLabel getDisplayCurrentPseudo() {
+        return displayCurrentPseudo;
+    }
+
+    public static JFrame getAccountWindows() {
+        return accountWindows;
+    }
 
     public InterfaceAccount(Utilisateur user, ClientConnexion connexion) {
         this.connexion = connexion;
         this.utilisateur = user;
+
         //création de la fenêtre Mon Compte
-        JFrame accountWindows = new JFrame();
+        accountWindows = new JFrame();
         accountWindows.setMinimumSize(new Dimension(490, 320));
         accountWindows.setLayout(new GridLayout(2,1));
         accountWindows.setLocationRelativeTo(null);
+
+        topPanel = new JPanel(new GridLayout(3,3));
+        bottomPanel = new JPanel(new GridLayout(2,3));
 
         //ajout des panels dans la fenêtre
         accountWindows.add(topPanel);
@@ -71,121 +114,11 @@ public class InterfaceAccount {
         accountWindows.repaint();
 
         validateButton1.setEnabled(false);
-        jtextFieldRepeatNewPassword.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent keyEvent) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent keyEvent) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent keyEvent) {
-                if(jtextFieldNewPassword.getText().equals(jtextFieldRepeatNewPassword.getText()) && jtextFieldNewPassword.getText().length() > 5) {
-                    jtextFieldNewPassword.setForeground(Color.GREEN);
-                    jtextFieldRepeatNewPassword.setForeground(Color.GREEN);
-                    validateButton1.setEnabled(true);
-                }
-                else {
-                    jtextFieldNewPassword.setForeground(Color.RED);
-                    jtextFieldRepeatNewPassword.setForeground(Color.RED);
-                    validateButton1.setEnabled(false);
-                }
-            }
-        });
-
-        //Actions à l'appui du bouton "Valider" du panel du haut
-        validateButton1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    String verdict;
-                    RequestClient.checkPassword(utilisateur.getUserName(), jtextFieldOldPassword.getText(), jtextFieldNewPassword.getText());
-                    verdict = connexion.getVerdict();
-                    while(verdict == null)
-                    {
-                        System.out.println("null");
-                        verdict = connexion.getVerdict();
-
-                    }
-                    if (Boolean.parseBoolean(verdict)) {
-                        JOptionPane.showMessageDialog(null, "Votre mot de passe a été modifié");
-
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Le mot de passe n'est pas bon");
-                        jtextFieldOldPassword.setBackground(Color.RED);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        });
-
-
         displayCurrentPseudo.setText(user.getPseudo());
         displayCurrentPseudo.setHorizontalAlignment(JLabel.CENTER);
         displayCurrentPseudo.setVerticalAlignment(JLabel.CENTER);
         validateButton2.setEnabled(false);
-        jtextFieldNewPseudo.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent keyEvent) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent keyEvent) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent keyEvent) {
-                if(!jtextFieldNewPseudo.getText().equals(utilisateur.getPseudo()) && jtextFieldNewPseudo.getText().length() > 5) {
-                    jtextFieldNewPseudo.setForeground(Color.GREEN);
-                    validateButton2.setEnabled(true);
-                }
-                else {
-                    jtextFieldNewPseudo.setForeground(Color.RED);
-                    validateButton2.setEnabled(false);
-                }
-            }
-        });
-
-        //Actions à l'appui du bouton "Valider" du panel du bas
-        validateButton2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                //try {
-                try {
-                    RequestClient.checkPseudo(utilisateur.getUserName(), jtextFieldNewPseudo.getText());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                String verdict = connexion.getVerdict();
-                while(verdict == null)
-                {
-                    System.out.println("null");
-                    verdict = connexion.getVerdict();
-
-                }
-                if (Boolean.parseBoolean(verdict))
-                {
-                    utilisateur.setPseudo(jtextFieldNewPseudo.getText());
-                    JOptionPane.showMessageDialog(null, "Votre pseudo a été modifié");
-                    bottomPanel.revalidate();
-                    displayCurrentPseudo.setText(utilisateur.getPseudo());
-                } else
-                {
-                    JOptionPane.showMessageDialog(null, "Le pseudo n'est pas valide");
-                    jtextFieldNewPseudo.setBackground(Color.RED);
-                }
-
-            }
-        });
+        accountController = new AccountController(validateButton1,validateButton2, jtextFieldRepeatNewPassword, jtextFieldNewPseudo);
 
     }
 

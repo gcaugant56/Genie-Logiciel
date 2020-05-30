@@ -1,5 +1,6 @@
 package Donnees;
 
+import Singletons.Singletons;
 import com.google.gson.Gson;
 
 import java.io.BufferedInputStream;
@@ -11,7 +12,6 @@ public class RequestClient {
 
 
     private static Socket sock = null;
-    private static Gson gson = new Gson();
 
     public RequestClient() throws IOException {
 
@@ -65,7 +65,7 @@ public class RequestClient {
         stream = bis.read(b);
         response = new String(b, 0, stream);
 
-        user = gson.fromJson(response, Utilisateur.class);
+        user = Singletons.getGsonInstance().fromJson(response, Utilisateur.class);
 
         return user;
     }
