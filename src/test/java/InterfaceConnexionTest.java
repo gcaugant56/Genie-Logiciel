@@ -79,7 +79,9 @@ class InterfaceConnexionTest {
         }
 
         assertEquals(true, validationConnexion);
+
         RequestClient.SupprUser("compte1", "compte1");
+        RequestClient.chatDisconnect("compte1");
     }
 }
 
