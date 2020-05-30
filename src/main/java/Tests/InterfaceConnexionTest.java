@@ -23,14 +23,14 @@ class InterfaceConnexionTest {
 
     @Test
     public void testCreationCompte() throws IOException {
+        //lancement serveur
         MainServer.start();
         boolean validationTrue = false;
         boolean validationFalse = false;
         boolean validationSuppr = false;
         String userName = "testUnitaire";
-        //ArrayList<Utilisateur> listUser = new ArrayList<Utilisateur>();
-        //listUser = Serializationmessage.Deserialization("Json.json").getUtilisateur();
 
+        //tests de création de compte
         assertEquals(true, RequestClient.createAccount(userName, "UnitTest", "motdepasse"));
 
         assertEquals(false, RequestClient.createAccount("testUnitaire", "UnitTest", "motdepasse"));
@@ -41,7 +41,7 @@ class InterfaceConnexionTest {
 
         //assertEquals(false, RequestClient.createAccount("", "", ""));
 
-        // verifier le json pour voir si le compte à bien été créé
+        // verification dans le Json de la création du compte 1 et de la non-création des autres
         Racine Json = Serializationmessage.Deserialization("Json.json");
         for(Utilisateur user: Json.getUtilisateur()){
             if (user.getUserName().equals("testUnitaire") && user.getPseudo().equals("UnitTest") ){
@@ -50,11 +50,11 @@ class InterfaceConnexionTest {
                 validationFalse = true;
             }
         }
-        //tests d'écriture dans json
+        //tests associés à la lecture Json
         assertEquals(true, validationTrue);
         assertEquals(false, validationFalse);
 
-        //test suppression user
+        //suppression du compte créé précedemment
         RequestClient.SupprUser("testUnitaire", "UnitTest");
 
         Json = Serializationmessage.Deserialization("Json.json");
@@ -63,11 +63,13 @@ class InterfaceConnexionTest {
                 validationSuppr = true;
             }
         }
-
+        //test associé à la suppression
         assertEquals(true, validationSuppr);
     }
 
+    @Test
     public void testConnexionCompte(){
+        
     }
 }
 
