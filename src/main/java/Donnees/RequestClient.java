@@ -1,5 +1,6 @@
 package Donnees;
 
+import Singletons.Singletons;
 import com.google.gson.Gson;
 
 import java.io.BufferedInputStream;
@@ -11,7 +12,6 @@ public class RequestClient {
 
 
     private static Socket sock = null;
-    private static Gson gson = new Gson();
 
     public RequestClient() throws IOException {
 
@@ -24,8 +24,8 @@ public class RequestClient {
 
     public static boolean createAccount(String userName, String pseudo, String password) throws IOException {
         String requestAccount = RequestCode.CREATION_COMPTE+"*"+userName+"*"+pseudo+"*"+password;
-        sock = new Socket("127.0.0.1",1515);
-
+        sock = new Socket("92.89.87.230",2345);
+        //sock = new Socket("127.0.0.1",1515);
         //nous créons donc un flux en écriture
         BufferedOutputStream bos = new BufferedOutputStream(sock.getOutputStream());
 
@@ -51,7 +51,8 @@ public class RequestClient {
     public static Utilisateur chatConnect(String userName, String password) throws IOException {
         String requestConnect = RequestCode.CONNEXION_CHAT+"*"+userName+"*"+password;
         Utilisateur user;
-        sock = new Socket("127.0.0.1",1515);
+        sock = new Socket("92.89.87.230",2345);
+        //sock = new Socket("127.0.0.1",1515);
 
         BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
         bos1.write(requestConnect.getBytes());
@@ -64,7 +65,7 @@ public class RequestClient {
         stream = bis.read(b);
         response = new String(b, 0, stream);
 
-        user = gson.fromJson(response, Utilisateur.class);
+        user = Singletons.getGsonInstance().fromJson(response, Utilisateur.class);
 
         return user;
     }
@@ -85,7 +86,6 @@ public class RequestClient {
         BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
         bos1.write(requestConnect.getBytes());
         bos1.flush();
-        BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
 
     }
 
@@ -96,7 +96,6 @@ public class RequestClient {
         BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
         bos1.write(requestConnect.getBytes());
         bos1.flush();
-        BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
     }
 
     public static void askListContact(String username) throws IOException {
@@ -106,7 +105,6 @@ public class RequestClient {
         BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
         bos1.write(requestConnect.getBytes());
         bos1.flush();
-        BufferedInputStream bis = new BufferedInputStream(sock.getInputStream());
     }
 
     public static void addContact(String username, String contactUsermame) throws IOException {

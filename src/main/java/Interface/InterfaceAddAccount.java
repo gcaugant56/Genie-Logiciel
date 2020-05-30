@@ -1,8 +1,7 @@
 package Interface;
 
-import Donnees.Racine;
+import Controleur.AddAccountController;
 import Donnees.RequestClient;
-import Donnees.Utilisateur;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,18 +15,36 @@ public class InterfaceAddAccount {
     private JLabel userName = new JLabel("Nom d'utilisateur : ");
     private JLabel pseudo = new JLabel("Pseudo : ");
     private JLabel password = new JLabel("Mot de passe : ");
-    private JTextField jTextFieldUserName = new JTextField();
-    private JTextField jTextFieldPseudo = new JTextField();
-    private JTextField jTextFieldPassword = new JTextField();
     private JButton create = new JButton("Créer");
     private JPanel northPanel = new JPanel();
     private JPanel centerPanel = new JPanel(new GridLayout(3,2));
     private JPanel southPanel = new JPanel();
+    private AddAccountController addAccountController;
+    private static JTextField jTextFieldUserName = new JTextField();
+    private static JTextField jTextFieldPseudo = new JTextField();
+    private static JTextField jTextFieldPassword = new JTextField();
+    private static JFrame addAccount;
+
+    public static String getjTextFieldUserName() {
+        return jTextFieldUserName.getText();
+    }
+
+    public static String getjTextFieldPseudo() {
+        return jTextFieldPseudo.getText();
+    }
+
+    public static String getjTextFieldPassword() {
+        return jTextFieldPassword.getText();
+    }
+
+    public static JFrame getAddAccount() {
+        return addAccount;
+    }
 
     public InterfaceAddAccount() throws IOException {
 
         //création de la fenêtre addaccount
-        JFrame addAccount = new JFrame();
+        addAccount = new JFrame();
         addAccount.setMinimumSize(new Dimension(390, 220));
         addAccount.setLayout(new GridLayout(3,1));
         addAccount.setLocationRelativeTo(null);
@@ -55,23 +72,6 @@ public class InterfaceAddAccount {
         addAccount.revalidate();
         addAccount.repaint();
 
-        create.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    if(RequestClient.createAccount(jTextFieldUserName.getText(),jTextFieldPseudo.getText(),jTextFieldPassword.getText())) {
-                        JOptionPane.showMessageDialog(null, "Création du compte réussie");
-                        RequestClient.getSock().close();  //fermeture du socket création de compte
-                        addAccount.setVisible(false);
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, "Création du compte impossible");
-                        RequestClient.getSock().close();  //fermeture du socket créationde compte
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        addAccountController = new AddAccountController(create);
     }
 }
