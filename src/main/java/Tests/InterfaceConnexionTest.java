@@ -24,7 +24,8 @@ class InterfaceConnexionTest {
     @Test
     public void testCreationCompte() throws IOException {
         //MainServer.start();
-        boolean validation = false;
+        boolean validationTrue = false;
+        boolean validationFalse = true;
         String userName = "testUnitaire";
         //ArrayList<Utilisateur> listUser = new ArrayList<Utilisateur>();
         //listUser = Serializationmessage.Deserialization("Json.json").getUtilisateur();
@@ -43,11 +44,14 @@ class InterfaceConnexionTest {
         Racine Json = Serializationmessage.Deserialization("Json.json");
         for(Utilisateur user: Json.getUtilisateur()){
             if (user.getUserName().equals("UnitTest")){
-                validation = true;
+                validationTrue = true;
+            }else if(user.getUserName().equals("testUnitaire") || user.getUserName().equals("testUnitaire2") || user.getPseudo().equals("test")){
+                validationFalse = false;
             }
         }
-        //test d'écriture dans json
-        assertEquals(true, validation);
+        //tests d'écriture dans json
+        assertEquals(true, validationTrue);
+        assertEquals(false, validationFalse);
     }
 
     public void testConnexionCompte(){
