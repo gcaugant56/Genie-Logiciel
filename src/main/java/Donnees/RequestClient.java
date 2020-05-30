@@ -129,4 +129,11 @@ public class RequestClient {
         bos1.write(requestsMsg.getBytes());
         bos1.flush();
     }
+
+    public static void SupprUser(String username, String pseudo) throws IOException {
+        String requestsMsg = RequestCode.Suppression_Compte+"*"+username+"*"+pseudo;
+        BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
+        bos1.write(requestsMsg.getBytes());
+        bos1.flush();
+    }
 }

@@ -26,6 +26,7 @@ class InterfaceConnexionTest {
         MainServer.start();
         boolean validationTrue = false;
         boolean validationFalse = false;
+        boolean validationSuppr = false;
         String userName = "testUnitaire";
         //ArrayList<Utilisateur> listUser = new ArrayList<Utilisateur>();
         //listUser = Serializationmessage.Deserialization("Json.json").getUtilisateur();
@@ -52,6 +53,18 @@ class InterfaceConnexionTest {
         //tests d'écriture dans json
         assertEquals(true, validationTrue);
         assertEquals(false, validationFalse);
+
+        //test suppression user
+        RequestClient.SupprUser("testUnitaire", "UnitTest");
+
+        Json = Serializationmessage.Deserialization("Json.json");
+        for(Utilisateur user: Json.getUtilisateur()){
+            if (user.getUserName().equals("testUnitaire") && user.getPseudo().equals("UnitTest")){
+                validationSuppr = true;
+            }
+        }
+
+        assertEquals(true, validationSuppr);
     }
 
     public void testConnexionCompte(){
