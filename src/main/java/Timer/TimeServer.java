@@ -11,7 +11,7 @@ public class TimeServer {
 
     //On initialise des valeurs par défaut
     private int port = 2345;
-    private String host = "192.168.1.88";
+    private String host = "192.168.1.22";
     private ServerSocket server = null;
     private boolean isRunning = true;
     Hashtable dic = new Hashtable();
