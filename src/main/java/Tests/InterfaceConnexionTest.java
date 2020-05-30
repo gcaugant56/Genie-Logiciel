@@ -1,5 +1,6 @@
 package Tests;
 
+        import Donnees.Racine;
         import Donnees.RequestClient;
         import Donnees.Serializationmessage;
         import Donnees.Utilisateur;
@@ -12,6 +13,9 @@ package Tests;
 
 class InterfaceConnexionTest {
 
+    InterfaceConnexionTest() throws IOException {
+    }
+
     @Test
     public void testLancementServeur(){
         assertEquals(true, MainServer.start());
@@ -19,11 +23,11 @@ class InterfaceConnexionTest {
 
     @Test
     public void testCreationCompte() throws IOException {
-        MainServer.start();
-
+        //MainServer.start();
+        boolean validation = false;
         String userName = "testUnitaire";
-        ArrayList<Utilisateur> listUser = new ArrayList<Utilisateur>();
-        listUser = Serializationmessage.Deserialization("Json.json").getUtilisateur();
+        //ArrayList<Utilisateur> listUser = new ArrayList<Utilisateur>();
+        //listUser = Serializationmessage.Deserialization("Json.json").getUtilisateur();
 
         assertEquals(true, RequestClient.createAccount(userName, "UnitTest", "motdepasse"));
 
@@ -34,9 +38,17 @@ class InterfaceConnexionTest {
         assertEquals(false, RequestClient.createAccount("", "test", ""));
 
         //assertEquals(false, RequestClient.createAccount("", "", ""));
-    }
 
-    // verifier le json pour voir si le compte à bien été créé
+        // verifier le json pour voir si le compte à bien été créé
+        Racine Json = Serializationmessage.Deserialization("Json.json");
+        for(Utilisateur user: Json.getUtilisateur()){
+            if (user.getUserName().equals("UnitTest")){
+                validation = true;
+            }
+        }
+        //test d'écriture dans json
+        assertEquals(true, validation);
+    }
 
     public void testConnexionCompte(){
     }
