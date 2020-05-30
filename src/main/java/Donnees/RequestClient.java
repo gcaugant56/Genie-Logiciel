@@ -24,8 +24,8 @@ public class RequestClient {
 
     public static boolean createAccount(String userName, String pseudo, String password) throws IOException {
         String requestAccount = RequestCode.CREATION_COMPTE+"*"+userName+"*"+pseudo+"*"+password;
-        //sock = new Socket("92.89.87.230",2345);
-        sock = new Socket("127.0.0.1",1515);
+        sock = new Socket("92.89.87.230",2345);
+        //sock = new Socket("127.0.0.1",1515);
         //nous créons donc un flux en écriture
         BufferedOutputStream bos = new BufferedOutputStream(sock.getOutputStream());
 
@@ -51,8 +51,8 @@ public class RequestClient {
     public static Utilisateur chatConnect(String userName, String password) throws IOException {
         String requestConnect = RequestCode.CONNEXION_CHAT+"*"+userName+"*"+password;
         Utilisateur user;
-        //sock = new Socket("92.89.87.230",2345);
-        sock = new Socket("127.0.0.1",1515);
+        sock = new Socket("92.89.87.230",2345);
+        //sock = new Socket("127.0.0.1",1515);
 
         BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
         bos1.write(requestConnect.getBytes());
