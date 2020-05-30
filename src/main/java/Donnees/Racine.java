@@ -1,35 +1,40 @@
 package Donnees;
 
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.*;
 
-/**
- * Classe racine elle conteint tout les objets du json
- */
+
 public class Racine {
 
-    ArrayList<Utilisateur> Utilisateur= new ArrayList<Utilisateur>();
+    @SerializedName("Utilisateur")
+    ArrayList<Utilisateur> utilisateurList = new ArrayList<Utilisateur>();
+    @SerializedName("Groupe")
+    ArrayList<Groupe> groupeList = new ArrayList<>();
 
-    /**
-     * Constructeur de l'objet Racine
-     * @param utilisateur La liste es objet utilisateur existant
-     */
-    public Racine(ArrayList<Donnees.Utilisateur> utilisateur) {
-        Utilisateur = utilisateur;
+    public Racine(ArrayList<Utilisateur> utilisateur, ArrayList<Groupe> groupe) {
+        utilisateurList = utilisateur;
+        groupeList = groupe;
     }
 
-    /**
-     * Renvoi la liste des objet utilisateur
-     * @return un ArrayList d'objet utilisateur
-     */
+    public ArrayList<Groupe> getGroupeList() {
+        return groupeList;
+    }
+
+    public void setGroupeList(ArrayList<Groupe> groupeList) {
+        this.groupeList = groupeList;
+    }
+
     public ArrayList<Donnees.Utilisateur> getUtilisateur() {
-        return Utilisateur;
+        return utilisateurList;
     }
 
-    /**
-     * Ajout un utilisateur a la liste d'utilisateur existant
-     * @param utilisateur l'utilisateur a ajouter
-     */
-    public void setUtilisateur(Utilisateur utilisateur) { Utilisateur.add(utilisateur);
+    public void setUtilisateur(Utilisateur utilisateur) {
+        utilisateurList.add(utilisateur);
+    }
+
+    public void setGroupeList(Groupe groupe) {
+        groupeList.add(groupe);
     }
 }

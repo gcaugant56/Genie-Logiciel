@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.concurrent.TimeUnit;
 
@@ -49,7 +50,7 @@ public class ClientProcessor implements Runnable{
         boolean closeConnexion = false;
         //tant que la connexion est active, on traite les demandes
         while(!sock.isClosed()){
-            String username,password,contact;
+            String username,password,contact, nameOfGroup, recipients;
             Contacts contacts;
             Utilisateur user;
             String pseudo;
@@ -230,6 +231,28 @@ public class ClientProcessor implements Runnable{
                         }
                         break;
                     case CREATION_GROUP:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        boolean isCreated = false;
+                        nameOfGroup = tabResponse[1];
+                        recipients = tabResponse[2];
+
+                        ArrayList<String> recipientsList = new ArrayList<>();
+
+                        for(Groupe groupe : Json.getGroupeList()) {
+                            if(!groupe.getName().equals(nameOfGroup) && isCreated == false) {
+                                Collections.addAll(recipientsList, recipients.split(","));
+                                Groupe newGroupe = new Groupe(nameOfGroup, recipientsList);
+                                Json.setGroupeList(newGroupe);
+                                Donnees.Serializationmessage.Serialization(Json, "Json.json");
+                                isCreated = true;
+                            }
+                        }
+
+                        if(isCreated)
+                            toSend = RequestCode.CREATION_GROUP+"*true";
+                        else
+                            toSend = RequestCode.CREATION_GROUP+"*false";
+
                         break;
                     case DEMANDE_LISTE:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
@@ -284,6 +307,7 @@ public class ClientProcessor implements Runnable{
                             toSend = RequestCode.Historique_Message+"*"+json;
                         }
                         break;
+
                     case Suppression_Message:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         json = "";
