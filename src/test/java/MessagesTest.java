@@ -48,5 +48,10 @@ public class MessagesTest {
         }
 
         assertEquals(true, validation);
+
+        RequestClient.SupprUser("compte1", "compte1");
+        TimeUnit.MILLISECONDS.sleep(100);
+        RequestClient.SupprUser("compte2", "compte2");
+        TimeUnit.MILLISECONDS.sleep(100);
     }
 }
