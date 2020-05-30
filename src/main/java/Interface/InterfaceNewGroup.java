@@ -1,5 +1,7 @@
 package Interface;
 
+import Controleur.NewGroupController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,9 +14,10 @@ public class InterfaceNewGroup {
     private JTextField jtextFieldNameOfGroup = new JTextField(15);
     private JTextField jtextFieldRecipients = new JTextField(15);
     private JButton startTalk = new JButton("Demarrer la discussion");
-    JPanel topPanel = new JPanel(new FlowLayout());
-    JPanel centerPanel = new JPanel(new GridLayout(2,1));
-    JPanel bottomPanel = new JPanel();
+    private JPanel topPanel = new JPanel(new FlowLayout());
+    private JPanel centerPanel = new JPanel(new GridLayout(2,1));
+    private JPanel bottomPanel = new JPanel();
+    NewGroupController newGroupController;
 
     public InterfaceNewGroup() {
 
@@ -39,17 +42,12 @@ public class InterfaceNewGroup {
         centerPanel.add(jtextFieldRecipients);
         bottomPanel.add(startTalk);
 
-        //Actions à l'appui du bouton "Démarrer la discussion"
-        startTalk.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-
-            }
-        });
-
         newGroupWindows.setVisible(true);
         newGroupWindows.revalidate();
         newGroupWindows.repaint();
+
+        newGroupController = new NewGroupController(startTalk);
+
     }
 
 }

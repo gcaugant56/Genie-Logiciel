@@ -1,5 +1,6 @@
 package Interface;
 
+import Controleur.PrincipaleController;
 import Donnees.Contacts;
 import Donnees.Message;
 import Donnees.RequestClient;
@@ -21,38 +22,57 @@ import com.google.gson.JsonSyntaxException;
 
 public class InterfacePrincipale {
 
+    private static Utilisateur utilisateur;
     private int numberUser;
-    private static JComboBox listeConv;
     private JLabel msg = new JLabel("Message : ");
-    private JTextArea convText = new JTextArea(12,35);
     private JScrollPane scrollPane;
     private JLabel userOnLine = new JLabel("Nombre d'utilisateur en ligne : " + numberUser);
-    private JTextField msgText = new JTextField();
     private JButton myAccount = new JButton("Mon Compte");
     private JButton newConv = new JButton("Nouvelle Conversation");
     private JButton newGroup = new JButton("Nouveau Groupe");
     private JButton sendMsg = new JButton("Envoyer");
     private JButton disconnect = new JButton("Déconnexion");
-    private SimpleDateFormat formater = new SimpleDateFormat("h:mm a");
-    private static ClientConnexion connection;
+    private JPanel centerPanel = new JPanel();
+    private JPanel eastPanel = new JPanel();
+    private JPanel southPanel = new JPanel();
+    private JPanel centerNorthPanel = new JPanel();
+    private JPanel centerSouthPanel = new JPanel();
+    private JPanel southWestPanel = new JPanel();
+    private JPanel southEastPanel = new JPanel();
+    private PrincipaleController principaleController;
+    private JFrame mainWindows;
+    private static SimpleDateFormat formater = new SimpleDateFormat("h:mm a");
+    private static JTextArea convText = new JTextArea(12,35);
     private static ArrayList<String> tabContact;
-    private Utilisateur utilisateur;
-    private String[] tabVerdict;
-    public Thread t;
-    static JPanel northPanel = new JPanel();
-    JPanel centerPanel = new JPanel();
-    JPanel eastPanel = new JPanel();
-    JPanel southPanel = new JPanel();
-    JPanel centerNorthPanel = new JPanel();
-    JPanel centerSouthPanel = new JPanel();
-    JPanel southWestPanel = new JPanel();
-    JPanel southEastPanel = new JPanel();
+    private static JPanel northPanel = new JPanel();
+    private static JComboBox listeConv;
+    private static JTextField msgText = new JTextField();
+
+    public static JTextArea getConvText() {
+        return convText;
+    }
+
+    public static JTextField getMsgText() {
+        return msgText;
+    }
+
+    public static JComboBox getListeConv() {
+        return listeConv;
+    }
+
+    public static Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public static SimpleDateFormat getFormater() {
+        return formater;
+    }
 
     public InterfacePrincipale(Utilisateur user) {
 
         utilisateur = user;
         //création de la fenêtre principale
-        JFrame mainWindows = new JFrame();
+        mainWindows = new JFrame();
         mainWindows.setMinimumSize(new Dimension(640, 380));
         mainWindows.setLayout(new BorderLayout());
         mainWindows.setLocationRelativeTo(null);
@@ -121,136 +141,10 @@ public class InterfacePrincipale {
         mainWindows.setVisible(true);
         mainWindows.revalidate();
         mainWindows.repaint();
-        t = new Thread(connection = new ClientConnexion(RequestClient.getSock(), utilisateur,convText,listeConv));
-        t.start();
-        t.setPriority(Thread.MAX_PRIORITY);
 
-        //Actions à l'appui du bouton "Mon Compte" : redirection vers l'interface Mon Compte
-        myAccount.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                new InterfaceAccount(utilisateur, connection);
-            }
-        });
+        PrincipaleController.connexionThread();
+        principaleController = new PrincipaleController(myAccount, newConv, newGroup, sendMsg, disconnect, listeConv, mainWindows, utilisateur);
 
-        //Actions à l'appui du bouton "Nouvelle Conversation" : redirection vers l'interface Nouvelle Conversation
-        newConv.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    String verdict;
-                    RequestClient.askListContact(utilisateur.getUserName());
-                    verdict = connection.getVerdict();
-                    while (verdict == null)
-                    {
-                        System.out.println("null");
-                        verdict = connection.getVerdict();
-                    }
-                    if(verdict.equals("false"))
-                    {
-                        Boolean.parseBoolean(verdict);
-                        JOptionPane.showMessageDialog(null, "Aucun contacts disponibles");
-                    }
-                    else
-                    {
-                        tabVerdict = verdict.split(",");
-                        System.out.println("split "+tabVerdict);
-                        new InterfaceNewConv(utilisateur, tabVerdict, connection, listeConv);
-                    }
-
-
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-        //Actions à l'appui du bouton "Nouveau Groupe" : redirection vers l'interface Nouveau Groupe
-        newGroup.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                new InterfaceNewGroup();
-            }
-        });
-
-        //Actions à l'appui du bouton "Envoyer" : envoi du contenu écrit dans le jtextfield vers le jtextarea
-        sendMsg.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                Date aujourdhui = new Date(); //date de l'envoi du message
-                String message= msgText.getText();
-                if(!message.isEmpty()) {
-                    convText.append(formater.format(aujourdhui) + " : " + message + "\n"); //format du message : date + contenu
-                    msgText.setText(""); //RAZ du jtextfield à chaque envoi de message
-                    try {
-                        RequestClient.SendMsg(user.getUserName(), (String) listeConv.getSelectedItem(),formater.format(aujourdhui) + " : " + message + "\n");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
-
-        disconnect.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    RequestClient.chatDisconnect(utilisateur.getUserName());//on va chercher la valeur du JTextField user présente dans l'interface connexion
-                    JOptionPane.showMessageDialog(null, "Déconnexion du chat");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    RequestClient.getSock().close();
-                    t.interrupt();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                mainWindows.dispose();
-            }
-        });
-        listeConv.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                convText.setText("");
-                Message[] Multimessage = null;
-                Gson gson = new Gson();
-                String messages = "";
-                try {
-                    RequestClient.GetMsgHistory(user.getUserName(), (String) listeConv.getSelectedItem());
-                    messages = connection.getVerdict();
-                    while (messages == null)
-                    {
-                        System.out.println("null");
-                        messages = connection.getVerdict();
-                    }
-                    System.out.println("pas null");
-
-                    try
-                    {
-                        Multimessage = gson.fromJson(messages,Message[].class);
-                        for(Message message : Multimessage)
-                        {
-                            convText.append(message.getContent());
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Message Snglemessage = gson.fromJson(messages,Message.class);
-                        convText.append(Snglemessage.getContent());
-                    }
-
-                } catch (IOException e) {
-
-                }
-
-
-            }
-        });
     }
 
     public static ArrayList<String> getTabContact() {

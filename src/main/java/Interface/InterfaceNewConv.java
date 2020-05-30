@@ -1,5 +1,6 @@
 package Interface;
 
+import Controleur.NewConvController;
 import Donnees.Contacts;
 import Donnees.RequestClient;
 import Donnees.Utilisateur;
@@ -17,13 +18,31 @@ import java.util.concurrent.TimeUnit;
 public class InterfaceNewConv {
 
     private JLabel label1 = new JLabel("Destinataire : ");
-    private static JComboBox comboBoxNewConv;
-    private static JComboBox comboBoxPrincipale;
     private JButton startButton = new JButton(" Demarrer");
     private JPanel topPanel = new JPanel();
     private JPanel bottomPanel = new JPanel();
-    private Utilisateur utilisateur;
     private String[] pseudonymeList;
+    private NewConvController newConvController;
+    private static Utilisateur utilisateur;
+    private static JFrame newConvWindows;
+    private static JComboBox comboBoxNewConv;
+    private static JComboBox comboBoxPrincipale;
+
+    public static JComboBox getComboBoxNewConv() {
+        return comboBoxNewConv;
+    }
+
+    public static JComboBox getComboBoxPrincipale() {
+        return comboBoxPrincipale;
+    }
+
+    public static JFrame getNewConvWindows() {
+        return newConvWindows;
+    }
+
+    public static Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
 
     public InterfaceNewConv(Utilisateur user, String[] pseudoList, ClientConnexion connexion, JComboBox comboBox) {
 
@@ -32,7 +51,7 @@ public class InterfaceNewConv {
         comboBoxPrincipale = comboBox;
 
         //création de la fenêtre newconwindows
-        JFrame newConvWindows = new JFrame();
+        newConvWindows = new JFrame();
         newConvWindows.setMinimumSize(new Dimension(390, 220));
         newConvWindows.setLayout(new GridLayout(2,1));
         newConvWindows.setLocationRelativeTo(null);
@@ -56,36 +75,8 @@ public class InterfaceNewConv {
         newConvWindows.revalidate();
         newConvWindows.repaint();
 
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    String verdict = null;
-                    RequestClient.addContact(utilisateur.getUserName(),(String)comboBoxNewConv.getSelectedItem());
-                    verdict = connexion.getVerdict();
-                    while(verdict == null)
-                    {
-                        System.out.println("null");
-                        verdict = connexion.getVerdict();
-                        TimeUnit.MILLISECONDS.sleep(100);
+        newConvController = new NewConvController(startButton);
 
-                    }
-                    if(verdict.equals("false")) {
-                        JOptionPane.showMessageDialog(null, "Ajout de contact impossible");
-                    }
-                    else {
-                        Gson gson = new Gson();
-                        Contacts contacts = gson.fromJson(verdict, Contacts.class);
-                        utilisateur.setContacts(contacts);
-                        JOptionPane.showMessageDialog(null, "Ajout de contact effectué");
-                        comboBoxPrincipale.addItem(contacts.getPseudo());
-                        newConvWindows.dispose();
-                    }
-                } catch(IOException | InterruptedException e) {
-                    JOptionPane.showMessageDialog(null, "Ajout de contact impossible");
-                }
-            }
-        });
     }
 
 }

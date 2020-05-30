@@ -1,6 +1,7 @@
 package Timer;
 import Donnees.*;
 import Interface.InterfaceNewConv;
+import Singletons.Singletons;
 import com.google.gson.Gson;
 
 import java.awt.*;
@@ -89,8 +90,7 @@ public class ClientProcessor implements Runnable{
                         if(user != null && user.getPassword().equals(password))
                         {
                             currentUser = user;
-                            Gson gson = new Gson();
-                            json = gson.toJson(user);//transformation de l'objet en json
+                            json = Singletons.getGsonInstance().toJson(user);//transformation de l'objet en json
                             if(!dic.containsKey(user.getUserName()))
                             {
                                 dic.put(user.getUserName(),sock);
@@ -174,11 +174,10 @@ public class ClientProcessor implements Runnable{
                     case MODIF_USERNAME:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         username = tabResponse[1];
-                        password = tabResponse[2];
-                        String newPseudo = tabResponse[3];
+                        String newPseudo = tabResponse[2];
 
                         user = findUserByUsername(username,Json);
-                        if(user != null && user.getPassword().equals(password))
+                        if(user != null)
                         {
                             user.setPseudo(newPseudo);
                             currentUser.setPseudo(newPseudo);
@@ -198,8 +197,7 @@ public class ClientProcessor implements Runnable{
                         for (Utilisateur base : Json.getUtilisateur()) {
                             if(base.getPseudo().equals(tabResponse[2])) {
                                 contacts = new Contacts(base.getPseudo(), base.getUserName());
-                                Gson gson = new Gson();
-                                json = RequestCode.AJOUT_CONTACT+"*"+gson.toJson(contacts);
+                                json = RequestCode.AJOUT_CONTACT+"*"+ Singletons.getGsonInstance().toJson(contacts);
                             }
                         }
 
@@ -259,8 +257,7 @@ public class ClientProcessor implements Runnable{
 
                         if(contacts != null)
                         {
-                            Gson gson = new Gson();
-                            json = gson.toJson(contacts.getMessage());
+                            json = Singletons.getGsonInstance().toJson(contacts.getMessage());
                         }
 
                         if(json.equals(""))
