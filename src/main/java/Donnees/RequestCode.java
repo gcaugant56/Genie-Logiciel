@@ -13,7 +13,8 @@ public enum RequestCode {
     ENVOI_GROUP(9),
     DEMANDE_LISTE(10),
     Historique_Message(11),
-    Suppression_Message(12);
+    Suppression_Message(12),
+    Suppression_Compte(13);
 
     private int numero;
 

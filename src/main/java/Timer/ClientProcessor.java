@@ -288,6 +288,11 @@ public class ClientProcessor implements Runnable{
                         json = RequestCode.Suppression_Message+"*"+gson.toJson(contacts);
                         toSend = RequestCode.Suppression_Message+"*"+contacts;
 
+                    case Suppression_Compte:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        json = "";
+                        username = tabResponse[1];
+                        pseudo = tabResponse[2];
 
 
                    }
