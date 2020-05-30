@@ -1,20 +1,16 @@
 package Timer;
+
 import Donnees.*;
-import Interface.InterfaceNewConv;
 import Singletons.Singletons;
 import com.google.gson.Gson;
-
-import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Hashtable;
 
 public class ClientProcessor implements Runnable{

@@ -1,18 +1,14 @@
 import Donnees.Racine;
-        import Donnees.RequestClient;
-        import Donnees.Serializationmessage;
-        import Donnees.Utilisateur;
-        import Timer.MainServer;
-        import org.junit.jupiter.api.Test;
-        import static org.junit.jupiter.api.Assertions.*;
 
-        import java.io.IOException;
-        import java.util.*;
+import Donnees.RequestClient;
+import Donnees.Serializationmessage;
+import Donnees.Utilisateur;
+import Timer.MainServer;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import java.io.IOException;
 
 class InterfaceConnexionTest {
-
-    InterfaceConnexionTest() throws IOException {
-    }
 
     @Test
     public void testLancementServeur(){
