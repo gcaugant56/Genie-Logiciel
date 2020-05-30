@@ -33,4 +33,20 @@ public class MessagesTest {
         assertEquals("test message 2", Json.getUtilisateur().get(2).getContacts().get(0).getMessage().get(1).getContent());
 
     }
+
+    @Test
+    public void suppressionMsg() throws IOException, InterruptedException {
+        MainServer.start();
+        RequestClient.chatConnect("compte1", "compte1");
+        TimeUnit.MILLISECONDS.sleep(500);
+        RequestClient.SupprMsg("compte2", "compte1");
+        TimeUnit.MILLISECONDS.sleep(500);
+        boolean validation = false;
+        Racine Json = Serializationmessage.Deserialization("Json.json");
+        if (Json.getUtilisateur().get(1).getContacts().get(0).getMessage().isEmpty()){
+            validation = true;
+        }
+
+        assertEquals(true, validation);
+    }
 }

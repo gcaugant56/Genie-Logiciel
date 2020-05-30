@@ -136,4 +136,11 @@ public class RequestClient {
         bos1.write(requestsMsg.getBytes());
         bos1.flush();
     }
+
+    public static void SupprMsg(String pseudo, String username) throws IOException {
+        String requestsMsg = RequestCode.Suppression_Message+"*"+username+"*"+pseudo;
+        BufferedOutputStream bos1 = new BufferedOutputStream(sock.getOutputStream());
+        bos1.write(requestsMsg.getBytes());
+        bos1.flush();
+    }
 }

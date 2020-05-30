@@ -12,6 +12,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
+import java.util.concurrent.TimeUnit;
 
 public class ClientProcessor implements Runnable{
 
@@ -276,7 +277,9 @@ public class ClientProcessor implements Runnable{
                         contacts = findContactByPseudo(pseudo,username,Json);
                         Collection temp = contacts.getMessage();
                         contacts.getMessage().removeAll(temp);
-
+                        TimeUnit.MILLISECONDS.sleep(300);
+                        Serializationmessage.Serialization(Json, "Json.json");
+                        TimeUnit.MILLISECONDS.sleep(300);
                         Gson gson = new Gson();
                         json = RequestCode.Suppression_Message+"*"+gson.toJson(contacts);
                         toSend = RequestCode.Suppression_Message+"*"+json;
@@ -297,8 +300,10 @@ public class ClientProcessor implements Runnable{
                 catch (IOException e)
                 {
                 e.printStackTrace();
-            }
-            writer.write(toSend);
+            } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                writer.write(toSend);
                 writer.flush();
             sock = socketClient;
             }catch(SocketException e){
