@@ -286,7 +286,7 @@ public class ClientProcessor implements Runnable{
 
                         Gson gson = new Gson();
                         json = RequestCode.Suppression_Message+"*"+gson.toJson(contacts);
-                        toSend = RequestCode.Suppression_Message+"*"+contacts;
+                        toSend = RequestCode.Suppression_Message+"*"+json;
 
                     case Suppression_Compte:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
@@ -294,7 +294,11 @@ public class ClientProcessor implements Runnable{
                         username = tabResponse[1];
                         pseudo = tabResponse[2];
 
+                        user = findUserByUsername(username, Json);
+                        Json.getUtilisateur().remove(user);
 
+                        Serializationmessage.Serialization(Json, "Json.json");
+                        toSend = RequestCode.Suppression_Message+"*"+ true;
                    }
                 }
                 catch (IOException e)
