@@ -1,19 +1,18 @@
 package Timer;
+
 import Donnees.*;
-import Interface.InterfaceNewConv;
 import Singletons.Singletons;
 import com.google.gson.Gson;
-
-import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
+import java.util.concurrent.TimeUnit;
 
 public class ClientProcessor implements Runnable{
 
@@ -38,6 +37,7 @@ public class ClientProcessor implements Runnable{
             String username,password,contact;
             Contacts contacts;
             Utilisateur user;
+            String pseudo;
             try {
 
                 //Ici, nous n'utilisons pas les mêmes objets que précédemment
@@ -252,7 +252,7 @@ public class ClientProcessor implements Runnable{
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         json = "";
                         username = tabResponse[1];
-                        String pseudo = tabResponse[2];
+                        pseudo = tabResponse[2];
                         contacts = findContactByPseudo(pseudo,username,Json);
 
                         if(contacts != null)
@@ -269,14 +269,41 @@ public class ClientProcessor implements Runnable{
                             toSend = RequestCode.Historique_Message+"*"+json;
                         }
                         break;
+                    case Suppression_Message:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        json = "";
+                        username = tabResponse[1];
+                        pseudo = tabResponse[2];
+                        contacts = findContactByPseudo(pseudo,username,Json);
+                        Collection temp = contacts.getMessage();
+                        contacts.getMessage().removeAll(temp);
+                        TimeUnit.MILLISECONDS.sleep(300);
+                        Serializationmessage.Serialization(Json, "Json.json");
+                        TimeUnit.MILLISECONDS.sleep(300);
+                        Gson gson = new Gson();
+                        json = RequestCode.Suppression_Message+"*"+gson.toJson(contacts);
+                        toSend = RequestCode.Suppression_Message+"*"+json;
 
+                    case Suppression_Compte:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        json = "";
+                        username = tabResponse[1];
+                        pseudo = tabResponse[2];
+
+                        user = findUserByUsername(username, Json);
+                        Json.getUtilisateur().remove(user);
+
+                        Serializationmessage.Serialization(Json, "Json.json");
+                        toSend = RequestCode.Suppression_Message+"*"+ true;
                    }
                 }
                 catch (IOException e)
                 {
                 e.printStackTrace();
-            }
-            writer.write(toSend);
+            } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                writer.write(toSend);
                 writer.flush();
             sock = socketClient;
             }catch(SocketException e){
