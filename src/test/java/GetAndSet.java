@@ -1,4 +1,5 @@
 import Donnees.Contacts;
+import Donnees.Message;
 import Donnees.Utilisateur;
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,5 +28,15 @@ public class GetAndSet {
         contact.setPseudo("rename");
         user.setContacts(contact);
         assertEquals("rename", user.getContacts().get(0).getPseudo());
+    }
+
+    @Test
+    public void testMessage(){
+        Contacts contact = new Contacts("test1", "test1");
+        Message message = new Message("ajout message", "test1", "IntelliJ");
+        contact.setMessage(message);
+        assertEquals("ajout message", contact.getMessage().get(0).getContent());
+        assertEquals("test1", contact.getMessage().get(0).getDestinataire());
+        assertEquals("IntelliJ", contact.getMessage().get(0).getExpediteur());
     }
 }
