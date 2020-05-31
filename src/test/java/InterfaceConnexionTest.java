@@ -18,7 +18,7 @@ class InterfaceConnexionTest {
     @Test
     public void testCreationCompte() throws IOException {
         //lancement serveur
-        MainServer.start();
+        //MainServer.start();
         boolean validationTrue = false;
         boolean validationFalse = false;
         boolean validationSuppr = false;
@@ -63,7 +63,7 @@ class InterfaceConnexionTest {
 
     @Test
     public void testConnexionCompte() throws IOException {
-        MainServer.start();
+        //MainServer.start();
         boolean validationConnexion = false;
         RequestClient.createAccount("compte1", "compte1", "compte1");
         Utilisateur userConnected = RequestClient.chatConnect("compte1", "compte1");
@@ -83,7 +83,7 @@ class InterfaceConnexionTest {
 
     @Test
     public void teteSuppressionCompte() throws IOException{
-        MainServer.start();
+        //MainServer.start();
         Utilisateur userConnected = RequestClient.chatConnect("compte1", "compte2");
         RequestClient.SupprUser("compte1", "compte2");
     }

@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MessagesTest {
     @Test
     public void envoiMessage() throws IOException, InterruptedException {
-        MainServer.start();
+        //MainServer.start();
         RequestClient.createAccount("compte1", "compte1", "compte1");
         RequestClient.createAccount("compte2", "compte2", "compte2");
         RequestClient.chatConnect("compte1", "compte1");
@@ -36,7 +36,7 @@ public class MessagesTest {
 
     @Test
     public void suppressionMsg() throws IOException, InterruptedException {
-        MainServer.start();
+        //MainServer.start();
         RequestClient.chatConnect("compte1", "compte1");
         TimeUnit.MILLISECONDS.sleep(500);
         RequestClient.SupprMsg("compte2", "compte1");
