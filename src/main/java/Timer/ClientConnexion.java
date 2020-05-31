@@ -16,10 +16,10 @@ import java.util.Scanner;
 
 public class ClientConnexion implements Runnable{
 
+    private static String verdict;
     private Socket connexion = null;
     private BufferedInputStream reader = null;
     private Utilisateur user;
-    private String verdict;
     private JTextArea text;
     private JComboBox contact;
     public ClientConnexion(Socket connexion, Utilisateur user,JTextArea text, JComboBox contact){
@@ -79,7 +79,7 @@ public class ClientConnexion implements Runnable{
         return response;
     }
 
-    public String getVerdict()
+    public static String getVerdict()
     {
         return verdict;
     }
