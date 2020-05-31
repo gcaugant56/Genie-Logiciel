@@ -38,5 +38,13 @@ public class GetAndSet {
         assertEquals("ajout message", contact.getMessage().get(0).getContent());
         assertEquals("test1", contact.getMessage().get(0).getDestinataire());
         assertEquals("IntelliJ", contact.getMessage().get(0).getExpediteur());
+
+        message.setContent("rename content");
+        message.setDestinataire("rename");
+        message.setExpediteur("rename2");
+
+        assertEquals("rename content", message.getContent());
+        assertEquals("rename", message.getDestinataire());
+        assertEquals("rename2", message.getExpediteur());
     }
 }
