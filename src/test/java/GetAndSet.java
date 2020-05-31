@@ -1,7 +1,8 @@
-import Donnees.Contacts;
-import Donnees.Message;
-import Donnees.Utilisateur;
+import Donnees.*;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -46,5 +47,26 @@ public class GetAndSet {
         assertEquals("rename content", message.getContent());
         assertEquals("rename", message.getDestinataire());
         assertEquals("rename2", message.getExpediteur());
+    }
+
+    @Test
+    public void testRacine(){
+        Utilisateur user = new Utilisateur("test", "test", "test");
+        ArrayList<Utilisateur> list = new ArrayList<>();
+        list.add(user);
+        Racine racine = new Racine(list);
+        assertEquals("test", racine.getUtilisateur().get(0).getPseudo());
+    }
+    @Test
+    public void testGroupe(){
+        Utilisateur user = new Utilisateur("test1", "test1", "test1");
+        Utilisateur user2 = new Utilisateur("test2", "test2", "test2");
+        ArrayList<Utilisateur> list = new ArrayList<>();
+        Groupe groupe = new Groupe(list);
+        list.add(user);
+        list.add(user2);
+        groupe.setGroupe(list);
+        assertEquals("test1", groupe.getGroupe().get(0).getPseudo());
+        assertEquals("test2", groupe.getGroupe().get(1).getPassword());
     }
 }
