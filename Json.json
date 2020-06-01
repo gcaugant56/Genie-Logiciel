@@ -17,29 +17,6 @@
           ]
         }
       ]
-    },
-    {
-      "userName": "compte2",
-      "pseudo": "compte2",
-      "password": "compte2",
-      "Contacts": [
-        {
-          "pseudo": "compte1",
-          "userName": "compte1",
-          "Message": [
-            {
-              "content": "test message 1",
-              "destinataire": "compte2",
-              "expediteur": "compte2"
-            },
-            {
-              "content": "test message 2",
-              "destinataire": "compte1",
-              "expediteur": "compte2"
-            }
-          ]
-        }
-      ]
     }
   ],
   "Groupe": [
