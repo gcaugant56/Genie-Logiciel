@@ -13,14 +13,14 @@ de l'ensemble du projet [ici](https://github.com/gcaugant56/Genie-Logiciel/tree/
 
 Qu'allez-vous trouver dans notre section [Documentation](https://github.com/gcaugant56/Genie-Logiciel/tree/JavaDoc/doc/Documentation) ?
 
-1. La documentation sur : *L'Organisation du Projet*
+1. La documentation sur : *[L'Organisation du Projet](https://github.com/gcaugant56/Genie-Logiciel/tree/develop/doc/Documentation/Organisation%20du%20projet)*
   - La méthode de développement de projet choisie avec un argumentaire (Cycle en V, Cascade, RUP,
 Scrum, XP, Kanban) et les pratiques appliquées
   - La vision Gestion de Projet avec descriptif de la répartition des tâches et état d'avancement en fonction du temps.
 
 
 
-2. La documentation sur *Les Spécifications* comportant :
+2. La documentation sur *[Les Spécifications](https://github.com/gcaugant56/Genie-Logiciel/tree/develop/doc/Documentation/Les%20Sp%C3%A9cifications)* comportant :
 
 - Le Cahier des charges
 - La liste des exigences fonctionnelles et non-fonctionnelles
@@ -32,7 +32,7 @@ Scrum, XP, Kanban) et les pratiques appliquées
 
 
 
-3. La documentation sur *La Conception* comportant :
+3. La documentation sur *[La Conception](https://github.com/gcaugant56/Genie-Logiciel/tree/develop/doc/Documentation/La%20Conception )* comportant :
 
   - Le Document d’Architecture Système:
   - La décomposition en modules de l’application
@@ -41,3 +41,5 @@ Scrum, XP, Kanban) et les pratiques appliquées
   - Les choix de conception que vous avez faits avec argumentaire
   - Les patrons de conception utilisés
   - Une analyse de la conception selon les principes SOLID
+
+
