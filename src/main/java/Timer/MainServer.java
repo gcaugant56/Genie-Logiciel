@@ -1,5 +1,9 @@
 package Timer;
 
+/**
+ * Class principal du serveur, cette dernière lance une instance de TimeServer
+ */
+
 public class MainServer {
 
     public static boolean start(){

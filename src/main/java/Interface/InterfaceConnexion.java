@@ -12,6 +12,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+/**
+ * Classe permetttant de créer l'interface de connexion
+ */
 public class InterfaceConnexion {
     private JLabel chat = new JLabel("Accédez au Chat");
     private JLabel userName = new JLabel("Username : ");
@@ -39,6 +42,10 @@ public class InterfaceConnexion {
         return newConnection;
     }
 
+    /**
+     * Constructeur qui affiche l'ecran de connexion
+     * @throws IOException
+     */
     public InterfaceConnexion() throws IOException {
 
         //création de la fenêtre newconnection

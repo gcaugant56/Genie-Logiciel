@@ -1,5 +1,8 @@
 package Donnees;
 
+/**
+ * Enumeration permettant de définir des codes pour la communication entre le client et le serveur
+ */
 public enum RequestCode {
 
     CREATION_COMPTE(1),
@@ -17,6 +20,7 @@ public enum RequestCode {
     Suppression_Compte(13);
 
     private int numero;
+
 
     RequestCode(int numero) {
         this.numero = numero;
