@@ -25,11 +25,15 @@ public class Contacts {
         this.pseudo = pseudo;
         this.username = username;
     }
-
+    
     /**
      * Permettant de recupere le nom de compte d'un contact
      * @return nom de compte du contact
      */
+    public Contacts(String nameOfGroup) {
+        this.pseudo = nameOfGroup;
+        this.username = nameOfGroup;
+    }
     public String getUsername() {
         return username;
     }

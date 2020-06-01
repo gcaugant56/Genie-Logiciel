@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.concurrent.TimeUnit;
 
@@ -49,8 +50,11 @@ public class ClientProcessor implements Runnable{
         boolean closeConnexion = false;
         //tant que la connexion est active, on traite les demandes
         while(!sock.isClosed()){
-            String username,password,contact;
+            String username,password,contact, nameOfGroup, recipients;
+            boolean isSend = false;
+            ArrayList<Groupe> groupeArrayList = null;
             Contacts contacts;
+            Groupe groupeContacts;
             Utilisateur user;
             String pseudo;
             try {
@@ -141,7 +145,8 @@ public class ClientProcessor implements Runnable{
 
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         contacts = findContactByPseudo(destinataire,username,Json);
-                        if(contacts != null)
+                        groupeContacts = findGroupByName(destinataire, Json);
+                        if(contacts != null && groupeContacts == null)
                         {
                             Message message = new Message(msg,destinataire,currentUser.getPseudo());
                             contacts.setMessage(message);
@@ -151,18 +156,47 @@ public class ClientProcessor implements Runnable{
                                 writer = new PrintWriter(sock.getOutputStream());
                                 toSend = RequestCode.ENVOI_MSG + "*"+msg+"*"+currentUser.getPseudo();
                             }
+                        } else if(contacts != null && groupeContacts != null) {
+                            Message message = new Message(msg,destinataire,currentUser.getPseudo());
+                            contacts.setMessage(message);
+
+                            for(String groupe : groupeContacts.getUserName()) {
+                                if(dic.containsKey(groupe) && !groupe.equals(username))
+                                {
+                                    sock = (Socket) dic.get(groupe);
+                                    writer = new PrintWriter(sock.getOutputStream());
+                                    toSend = RequestCode.ENVOI_MSG + "*"+msg+"*"+groupeContacts.getName();
+                                    writer.write(toSend);
+                                    writer.flush();
+                                    isSend = true;
+                                }
+                                for (Utilisateur base : Json.getUtilisateur()) {
+                                    if (base.getPseudo().equals(groupe)) {
+                                        for (Contacts contactToSend : base.getContacts()) {
+                                            if (contactToSend.getUsername().equals(groupeContacts.getName())) {
+                                                message = new Message(msg, destinataire, base.getPseudo());
+                                                contactToSend.setMessage(message);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
                         }
 
-                        for (Utilisateur base : Json.getUtilisateur()) {
-                            if (base.getPseudo().equals(destinataire)) {
-                                for (Contacts contactToSend : base.getContacts()) {
-                                    if (contactToSend.getUsername().equals(username)) {
-                                        Message message = new Message(msg, destinataire, base.getPseudo());
-                                        contactToSend.setMessage(message);
+                        if(!isSend) {
+                            for (Utilisateur base : Json.getUtilisateur()) {
+                                if (base.getPseudo().equals(destinataire)) {
+                                    for (Contacts contactToSend : base.getContacts()) {
+                                        if (contactToSend.getUsername().equals(username)) {
+                                            Message message = new Message(msg, destinataire, base.getPseudo());
+                                            contactToSend.setMessage(message);
+                                        }
                                     }
                                 }
                             }
                         }
+
                         Donnees.Serializationmessage.Serialization(Json,"Json.json");
                         break;
 
@@ -207,11 +241,19 @@ public class ClientProcessor implements Runnable{
 
                     case AJOUT_CONTACT:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        groupeArrayList = Json.getGroupeList();
                         json = "";
                         contacts = null;
                         for (Utilisateur base : Json.getUtilisateur()) {
                             if(base.getPseudo().equals(tabResponse[2])) {
                                 contacts = new Contacts(base.getPseudo(), base.getUserName());
+                                json = RequestCode.AJOUT_CONTACT+"*"+ Singletons.getGsonInstance().toJson(contacts);
+                            }
+                        }
+
+                        for(int i = 0; i != groupeArrayList.size(); i++) {
+                            if(groupeArrayList.get(i).getName().equals(tabResponse[2])) {
+                                contacts = new Contacts(groupeArrayList.get(i).getName());
                                 json = RequestCode.AJOUT_CONTACT+"*"+ Singletons.getGsonInstance().toJson(contacts);
                             }
                         }
@@ -230,10 +272,34 @@ public class ClientProcessor implements Runnable{
                         }
                         break;
                     case CREATION_GROUP:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        boolean isCreated = false;
+                        nameOfGroup = tabResponse[1];
+                        recipients = tabResponse[2];
+                        groupeArrayList = Json.getGroupeList();
+
+                        ArrayList<String> recipientsList = new ArrayList<>();
+
+                        for(int i = 0; i != groupeArrayList.size(); i++) {
+                            if(!groupeArrayList.get(i).getName().equals(nameOfGroup) && isCreated == false) {
+                                Collections.addAll(recipientsList, recipients.split(","));
+                                Groupe newGroupe = new Groupe(nameOfGroup, recipientsList);
+                                Json.setGroupeList(newGroupe);
+                                Donnees.Serializationmessage.Serialization(Json, "Json.json");
+                                isCreated = true;
+                            }
+                        }
+
+                        if(isCreated)
+                            toSend = RequestCode.CREATION_GROUP+"*true";
+                        else
+                            toSend = RequestCode.CREATION_GROUP+"*false";
+
                         break;
                     case DEMANDE_LISTE:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         String pseudoListString = "";
+                        String pseudoGroupListString = "";
                         ArrayList<Utilisateur> allUser = Json.getUtilisateur();
                         if(allUser.size() > 2)
                         {
@@ -244,8 +310,6 @@ public class ClientProcessor implements Runnable{
                                     pseudoListString += base.getPseudo()+",";
                                 }
                             }
-                            pseudoListString = pseudoListString.substring(1, pseudoListString.length()-1);
-
                         }
                         else
                         {
@@ -253,6 +317,34 @@ public class ClientProcessor implements Runnable{
                             {
                                 pseudoListString = allUser.get(1).getPseudo();
                             }
+                        }
+                        pseudoListString = pseudoListString.substring(1, pseudoListString.length()-1);
+
+                        ArrayList<Groupe> allGroup = Json.getGroupeList();
+
+                        if(allGroup.size() > 1) {
+                            if(allGroup.size() > 2)
+                            {
+                                for (Groupe base : allGroup)
+                                {
+                                    if(!base.getUserName().equals(currentUser.getUserName()))
+                                    {
+                                        pseudoGroupListString += base.getName()+",";
+                                    }
+                                }
+                            }
+                            else
+                            {
+
+                                if(!allGroup.get(1).getUserName().equals(currentUser.getUserName()))
+                                {
+                                    pseudoGroupListString = allGroup.get(1).getName();
+                                }
+                            }
+                        }
+
+                        if(pseudoGroupListString.length() > 3) {
+                            pseudoListString = pseudoListString+","+pseudoGroupListString;
                         }
 
                         if(pseudoListString.equals("")) {
@@ -284,6 +376,7 @@ public class ClientProcessor implements Runnable{
                             toSend = RequestCode.Historique_Message+"*"+json;
                         }
                         break;
+
                     case Suppression_Message:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         json = "";
@@ -315,11 +408,13 @@ public class ClientProcessor implements Runnable{
                 catch (IOException e)
                 {
                 e.printStackTrace();
-            } catch (InterruptedException e) {
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                writer.write(toSend);
-                writer.flush();
+                if(!isSend) {
+                    writer.write(toSend);
+                    writer.flush();
+                }
             sock = socketClient;
             }catch(SocketException e){
                 System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
@@ -360,6 +455,18 @@ public class ClientProcessor implements Runnable{
             if(contacts.getPseudo().equals(pseudo))
             {
                 return contacts;
+            }
+        }
+        return null;
+    }
+
+    private Groupe findGroupByName(String nameOfGroup, Racine root)
+    {
+        for(Groupe groupe : root.getGroupeList())
+        {
+            if(groupe.getName().equals(nameOfGroup)) {
+                return groupe;
+
             }
         }
         return null;

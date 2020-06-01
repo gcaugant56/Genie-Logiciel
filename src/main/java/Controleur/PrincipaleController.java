@@ -61,7 +61,7 @@ public class PrincipaleController implements ActionListener, WindowListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        String actionCommand = ((JButton)actionEvent.getSource()).getActionCommand();
+        String actionCommand = actionEvent.getActionCommand();
         if(actionCommand.equals(myAccount.getActionCommand())) {
             new InterfaceAccount(InterfacePrincipale.getUtilisateur(), connection);
         } else if(actionCommand.equals(newConv.getActionCommand())) {
