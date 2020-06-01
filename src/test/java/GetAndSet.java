@@ -46,14 +46,14 @@ public class GetAndSet {
     }
     @Test
     public void testGroupe(){
-        Utilisateur user = new Utilisateur("test1", "test1", "test1");
-        Utilisateur user2 = new Utilisateur("test2", "test2", "test2");
-        ArrayList<Utilisateur> list = new ArrayList<>();
-        Groupe groupe = new Groupe(list);
-        list.add(user);
+        String user1 = "armel";
+        String user2 = "valentin";
+        ArrayList<String> list = new ArrayList<>();
+        Groupe groupe = new Groupe("test", list);
+        list.add(user1);
         list.add(user2);
-        groupe.setGroupe(list);
-        assertEquals("test1", groupe.getGroupe().get(0).getPseudo());
-        assertEquals("test2", groupe.getGroupe().get(1).getPassword());
+        groupe.setUserName(list);
+        assertEquals("armel", groupe.getUserName().get(0));
+        assertEquals("valentin", groupe.getUserName().get(1));
     }
 }

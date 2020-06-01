@@ -18,6 +18,10 @@ public class Racine {
         groupeList = groupe;
     }
 
+    public Racine(ArrayList<Utilisateur> utilisateur) {
+        utilisateurList = utilisateur;
+    }
+
     public ArrayList<Groupe> getGroupeList() {
         return groupeList;
     }
