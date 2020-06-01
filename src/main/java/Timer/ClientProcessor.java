@@ -51,8 +51,10 @@ public class ClientProcessor implements Runnable{
         //tant que la connexion est active, on traite les demandes
         while(!sock.isClosed()){
             String username,password,contact, nameOfGroup, recipients;
+            boolean isSend = false;
             ArrayList<Groupe> groupeArrayList = null;
             Contacts contacts;
+            Groupe groupeContacts;
             Utilisateur user;
             String pseudo;
             try {
@@ -143,7 +145,8 @@ public class ClientProcessor implements Runnable{
 
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         contacts = findContactByPseudo(destinataire,username,Json);
-                        if(contacts != null)
+                        groupeContacts = findGroupByName(destinataire, Json);
+                        if(contacts != null && groupeContacts == null)
                         {
                             Message message = new Message(msg,destinataire,currentUser.getPseudo());
                             contacts.setMessage(message);
@@ -153,18 +156,47 @@ public class ClientProcessor implements Runnable{
                                 writer = new PrintWriter(sock.getOutputStream());
                                 toSend = RequestCode.ENVOI_MSG + "*"+msg+"*"+currentUser.getPseudo();
                             }
+                        } else if(contacts != null && groupeContacts != null) {
+                            Message message = new Message(msg,destinataire,currentUser.getPseudo());
+                            contacts.setMessage(message);
+
+                            for(String groupe : groupeContacts.getUserName()) {
+                                if(dic.containsKey(groupe) && !groupe.equals(username))
+                                {
+                                    sock = (Socket) dic.get(groupe);
+                                    writer = new PrintWriter(sock.getOutputStream());
+                                    toSend = RequestCode.ENVOI_MSG + "*"+msg+"*"+groupeContacts.getName();
+                                    writer.write(toSend);
+                                    writer.flush();
+                                    isSend = true;
+                                }
+                                for (Utilisateur base : Json.getUtilisateur()) {
+                                    if (base.getPseudo().equals(groupe)) {
+                                        for (Contacts contactToSend : base.getContacts()) {
+                                            if (contactToSend.getUsername().equals(groupeContacts.getName())) {
+                                                message = new Message(msg, destinataire, base.getPseudo());
+                                                contactToSend.setMessage(message);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
                         }
 
-                        for (Utilisateur base : Json.getUtilisateur()) {
-                            if (base.getPseudo().equals(destinataire)) {
-                                for (Contacts contactToSend : base.getContacts()) {
-                                    if (contactToSend.getUsername().equals(username)) {
-                                        Message message = new Message(msg, destinataire, base.getPseudo());
-                                        contactToSend.setMessage(message);
+                        if(!isSend) {
+                            for (Utilisateur base : Json.getUtilisateur()) {
+                                if (base.getPseudo().equals(destinataire)) {
+                                    for (Contacts contactToSend : base.getContacts()) {
+                                        if (contactToSend.getUsername().equals(username)) {
+                                            Message message = new Message(msg, destinataire, base.getPseudo());
+                                            contactToSend.setMessage(message);
+                                        }
                                     }
                                 }
                             }
                         }
+
                         Donnees.Serializationmessage.Serialization(Json,"Json.json");
                         break;
 
@@ -376,11 +408,13 @@ public class ClientProcessor implements Runnable{
                 catch (IOException e)
                 {
                 e.printStackTrace();
-            } catch (InterruptedException e) {
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                writer.write(toSend);
-                writer.flush();
+                if(!isSend) {
+                    writer.write(toSend);
+                    writer.flush();
+                }
             sock = socketClient;
             }catch(SocketException e){
                 System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
@@ -421,6 +455,18 @@ public class ClientProcessor implements Runnable{
             if(contacts.getPseudo().equals(pseudo))
             {
                 return contacts;
+            }
+        }
+        return null;
+    }
+
+    private Groupe findGroupByName(String nameOfGroup, Racine root)
+    {
+        for(Groupe groupe : root.getGroupeList())
+        {
+            if(groupe.getName().equals(nameOfGroup)) {
+                return groupe;
+
             }
         }
         return null;
