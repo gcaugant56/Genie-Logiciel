@@ -15,6 +15,10 @@ Vous verrez dans le screen ci-dessous l'organisation des membres de l'équipe, a
 
 - Rudy Lombard, Alloms Quintero, Nono Armel Tchiasso, Issam Zeggaï (DEV TEAM)
 
+Guillaue et Valentin se sont mis volontairement en retrait pour permettre aux autres membres du groupe de progresser en dev.
+Ils furent présent durant l'entiereté du projet afin d'appuyer les autres membres et de les aider mais en essayant d'en faire le moins possible afin de laisser la tâche à la DEV TEAM de progresser.
+Etant les plus expérimentés du groupe, Guillaume c'est donc positionné en tant que Scrum Master, et alentin en tant que Product Owner.
+
 ![Screen](https://i.imgur.com/a5iEvYg.jpg)
 
 # Déroulement des opérations 
