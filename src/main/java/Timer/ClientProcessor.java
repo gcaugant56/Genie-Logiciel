@@ -1,20 +1,24 @@
 package Timer;
+
 import Donnees.*;
-import Interface.InterfaceNewConv;
 import Singletons.Singletons;
 import com.google.gson.Gson;
-
-import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.concurrent.TimeUnit;
 
+/**
+ * Cette classe est utilise pour lire en continue sur le socket du client,
+ * sur la reception d'une requete, il l'a traite et répond au client
+ */
 public class ClientProcessor implements Runnable{
 
     private Socket sock;
@@ -23,21 +27,36 @@ public class ClientProcessor implements Runnable{
     private Hashtable dic;
     private Utilisateur currentUser = null;
     private Socket socketClient;
+
+    /**
+     * Constructeur de l'objet ClientProcesseur
+     * @param pSock Socket du client qui c'est connecter au serveur
+     * @param dic Dictionnaire permettant de stocker tout les socket des utilisateurs connecter, le nom de compte de
+     *            L'utilisateur est utilisé comme clé, et son socket comme valeur
+     */
     public ClientProcessor(Socket pSock, Hashtable dic){
         sock = pSock;
         socketClient = pSock;
         this.dic = dic;
     }
-    //Le traitement lancé dans un thread séparé
+
+    /**
+     * Cette méthode permet de lire en continu le socket du client afin de récuperer la requete
+     * et la reponse est défini en fonction de la requete du client
+     */
     public void run(){
         System.err.println("Lancement du traitement de la connexion cliente");
 
         boolean closeConnexion = false;
         //tant que la connexion est active, on traite les demandes
         while(!sock.isClosed()){
-            String username,password,contact;
+            String username,password,contact, nameOfGroup, recipients;
+            boolean isSend = false;
+            ArrayList<Groupe> groupeArrayList = null;
             Contacts contacts;
+            Groupe groupeContacts;
             Utilisateur user;
+            String pseudo;
             try {
 
                 //Ici, nous n'utilisons pas les mêmes objets que précédemment
@@ -126,7 +145,8 @@ public class ClientProcessor implements Runnable{
 
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         contacts = findContactByPseudo(destinataire,username,Json);
-                        if(contacts != null)
+                        groupeContacts = findGroupByName(destinataire, Json);
+                        if(contacts != null && groupeContacts == null)
                         {
                             Message message = new Message(msg,destinataire,currentUser.getPseudo());
                             contacts.setMessage(message);
@@ -136,18 +156,47 @@ public class ClientProcessor implements Runnable{
                                 writer = new PrintWriter(sock.getOutputStream());
                                 toSend = RequestCode.ENVOI_MSG + "*"+msg+"*"+currentUser.getPseudo();
                             }
+                        } else if(contacts != null && groupeContacts != null) {
+                            Message message = new Message(msg,destinataire,currentUser.getPseudo());
+                            contacts.setMessage(message);
+
+                            for(String groupe : groupeContacts.getUserName()) {
+                                if(dic.containsKey(groupe) && !groupe.equals(username))
+                                {
+                                    sock = (Socket) dic.get(groupe);
+                                    writer = new PrintWriter(sock.getOutputStream());
+                                    toSend = RequestCode.ENVOI_MSG + "*"+msg+"*"+groupeContacts.getName();
+                                    writer.write(toSend);
+                                    writer.flush();
+                                    isSend = true;
+                                }
+                                for (Utilisateur base : Json.getUtilisateur()) {
+                                    if (base.getPseudo().equals(groupe)) {
+                                        for (Contacts contactToSend : base.getContacts()) {
+                                            if (contactToSend.getUsername().equals(groupeContacts.getName())) {
+                                                message = new Message(msg, destinataire, base.getPseudo());
+                                                contactToSend.setMessage(message);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
                         }
 
-                        for (Utilisateur base : Json.getUtilisateur()) {
-                            if (base.getPseudo().equals(destinataire)) {
-                                for (Contacts contactToSend : base.getContacts()) {
-                                    if (contactToSend.getUsername().equals(username)) {
-                                        Message message = new Message(msg, destinataire, base.getPseudo());
-                                        contactToSend.setMessage(message);
+                        if(!isSend) {
+                            for (Utilisateur base : Json.getUtilisateur()) {
+                                if (base.getPseudo().equals(destinataire)) {
+                                    for (Contacts contactToSend : base.getContacts()) {
+                                        if (contactToSend.getUsername().equals(username)) {
+                                            Message message = new Message(msg, destinataire, base.getPseudo());
+                                            contactToSend.setMessage(message);
+                                        }
                                     }
                                 }
                             }
                         }
+
                         Donnees.Serializationmessage.Serialization(Json,"Json.json");
                         break;
 
@@ -192,11 +241,19 @@ public class ClientProcessor implements Runnable{
 
                     case AJOUT_CONTACT:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        groupeArrayList = Json.getGroupeList();
                         json = "";
                         contacts = null;
                         for (Utilisateur base : Json.getUtilisateur()) {
                             if(base.getPseudo().equals(tabResponse[2])) {
                                 contacts = new Contacts(base.getPseudo(), base.getUserName());
+                                json = RequestCode.AJOUT_CONTACT+"*"+ Singletons.getGsonInstance().toJson(contacts);
+                            }
+                        }
+
+                        for(int i = 0; i != groupeArrayList.size(); i++) {
+                            if(groupeArrayList.get(i).getName().equals(tabResponse[2])) {
+                                contacts = new Contacts(groupeArrayList.get(i).getName());
                                 json = RequestCode.AJOUT_CONTACT+"*"+ Singletons.getGsonInstance().toJson(contacts);
                             }
                         }
@@ -215,10 +272,34 @@ public class ClientProcessor implements Runnable{
                         }
                         break;
                     case CREATION_GROUP:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        boolean isCreated = false;
+                        nameOfGroup = tabResponse[1];
+                        recipients = tabResponse[2];
+                        groupeArrayList = Json.getGroupeList();
+
+                        ArrayList<String> recipientsList = new ArrayList<>();
+
+                        for(int i = 0; i != groupeArrayList.size(); i++) {
+                            if(!groupeArrayList.get(i).getName().equals(nameOfGroup) && isCreated == false) {
+                                Collections.addAll(recipientsList, recipients.split(","));
+                                Groupe newGroupe = new Groupe(nameOfGroup, recipientsList);
+                                Json.setGroupeList(newGroupe);
+                                Donnees.Serializationmessage.Serialization(Json, "Json.json");
+                                isCreated = true;
+                            }
+                        }
+
+                        if(isCreated)
+                            toSend = RequestCode.CREATION_GROUP+"*true";
+                        else
+                            toSend = RequestCode.CREATION_GROUP+"*false";
+
                         break;
                     case DEMANDE_LISTE:
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         String pseudoListString = "";
+                        String pseudoGroupListString = "";
                         ArrayList<Utilisateur> allUser = Json.getUtilisateur();
                         if(allUser.size() > 2)
                         {
@@ -229,8 +310,6 @@ public class ClientProcessor implements Runnable{
                                     pseudoListString += base.getPseudo()+",";
                                 }
                             }
-                            pseudoListString = pseudoListString.substring(1, pseudoListString.length()-1);
-
                         }
                         else
                         {
@@ -238,6 +317,34 @@ public class ClientProcessor implements Runnable{
                             {
                                 pseudoListString = allUser.get(1).getPseudo();
                             }
+                        }
+                        pseudoListString = pseudoListString.substring(1, pseudoListString.length()-1);
+
+                        ArrayList<Groupe> allGroup = Json.getGroupeList();
+
+                        if(allGroup.size() > 1) {
+                            if(allGroup.size() > 2)
+                            {
+                                for (Groupe base : allGroup)
+                                {
+                                    if(!base.getUserName().equals(currentUser.getUserName()))
+                                    {
+                                        pseudoGroupListString += base.getName()+",";
+                                    }
+                                }
+                            }
+                            else
+                            {
+
+                                if(!allGroup.get(1).getUserName().equals(currentUser.getUserName()))
+                                {
+                                    pseudoGroupListString = allGroup.get(1).getName();
+                                }
+                            }
+                        }
+
+                        if(pseudoGroupListString.length() > 3) {
+                            pseudoListString = pseudoListString+","+pseudoGroupListString;
                         }
 
                         if(pseudoListString.equals("")) {
@@ -252,7 +359,7 @@ public class ClientProcessor implements Runnable{
                         Json = Donnees.Serializationmessage.Deserialization("Json.json");
                         json = "";
                         username = tabResponse[1];
-                        String pseudo = tabResponse[2];
+                        pseudo = tabResponse[2];
                         contacts = findContactByPseudo(pseudo,username,Json);
 
                         if(contacts != null)
@@ -270,14 +377,44 @@ public class ClientProcessor implements Runnable{
                         }
                         break;
 
+                    case Suppression_Message:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        json = "";
+                        username = tabResponse[1];
+                        pseudo = tabResponse[2];
+                        contacts = findContactByPseudo(pseudo,username,Json);
+                        Collection temp = contacts.getMessage();
+                        contacts.getMessage().removeAll(temp);
+                        TimeUnit.MILLISECONDS.sleep(300);
+                        Serializationmessage.Serialization(Json, "Json.json");
+                        TimeUnit.MILLISECONDS.sleep(300);
+                        Gson gson = new Gson();
+                        json = RequestCode.Suppression_Message+"*"+gson.toJson(contacts);
+                        toSend = RequestCode.Suppression_Message+"*"+json;
+
+                    case Suppression_Compte:
+                        Json = Donnees.Serializationmessage.Deserialization("Json.json");
+                        json = "";
+                        username = tabResponse[1];
+                        pseudo = tabResponse[2];
+
+                        user = findUserByUsername(username, Json);
+                        Json.getUtilisateur().remove(user);
+
+                        Serializationmessage.Serialization(Json, "Json.json");
+                        toSend = RequestCode.Suppression_Message+"*"+ true;
                    }
                 }
                 catch (IOException e)
                 {
                 e.printStackTrace();
-            }
-            writer.write(toSend);
-                writer.flush();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(!isSend) {
+                    writer.write(toSend);
+                    writer.flush();
+                }
             sock = socketClient;
             }catch(SocketException e){
                 System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
@@ -318,6 +455,18 @@ public class ClientProcessor implements Runnable{
             if(contacts.getPseudo().equals(pseudo))
             {
                 return contacts;
+            }
+        }
+        return null;
+    }
+
+    private Groupe findGroupByName(String nameOfGroup, Racine root)
+    {
+        for(Groupe groupe : root.getGroupeList())
+        {
+            if(groupe.getName().equals(nameOfGroup)) {
+                return groupe;
+
             }
         }
         return null;

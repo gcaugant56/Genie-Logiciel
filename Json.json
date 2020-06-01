@@ -6,19 +6,25 @@
       "password": "",
       "Contacts": [
         {
-          "userName": "",
           "pseudo": "",
-          "password": "",
+          "userName": "",
           "Message": [
             {
-              "destinataire": "",
-              "expediteur": "",
               "content": "",
-              "date": ""
+              "destinataire": "",
+              "expediteur": ""
             }
           ]
         }
       ]
+    }
+  ],
+  "Groupe": [
+    {
+      "userName": [
+        ""
+      ],
+      "Name": ""
     }
   ]
 }

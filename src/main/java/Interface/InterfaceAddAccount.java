@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * Classe permettant de créer un compte
+ */
 public class InterfaceAddAccount {
 
     private JLabel createAccount = new JLabel("Créer un compte");
@@ -41,6 +44,10 @@ public class InterfaceAddAccount {
         return addAccount;
     }
 
+    /**
+     * Constructeur qui permet de créer un compte
+     * @throws IOException
+     */
     public InterfaceAddAccount() throws IOException {
 
         //création de la fenêtre addaccount

@@ -14,14 +14,26 @@ import java.net.UnknownHostException;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * Classe instancié du coté client, son but est lire en continu afin de déterminé si le serveur envoie une demande
+ * au client
+ */
 public class ClientConnexion implements Runnable{
 
+    private static String verdict;
     private Socket connexion = null;
     private BufferedInputStream reader = null;
     private Utilisateur user;
-    private String verdict;
     private JTextArea text;
     private JComboBox contact;
+
+    /**
+     * Constructeur de l'objet ClientConnexion
+     * @param connexion Socket du client
+     * @param user Objet de l'utilisateur connecté
+     * @param text Fenetre principal de chat
+     * @param contact Menu deroulant du choix des contacts
+     */
     public ClientConnexion(Socket connexion, Utilisateur user,JTextArea text, JComboBox contact){
         this.connexion = connexion;
         this.user = user;
@@ -29,7 +41,9 @@ public class ClientConnexion implements Runnable{
         this.contact = contact;
     }
 
-
+    /**
+     *
+     */
     public void run(){
         while(true) {
             try {
@@ -79,7 +93,7 @@ public class ClientConnexion implements Runnable{
         return response;
     }
 
-    public String getVerdict()
+    public static String getVerdict()
     {
         return verdict;
     }

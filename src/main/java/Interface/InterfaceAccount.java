@@ -10,6 +10,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import Timer.ClientConnexion;
+
+/**
+ * Interface pour la modification du compte de l'utilisateur
+ */
 public class InterfaceAccount {
 
     private JPanel topPanel;
@@ -71,6 +75,11 @@ public class InterfaceAccount {
         return accountWindows;
     }
 
+    /**
+     * Constructeur de la fenetre "Mon Compte"
+     * @param user l'utilisateur connecté
+     * @param connexion socket de l'utilisateur connecté
+     */
     public InterfaceAccount(Utilisateur user, ClientConnexion connexion) {
         this.connexion = connexion;
         this.utilisateur = user;
