@@ -24,9 +24,8 @@ public class GetAndSet {
     public void testContact(){
         Utilisateur user = new Utilisateur("test1", "test1", "test1");
         Contacts contact = new Contacts("test2", "test2");
-        contact.setPseudo("rename");
         user.setContacts(contact);
-        assertEquals("rename", user.getContacts().get(0).getPseudo());
+        assertEquals("test2", user.getContacts().get(0).getPseudo());
     }
 
     @Test
@@ -35,16 +34,6 @@ public class GetAndSet {
         Message message = new Message("ajout message", "test1", "IntelliJ");
         contact.setMessage(message);
         assertEquals("ajout message", contact.getMessage().get(0).getContent());
-        assertEquals("test1", contact.getMessage().get(0).getDestinataire());
-        assertEquals("IntelliJ", contact.getMessage().get(0).getExpediteur());
-
-        message.setContent("rename content");
-        message.setDestinataire("rename");
-        message.setExpediteur("rename2");
-
-        assertEquals("rename content", message.getContent());
-        assertEquals("rename", message.getDestinataire());
-        assertEquals("rename2", message.getExpediteur());
     }
 
     @Test

@@ -16,4 +16,8 @@ public class MainServer {
         System.out.println("Serveur initialisé.");
         return true;
     }
+
+    public static void main(String[] args) {
+        start();
+    }
 }
