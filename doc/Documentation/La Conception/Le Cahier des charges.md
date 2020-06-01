@@ -24,5 +24,9 @@ qui sont de :
 
 Suite à quoi nous avons trier les différentes exigences de ce dernier afin de produire le tableaux des spécifications que vous voyez plus haut.
 
+# Backlog User Stories & Constraint Stories :
+
+Lien du trello : https://trello.com/b/Drcznrmv/projet-g%C3%A9nie-logiciel
+ 
 
 
