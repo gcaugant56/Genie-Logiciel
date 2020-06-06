@@ -11,7 +11,7 @@ Membres du groupe : **Valentin CAMOZZI, Gauillaume CAUGANT, Rudy LOMBARD, Alloms
 Vous trouverez dans ce Git, le repository de notre projet "ChatRoom" dans lequel vous trouverez une section explicative et descriptive
 de l'ensemble du projet [ici](https://github.com/gcaugant56/Genie-Logiciel/tree/JavaDoc/doc/Documentation).
 
-Qu'allez-vous trouver dans notre section [Documentation](https://github.com/gcaugant56/Genie-Logiciel/tree/JavaDoc/doc/Documentation) ?
+Qu'allez-vous trouver dans notre section [Documentation](https://github.com/gcaugant56/Genie-Logiciel/tree/develop/doc/Documentation) ?
 
 1. La documentation sur : *[L'Organisation du Projet](https://github.com/gcaugant56/Genie-Logiciel/tree/develop/doc/Documentation/Organisation%20du%20projet)*
   - La méthode de développement de projet choisie avec un argumentaire (Cycle en V, Cascade, RUP,
