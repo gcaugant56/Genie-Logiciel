@@ -9,7 +9,7 @@ Membres du groupe : **Valentin CAMOZZI, Gauillaume CAUGANT, Rudy LOMBARD, Alloms
 # Informations essentielles :
 
 Vous trouverez dans ce Git, le repository de notre projet "ChatRoom" dans lequel vous trouverez une section explicative et descriptive
-de l'ensemble du projet [ici](https://github.com/gcaugant56/Genie-Logiciel/tree/JavaDoc/doc/Documentation).
+de l'ensemble du projet [ici](https://github.com/gcaugant56/Genie-Logiciel/tree/develop/doc/Documentation).
 
 Qu'allez-vous trouver dans notre section [Documentation](https://github.com/gcaugant56/Genie-Logiciel/tree/develop/doc/Documentation) ?
 
